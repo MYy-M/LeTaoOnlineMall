@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80028
 File Encoding         : 65001
 
-Date: 2022-06-23 11:16:53
+Date: 2022-06-23 11:36:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,10 +53,22 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
--- Table structure for commdity
+-- Table structure for comment
 -- ----------------------------
-DROP TABLE IF EXISTS `commdity`;
-CREATE TABLE `commdity` (
+DROP TABLE IF EXISTS `comment`;
+CREATE TABLE `comment` (
+  `comment_id` int NOT NULL,
+  `cid` int NOT NULL,
+  `uid` int DEFAULT NULL,
+  `comment_data` varchar(0) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`comment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------------------
+-- Table structure for commodity
+-- ----------------------------
+DROP TABLE IF EXISTS `commodity`;
+CREATE TABLE `commodity` (
   `cid` int NOT NULL,
   `cname` varchar(255) NOT NULL,
   `cprice` decimal(10,2) NOT NULL,
@@ -67,18 +79,6 @@ CREATE TABLE `commdity` (
   PRIMARY KEY (`cid`),
   UNIQUE KEY `cname` (`cname`) USING BTREE,
   KEY `cid` (`cid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- ----------------------------
--- Table structure for comment
--- ----------------------------
-DROP TABLE IF EXISTS `comment`;
-CREATE TABLE `comment` (
-  `comment_id` int NOT NULL,
-  `cid` int NOT NULL,
-  `uid` int DEFAULT NULL,
-  `comment_data` varchar(0) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
