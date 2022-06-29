@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 80028
 File Encoding         : 65001
 
-Date: 2022-06-23 11:36:40
+Date: 2022-06-29 15:27:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -64,21 +64,61 @@ CREATE TABLE `comment` (
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- ----------------------------
--- Table structure for commodity
--- ----------------------------
+
+-- ---------------
+-- table structure for commodity
+-- -----------------
 DROP TABLE IF EXISTS `commodity`;
 CREATE TABLE `commodity` (
   `cid` int NOT NULL,
   `cname` varchar(255) NOT NULL,
   `cprice` decimal(10,2) NOT NULL,
   `cnum` int NOT NULL DEFAULT '0',
+  `attribute_list` text  CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '规格列表',
   `cdetail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '商品介绍',
   `cpicture` blob COMMENT '图片',
-  `category_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '类别、标签',
+  `category_id` int NOT NULL,
   PRIMARY KEY (`cid`),
   UNIQUE KEY `cname` (`cname`) USING BTREE,
   KEY `cid` (`cid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- -----------------
+-- table structure for attribute_key
+-- ------------------
+DROP TABLE IF EXISTS `attribute_key`;
+CREATE TABLE `attribute_key`(
+	`id` int NOT NULL,
+    `category_id` int NOT NULL,
+    `attribute_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL UNIQUE COMMENT '属性值',
+    PRIMARY KEY (`id`),
+	KEY `category_id` (`category_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- -------------------
+-- table structure for attribute_value
+-- -------------------
+DROP TABLE IF EXISTS `attribute_value`;
+CREATE TABLE `attribute_value` (
+	`id` int NOT NULL,
+    `attribute_id` int NOT NULL,
+    `attribute_value` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性value值',
+    PRIMARY KEY (`id`),
+    KEY `attribute_id` (`attribute_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- ----------------
+-- table structure for commodity_specs
+-- ---------------
+DROP TABLE IF EXISTS `commodity_specs`;
+CREATE TABLE `commodity_specs`(
+	`id` int NOT NULL,
+    `cid` int NOT NULL,
+    `c_specs` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL  COMMENT '商品规格',
+    `c_stock` int DEFAULT '0',
+    `cprice` decimal(10, 2) NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `cid` (`cid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- ----------------------------
