@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 29/06/2022 16:20:00
+ Date: 29/06/2022 16:25:50
 */
 
 SET NAMES utf8mb4;
@@ -156,10 +156,10 @@ CREATE TABLE `commodity_specs`  (
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for myorder
+-- Table structure for lt_order
 -- ----------------------------
-DROP TABLE IF EXISTS `myorder`;
-CREATE TABLE `myorder`  (
+DROP TABLE IF EXISTS `lt_order`;
+CREATE TABLE `lt_order`  (
   `order_id` int NOT NULL,
   `uid` int NOT NULL,
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -171,7 +171,7 @@ CREATE TABLE `myorder`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of myorder
+-- Records of lt_order
 -- ----------------------------
 
 -- ----------------------------
