@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author 骑手反叛联盟
- * @since 2022-06-29
+ * @since 2022-06-30
  */
 public interface CategoryMapper extends BaseMapper<Category> {
 

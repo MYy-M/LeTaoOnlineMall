@@ -44,10 +44,10 @@
 //        PackageConfig pc = new PackageConfig();
 //        pc.setModuleName("mall");
 //        pc.setParent("com.letao");
-//        pc.setEntity("dao.entity");
-//        pc.setMapper("dao.mapper");
+////        pc.setEntity("dao.entity");
+//////        pc.setMapper("dao.mapper");
 //        pc.setService("service");
-//        pc.setController("controller");
+////        pc.setController("controller");
 //        mpg.setPackageInfo(pc);
 //
 //        //4、策略配置
