@@ -1,4 +1,4 @@
-package com.letao.mall.controller;
+package com.letao.mall.controller.admin;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/cart")
-public class CartController {
+@RequestMapping("/mall/admin")
+public class AdminController {
 
 }
 

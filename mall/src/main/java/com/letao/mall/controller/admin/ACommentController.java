@@ -1,4 +1,4 @@
-package com.letao.mall.controller;
+package com.letao.mall.controller.admin;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/comment")
-public class CommentController {
-    @GetMapping("/get")
-    public int getComments(){
+@RequestMapping("/mall/admin/comment")
+public class ACommentController {
+
+
+    @GetMapping("/show")
+    public int getCommentsByCId(){
         return 0;
     }
 
+    @GetMapping("/delete")
+    public int deleteComments(){
+        return 0;
+    }
 }
 

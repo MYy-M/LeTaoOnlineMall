@@ -1,9 +1,11 @@
-package com.letao.mall.controller;
+package com.letao.mall.controller.Consumer;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -14,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/comment")
-public class CommentController {
-    @GetMapping("/get")
-    public int getComments(){
+@RequestMapping("/mall/consumer/commodity")
+public class CCommodityController {
+
+    @GetMapping("/recommend")
+    public int recommendCommodity(){
         return 0;
     }
-
 }
 

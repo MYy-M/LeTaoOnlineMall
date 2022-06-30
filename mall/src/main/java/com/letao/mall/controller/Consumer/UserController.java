@@ -1,6 +1,7 @@
-package com.letao.mall.controller;
+package com.letao.mall.controller.Consumer;
 
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/user")
+@RequestMapping("/mall/consumer/user")
 public class UserController {
+
+    @GetMapping("/modify")
+    public int modifyUserInfo(){
+        return 0;
+    }
 
 }
 

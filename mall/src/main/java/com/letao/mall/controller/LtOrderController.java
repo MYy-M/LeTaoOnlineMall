@@ -1,9 +1,12 @@
 package com.letao.mall.controller;
 
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -16,6 +19,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/mall/lt-order")
 public class LtOrderController {
+
+    @GetMapping("/modify")
+    public int modifyOrderState(){
+        return 0;
+    }
+
+    @GetMapping("/get")
+    public ArrayList<String> getOrderListById(){
+        return new ArrayList<>();
+    }
+
+    @GetMapping("/getlist")
+    public ArrayList<String> getOrderList(){
+        return new ArrayList<>();
+    }
 
 }
 
