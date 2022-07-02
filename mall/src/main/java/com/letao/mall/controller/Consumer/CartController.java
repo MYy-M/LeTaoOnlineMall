@@ -43,7 +43,7 @@ public class CartController {
         return 0;
     }
 
-    @GetMapping("/setNum")
+    @GetMapping("/setCart")
     public int showCart(){
         return 0;
     }
