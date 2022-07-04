@@ -23,14 +23,14 @@ public class Category implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "category_id", type = IdType.AUTO)
-    private Integer categoryId;
+    @TableId(value = "category_id", type = IdType.ASSIGN_ID)
+    private Long categoryId;
 
     //分类名称
     private String categoryName;
 
     //父类id
-    private Integer parentId;
+    private Long parentId;
 
     //分类层级
     private Integer categoryLevel;

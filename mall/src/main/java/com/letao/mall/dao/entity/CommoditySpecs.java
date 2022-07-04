@@ -24,10 +24,10 @@ public class CommoditySpecs implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    private Long id;
 
-    private Integer cid;
+    private Long cid;
 
     //商品规格
     private String cSpecs;

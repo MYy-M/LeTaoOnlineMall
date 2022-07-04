@@ -23,12 +23,12 @@ public class Cart implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "cart_id", type = IdType.AUTO)
-    private Integer cartId;
+    @TableId(value = "cart_id", type = IdType.ASSIGN_ID)
+    private Long cartId;
 
-    private Integer uid;
+    private Long uid;
 
-    private Integer cid;
+    private Long cid;
 
    //购买数量
     private Integer cartNum;

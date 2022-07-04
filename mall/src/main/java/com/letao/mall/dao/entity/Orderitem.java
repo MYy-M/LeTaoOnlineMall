@@ -24,10 +24,10 @@ public class Orderitem implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "Order_id", type = IdType.AUTO)
-    private Integer orderId;
+    @TableId(value = "Order_id", type = IdType.ASSIGN_ID)
+    private Long orderId;
 
-    private Integer cid;
+    private Long cid;
 
     //单个商品购买数量
     private Integer cnum;

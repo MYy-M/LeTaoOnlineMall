@@ -2,11 +2,10 @@ package com.letao.mall.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Admin;
 import com.letao.mall.dao.mapper.AdminMapper;
 import com.letao.mall.service.AdminService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.letao.mall.service.LoginService;
 import com.letao.mall.service.TokenService;
 import com.letao.mall.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +23,27 @@ import java.util.Map;
  * @since 2022-06-30
  */
 @Service
-public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements AdminService {
-
+public class TokenServiceImpl extends ServiceImpl<AdminMapper, Admin> implements TokenService {
 
     @Autowired
-    private TokenService tokenService;
+    private  RedisTemplate<String,String> redisTemplate;
+
     @Override
-    public Admin findAdminByToken(String token) {
-        Admin admin = tokenService.checkToken(token);
-        if(admin==null){
+    public  Admin checkToken(String token) {
+        if(StringUtils.isBlank(token)){
             System.out.println("token不合法");
             return null;
         }
+        Map<String, Object> stringObjectMap = JWTUtils.checkToken(token);
+        if(stringObjectMap==null){
+            return null;
+        }
+        String adminJSON = redisTemplate.opsForValue().get("Token_" + token);
+        if(StringUtils.isBlank(adminJSON)){
+            return null;
+        }
+
+        Admin admin = JSON.parseObject(adminJSON, Admin.class);
         return admin;
     }
-
 }

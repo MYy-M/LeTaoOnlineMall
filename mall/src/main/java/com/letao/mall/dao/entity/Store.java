@@ -23,8 +23,8 @@ public class Store implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "sid", type = IdType.AUTO)
-    private Integer sid;
+    @TableId(value = "sid", type = IdType.ASSIGN_ID)
+    private Long sid;
 
     private String sname;
 

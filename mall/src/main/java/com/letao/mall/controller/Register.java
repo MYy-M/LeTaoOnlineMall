@@ -1,6 +1,10 @@
 package com.letao.mall.controller;
 
 
+import com.letao.mall.dao.entity.Admin;
+import com.letao.mall.service.LoginService;
+import com.letao.mall.service.RegisterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -15,9 +19,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mall/register")
 public class Register {
 
+    @Autowired
+    private RegisterService registerService;
+
     @PostMapping
-    public boolean register(){
-        return true;
+    public boolean register(@RequestBody Admin admin){
+        return registerService.register(admin);
     }
 }
 

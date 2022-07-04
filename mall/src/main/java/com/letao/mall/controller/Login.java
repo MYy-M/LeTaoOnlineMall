@@ -1,13 +1,11 @@
 package com.letao.mall.controller;
 
 
+import com.letao.mall.dao.entity.Admin;
 import com.letao.mall.service.AdminService;
-import com.letao.mall.service.UserService;
+import com.letao.mall.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -21,17 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mall")
 public class Login {
     @Autowired
-    private AdminService adminService;
-    private UserService userService;
+    private LoginService loginService;
 
     @PostMapping("/login")
-    public boolean login(){
-        return true;
+    public boolean login(Long id,String passWord){
+        return loginService.login(id,passWord);
     }
 
+
     @GetMapping("/logout")
-    public boolean logout(){
-        return true;
+    public boolean getCurrentUser(@RequestHeader("Authorization")String token){
+        return loginService.logout(token);
     }
 }
 

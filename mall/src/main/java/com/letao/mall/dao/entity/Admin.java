@@ -23,8 +23,8 @@ public class Admin implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "aid", type = IdType.AUTO)
-    private Integer aid;
+    @TableId(value = "aid", type = IdType.ASSIGN_ID)
+    private Long aid;
 
     private String ausername;
 

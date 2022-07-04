@@ -23,12 +23,12 @@ public class Comment implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "comment_id", type = IdType.AUTO)
-    private Integer commentId;
+    @TableId(value = "comment_id", type = IdType.ASSIGN_ID)
+    private Long commentId;
 
-    private Integer cid;
+    private Long cid;
 
-    private Integer uid;
+    private Long uid;
 
     private String commentData;
 

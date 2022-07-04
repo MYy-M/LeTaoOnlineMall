@@ -25,8 +25,8 @@ public class Commodity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "cid", type = IdType.AUTO)
-    private Integer cid;
+    @TableId(value = "cid", type = IdType.ASSIGN_ID)
+    private Long cid;
 
     private String cname;
 
@@ -43,7 +43,7 @@ public class Commodity implements Serializable {
     //图片
     private Blob cpicture;
 
-    private Integer categoryId;
+    private Long categoryId;
 
 
 }

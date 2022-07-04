@@ -25,10 +25,10 @@ public class Myorder implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "order_id", type = IdType.AUTO)
-    private Integer orderId;
+    @TableId(value = "order_id", type = IdType.ASSIGN_ID)
+    private Long orderId;
 
-    private Integer uid;
+    private Long uid;
 
     private String address;
 
