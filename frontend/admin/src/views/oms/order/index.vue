@@ -53,9 +53,9 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="订单来源：">
+          <el-form-item label="送货方式：">
             <el-select v-model="listQuery.sourceType" class="input-width" placeholder="全部" clearable>
-              <el-option v-for="item in sourceTypeOptions"
+              <el-option v-for="item in deliverTypeOptions"
                          :key="item.value"
                          :label="item.label"
                          :value="item.value">
@@ -94,7 +94,8 @@
         <el-table-column label="支付方式" width="120" align="center">
           <template slot-scope="scope">{{scope.row.payType | formatPayType}}</template>
         </el-table-column>
-        <el-table-column label="订单来源" width="120" align="center">
+        <el-table-column label="送货方式" width="120" align="center">
+          <!-- 注意修改成送货方式 -->
           <template slot-scope="scope">{{scope.row.sourceType | formatSourceType}}</template>
         </el-table-column>
         <el-table-column label="订单状态" width="120" align="center">
@@ -118,11 +119,11 @@
               size="mini"
               @click="handleViewLogistics(scope.$index, scope.row)"
               v-show="scope.row.status===2||scope.row.status===3">订单跟踪</el-button>
-            <el-button
+            <!-- <el-button
               size="mini"
               type="danger"
               @click="handleDeleteOrder(scope.$index, scope.row)"
-              v-show="scope.row.status===4">删除订单</el-button>
+              v-show="scope.row.status===4">删除订单</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -240,13 +241,13 @@
             value: 1
           }
         ],
-        sourceTypeOptions: [
+        deliverTypeOptions: [
           {
-            label: 'PC订单',
+            label: '送货上门',
             value: 0
           },
           {
-            label: 'APP订单',
+            label: '到店自取',
             value: 1
           }
         ],
@@ -332,11 +333,11 @@
       handleViewLogistics(index, row){
         this.logisticsDialogVisible=true;
       },
-      handleDeleteOrder(index, row){
-        let ids=[];
-        ids.push(row.id);
-        this.deleteOrder(ids);
-      },
+      // handleDeleteOrder(index, row){
+      //   let ids=[];
+      //   ids.push(row.id);
+      //   this.deleteOrder(ids);
+      // },
       handleBatchOperate(){
         if(this.multipleSelection==null||this.multipleSelection.length<1){
           this.$message({

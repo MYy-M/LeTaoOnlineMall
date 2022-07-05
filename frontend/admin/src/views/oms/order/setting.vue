@@ -4,12 +4,12 @@
              ref="orderSettingForm"
              :rules="rules"
              label-width="150px">
-      <el-form-item label="秒杀订单超过：" prop="flashOrderOvertime">
+      <!-- <el-form-item label="秒杀订单超过：" prop="flashOrderOvertime">
         <el-input v-model="orderSetting.flashOrderOvertime" class="input-width">
           <template slot="append">分</template>
         </el-input>
         <span class="note-margin">未付款，订单自动关闭</span>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="正常订单超过：" prop="normalOrderOvertime">
         <el-input v-model="orderSetting.normalOrderOvertime" class="input-width">
           <template slot="append">分</template>

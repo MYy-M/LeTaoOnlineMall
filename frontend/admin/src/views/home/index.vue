@@ -13,7 +13,6 @@
             </div>
             <div class="total-value">200</div>
           </el-card>
-
         </el-col>
         <el-col :span="6">
           <el-card class="box-card">
@@ -56,7 +55,6 @@
         </el-col>
       </el-row>
     </div>
-
     <div class="un-handle-layout">
       <div class="layout-title">待处理事务</div>
       <div class="un-handle-content">
@@ -443,6 +441,7 @@ export default {
 
 .address-layout {
 }
+
 .total-layout {
   margin-top: 20px;
 }
@@ -455,24 +454,18 @@ export default {
 
 .total-icon {
   color: #409eff;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 .total-title {
-  /* position: relative; */
   font-size: 16px;
   color: #909399;
-  /* left: 30px;
-  top: -50px; */
 }
 
 .total-value {
-  /* position: relative; */
   font-size: 18px;
   color: #606266;
-  /* left: 70px;
-  top: -40px; */
 }
 
 .un-handle-layout {
@@ -518,7 +511,13 @@ export default {
   margin-top: 20px;
   border: 1px solid #dcdfe6;
 }
-
+.mine-layout {
+  position: absolute;
+  right: 140px;
+  top: 107px;
+  width: 250px;
+  height: 235px;
+}
 .address-content {
   padding: 20px;
   font-size: 18px;
