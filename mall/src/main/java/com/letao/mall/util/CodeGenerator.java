@@ -44,16 +44,16 @@
 //        PackageConfig pc = new PackageConfig();
 //        pc.setModuleName("mall");
 //        pc.setParent("com.letao");
-//        pc.setEntity("entity");
-//        pc.setMapper("dao.mapper");
+////        pc.setEntity("dao.entity");
+//////        pc.setMapper("dao.mapper");
 //        pc.setService("service");
-//        pc.setController("controller");
+////        pc.setController("controller");
 //        mpg.setPackageInfo(pc);
 //
 //        //4、策略配置
 //        StrategyConfig strategy = new StrategyConfig();
 //        // 设置要映射的表名
-//        strategy.setInclude("admin","cart","category","commodity","comment","order","orderitem","store","user");
+//        strategy.setInclude("admin","cart","category","commodity","commodity_specs","attribute_key","attribute_value","comment","lt_order","orderitem","store","user");
 //        strategy.setNaming(NamingStrategy.underline_to_camel);
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //        strategy.setEntityLombokModel(true);// 自动lombok；

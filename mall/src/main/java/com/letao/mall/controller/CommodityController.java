@@ -1,9 +1,12 @@
 package com.letao.mall.controller;
 
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 /**
  * <p>
@@ -11,11 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author 骑手反叛联盟
- * @since 2022-06-23
+ * @since 2022-06-30
  */
 @RestController
 @RequestMapping("/mall/commodity")
 public class CommodityController {
+
+    @GetMapping("/getlist")
+    public ArrayList<String> showCommodityListByxxx(){
+        return new ArrayList<>();
+    }
+
+
+    @GetMapping("/getDetail")
+    public ArrayList<String> getCommodityDetail(){
+        return new ArrayList<>();
+    }
 
 }
 

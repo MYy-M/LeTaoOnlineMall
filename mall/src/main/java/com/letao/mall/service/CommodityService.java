@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author 骑手反叛联盟
- * @since 2022-06-23
+ * @since 2022-06-30
  */
 public interface CommodityService extends IService<Commodity> {
 

@@ -6,7 +6,8 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 import lombok.Data;
-
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -14,17 +15,19 @@ import lombok.Data;
  * </p>
  *
  * @author 骑手反叛联盟
- * @since 2022-06-23
+ * @since 2022-06-29
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 public class Orderitem implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "orderId", type = IdType.AUTO)
-    private Integer orderId;
+    @TableId(value = "Order_id", type = IdType.ASSIGN_ID)
+    private Long orderId;
 
-    private Integer cid;
+    private Long cid;
 
     //单个商品购买数量
     private Integer cnum;
