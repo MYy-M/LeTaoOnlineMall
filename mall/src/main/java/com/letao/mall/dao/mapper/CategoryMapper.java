@@ -2,6 +2,7 @@ package com.letao.mall.dao.mapper;
 
 import com.letao.mall.dao.entity.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 骑手反叛联盟
  * @since 2022-06-30
  */
+@Mapper
 public interface CategoryMapper extends BaseMapper<Category> {
 
 }

@@ -13,4 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CommodityService extends IService<Commodity> {
 
+    int deleteCommodity(Integer id);
+
+    int countAdminTotal();
+
+    int countCusTotal();
 }
