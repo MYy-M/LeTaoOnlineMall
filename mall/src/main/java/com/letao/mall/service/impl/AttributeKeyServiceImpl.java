@@ -22,6 +22,7 @@ public class AttributeKeyServiceImpl extends ServiceImpl<AttributeKeyMapper, Att
 
     @Autowired
     private AttributeKeyMapper attributeKeyMapper;
+
     public Page getAttributeByCategoryID(long id, int current){
         Page<AttributeKey> page=new Page<>(current,5);
         QueryWrapper<AttributeKey> queryWrapper=new QueryWrapper<>();

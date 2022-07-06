@@ -29,6 +29,11 @@ public class AdminController {
     private AdminService adminService;
 
 
+    /**
+     * 根据token获取当前管理员信息
+     * @param token
+     * @return
+     */
     @GetMapping("/currentAdmin")
     public Admin getCurrentUser(@RequestHeader("Authorization")String token){
         return adminService.findAdminByToken(token);

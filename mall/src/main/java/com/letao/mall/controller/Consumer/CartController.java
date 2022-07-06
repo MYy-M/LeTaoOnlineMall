@@ -1,7 +1,12 @@
 package com.letao.mall.controller.Consumer;
 
 
+import com.letao.mall.dao.entity.Cart;
+import com.letao.mall.service.CartService;
+import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -18,14 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mall/consumer/cart")
 public class CartController {
 
-    @GetMapping("/addcommodity")
-    public int addCommodity(){
-        return 0;
+    @Autowired
+    private CartService cartService;
+
+    @GetMapping("/addCommodity")
+    public boolean addCommodity(@RequestBody Cart cart){
+        return cartService.save(cart);
     }
 
-    @GetMapping("/deletecommodity")
-    public int deleteCommodity(){
-        return 0;
+    @GetMapping("/deleteCommodity")
+    public boolean deleteCommodity(Long id){
+        return cartService.removeById(id);
     }
 
     @GetMapping("/addNum")

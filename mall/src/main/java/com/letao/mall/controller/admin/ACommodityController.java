@@ -1,6 +1,7 @@
 package com.letao.mall.controller.admin;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Commodity;
@@ -24,17 +25,17 @@ public class ACommodityController {
     private CommodityService cms;
     private int pSize=10;
 
+//    /**
+//     * 返回总页数
+//     * * @return
+//     */
+//    @RequestMapping("/pageTotal")
+//    public int getAdminTotalPage(){
+//        int n=cms.countAdminTotal();
+//        return (n%10!=0) ? (n/10+1) : (n/10);
+//    }
     /**
-     * 返回总页数
-     * * @return
-     */
-    @RequestMapping("/pageTotal")
-    public int getAdminTotalPage(){
-        int n=cms.countAdminTotal();
-        return (n%10!=0) ? (n/10+1) : (n/10);
-    }
-    /**
-     * 分页
+     * 分页显示商品
      * @return
      */
     @RequestMapping("/page/{pnum}")
