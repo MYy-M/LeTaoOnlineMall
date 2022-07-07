@@ -27,7 +27,7 @@ public class Orderitem implements Serializable {
     @TableId(value = "Order_id", type = IdType.ASSIGN_ID)
     private Long orderId;
 
-    private Long cid;
+    private Long csId;
 
     //单个商品购买数量
     private Integer cnum;

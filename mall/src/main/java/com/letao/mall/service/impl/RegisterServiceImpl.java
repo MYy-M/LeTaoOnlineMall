@@ -2,6 +2,7 @@ package com.letao.mall.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Admin;
@@ -57,6 +58,8 @@ public class RegisterServiceImpl<admin> extends ServiceImpl<AdminMapper, Admin> 
         adminService.save(admin);
         String token = JWTUtils.createToken(admin.getAid());
         redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(admin),1, TimeUnit.DAYS);
-        return true;
+        Long id = adminService.getOne(new LambdaQueryWrapper<Admin>().eq(Admin::getAusername,username)).getAid();
+        return adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid,id).set(Admin::getAlevel,1));
+
     }
 }

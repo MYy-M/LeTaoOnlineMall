@@ -38,7 +38,7 @@ public class TokenServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         if(stringObjectMap==null){
             return null;
         }
-        String adminJSON = redisTemplate.opsForValue().get("Token_" + token);
+        String adminJSON = redisTemplate.opsForValue().get("TOKEN_" + token);
         if(StringUtils.isBlank(adminJSON)){
             return null;
         }

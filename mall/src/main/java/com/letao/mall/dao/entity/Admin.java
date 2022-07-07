@@ -30,8 +30,8 @@ public class Admin implements Serializable {
 
     private String apassword;
 
-    //权限级别
-    private Integer alevel;
+    //是否登录
+    private Integer alevel=0;
 
 
 }

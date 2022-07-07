@@ -1,6 +1,7 @@
 package com.letao.mall.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Admin;
@@ -47,15 +48,18 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
             return false;
         }
         String token = JWTUtils.createToken(id);
-        redisTemplate.opsForValue().set("TOKEN_"+token,JSON.toJSONString(admin),1, TimeUnit.DAYS);
-        return true;
+        if(admin.getAlevel()==1){
+            return false;
+        }else{
+            redisTemplate.opsForValue().set("TOKEN_"+token,JSON.toJSONString(admin),1, TimeUnit.DAYS);
+            return adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid,id).set(Admin::getAlevel,1));
+        }
     }
 
 
     @Override
     public boolean logout(String token) {
-        return redisTemplate.delete("TOKEN_"+token);
+        Long id = adminService.findAdminByToken(token).getAid();
+        return redisTemplate.delete("TOKEN_" + token) && adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid, id).set(Admin::getAlevel, 0));
     }
-
-
 }
