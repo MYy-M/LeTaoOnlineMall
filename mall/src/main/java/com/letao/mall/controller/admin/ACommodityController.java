@@ -51,7 +51,10 @@ public class ACommodityController {
      */
     @RequestMapping("/add")
     public Boolean addCommodity(@RequestBody Commodity cm){
-        return cms.save(cm);
+        if(cms.isExisted(cm.getCname(),cm.getAttribute_list(),cm.getCprice())){
+            return cms.save(cm);
+        }
+        return false;
     }
 
     /**

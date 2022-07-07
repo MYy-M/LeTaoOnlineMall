@@ -35,7 +35,7 @@ public class Commodity implements Serializable {
     private Integer cnum;
 
     //规格列表
-    private String attributeList;
+    private String attribute_list;
 
     //商品介绍
     private String cdetail;

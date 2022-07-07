@@ -1,11 +1,14 @@
 package com.letao.mall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.dao.mapper.CommodityMapper;
 import com.letao.mall.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -34,5 +37,17 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
      */
     public int countCusTotal(){
         return commodityMapper.countCusTotal();
+    }
+
+    public Boolean isExisted(String cname, String attribute_list, BigDecimal price){
+        QueryWrapper<Commodity> queryWrapper=new QueryWrapper<>();
+        queryWrapper
+                .like("cname",cname)
+                .like("cprice",price)
+                .like("attribute_list",attribute_list);
+        if(commodityMapper.selectCount(queryWrapper)>0){
+            return false;
+        }
+        return true;
     }
 }

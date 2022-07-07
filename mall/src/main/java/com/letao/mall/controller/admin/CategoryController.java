@@ -47,6 +47,7 @@ public class CategoryController {
      * @param id
      * @return
      */
+
     @RequestMapping("/getCategorySecond/{id}")
     public Page getCategorySecond(@PathVariable long id, @RequestParam int current){
         return cgs.getCategorySecond(id,current);

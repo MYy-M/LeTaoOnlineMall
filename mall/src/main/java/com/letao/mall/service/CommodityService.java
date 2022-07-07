@@ -3,6 +3,8 @@ package com.letao.mall.service;
 import com.letao.mall.dao.entity.Commodity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.math.BigDecimal;
+
 /**
  * <p>
  *  服务类
@@ -18,4 +20,6 @@ public interface CommodityService extends IService<Commodity> {
     int countAdminTotal();
 
     int countCusTotal();
+
+    Boolean isExisted(String cname, String attribute_list, BigDecimal price);
 }
