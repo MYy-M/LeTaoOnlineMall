@@ -130,7 +130,6 @@ CREATE TABLE `commodity`  (
   `category_id` bigint NOT NULL,
   `csales` int NULL DEFAULT 0,
   PRIMARY KEY (`cid`) USING BTREE,
-  UNIQUE INDEX `cname`(`cname`) USING BTREE,
   INDEX `cid`(`cid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
