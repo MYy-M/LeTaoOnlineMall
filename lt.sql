@@ -126,7 +126,7 @@ CREATE TABLE `commodity`  (
   `cnum` int NOT NULL DEFAULT 0,
   `attribute_list` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '规格列表',
   `cdetail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商品介绍',
-  `cpicture` blob NULL COMMENT '图片',
+  `cpicture` text NULL COMMENT '图片',
   `category_id` bigint NOT NULL,
   `csales` int NULL DEFAULT 0,
   PRIMARY KEY (`cid`) USING BTREE,
