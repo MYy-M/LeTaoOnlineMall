@@ -6,8 +6,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.service.CommodityService;
+import com.letao.mall.util.UploadPic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * <p>
@@ -23,6 +28,8 @@ public class ACommodityController {
 
     @Autowired
     private CommodityService cms;
+    @Autowired
+    private UploadPic uploadPic;
     private int pSize=10;
 
 //    /**
@@ -45,16 +52,46 @@ public class ACommodityController {
     }
 
     /**
-     * 添加商品
+     * 添加商品(商品名，属性列表，价格都相同就不能添加)
+     * 先加商品，成功再加图片
      * @param cm
      * @return
      */
     @RequestMapping("/add")
-    public Boolean addCommodity(@RequestBody Commodity cm){
+    public Boolean addCommodity(MultipartFile file, Commodity cm) throws Exception{
+
         if(cms.isExisted(cm.getCname(),cm.getAttribute_list(),cm.getCprice())){
-            return cms.save(cm);
+            if(cms.save(cm)&&!file.isEmpty()){
+                String urlImg=uploadPic.upPic(file);
+                return cms.setPicture(cm.getCid(),urlImg);
+            }
+            return true;
         }
         return false;
+    }
+
+    /**
+     * 修改图片
+     * @param id(商品id)
+     * @param file
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping("/modifyCpicture")
+    public Boolean modifyCpicture(long id,MultipartFile file) throws IOException{
+        String urlImg=uploadPic.upPic(file);
+        return cms.setPicture(id,urlImg);
+    }
+
+    /**
+     * 显示图片
+     * @param cid
+     * @param response
+     */
+    @RequestMapping("/loadCpicture")
+    public void loadCpicture(long cid, HttpServletResponse response){
+        String cpicture=cms.getPicture(cid);
+        uploadPic.load(cpicture,response);
     }
 
     /**

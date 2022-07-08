@@ -41,7 +41,7 @@ public class Commodity implements Serializable {
     private String cdetail;
 
     //图片
-    private Blob cpicture;
+    private String cpicture;
 
     private Long categoryId;
 

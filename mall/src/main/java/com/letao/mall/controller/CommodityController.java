@@ -1,13 +1,14 @@
 package com.letao.mall.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.letao.mall.dao.entity.Commodity;
+import com.letao.mall.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.letao.mall.service.CommodityService;
-import com.letao.mall.dao.entity.Commodity;
-
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,53 +26,61 @@ public class CommodityController {
     @Autowired
     private CommodityService commodityService;
 
-    //根据评分商品排序
-    @GetMapping("/getlist/score")
-    public void showCommodityListByScore(
-            @RequestBody Commodity cm
-    ){
-        QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("score");
-        List<Commodity> commodityList = commodityService.list(wrapper);
-        for ( Commodity commodity : commodityList)
-        {
-            System.out.println(commodity);
-        }
-    }
+//    //根据评分商品排序
+//    @GetMapping("/getlist/score")
+//    public List<Commodity> showCommodityListByScore(
+//            String cmname
+//    ){
+//        QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
+//        wrapper.eq("cname", cmname);
+//        wrapper.orderByDesc("score");
+//        List<Commodity> commodityList = commodityService.list(wrapper);
+//        return commodityList;
+//    }
 
     //根据销量商品排序
-    @GetMapping("/getlist/sales")
-    public void showCommodityListBySales(
+    @GetMapping("/getlist/<sales")
+    public List<Commodity> showCommodityListBySales(
+            String cmname
     ){
         QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
+        wrapper.like("cname", cmname);
         wrapper.orderByDesc("sales");
         List<Commodity> commodityList = commodityService.list(wrapper);
-        for ( Commodity commodity : commodityList)
-        {
-            System.out.println(commodity);
-        }
+        return commodityList;
     }
 
-    //根据价格商品排序
-    @GetMapping("/getlist/price")
-    public void showCommodityListByPrice(
+    //输入商品名字根据价格商品降序排序
+    @RequestMapping("/getlist/pricedesc")
+    public List<Commodity> showCommodityListByPriceDesc(
+            String cmname
     ){
         QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("score");
+        wrapper.like("cname", cmname);
+        wrapper.orderByDesc("cprice");
         List<Commodity> commodityList = commodityService.list(wrapper);
-        for (Commodity commodity : commodityList)
-        {
-            System.out.println(commodity);
-        }
+        return commodityList;
     }
+
+    //输入商品名字根据价格商品升序排序
+    @RequestMapping("/getlist/priceasc")
+    public List<Commodity> showCommodityListByPriceAsc(
+            String cmname
+    ){
+        QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
+        wrapper.like("cname", cmname);
+        wrapper.orderByAsc("cprice");
+        List<Commodity> commodityList = commodityService.list(wrapper);
+        return commodityList;
+    }
+
 
     //查看商品细节
     @GetMapping("/getDetail")
-    public Commodity getCommodityDetail(
+    public String getCommodityDetail(
             Commodity commodity
     ){
-        return commodityService.getById(commodity);
+        return commodityService.getById(commodity).getCdetail();
     }
-
 }
 

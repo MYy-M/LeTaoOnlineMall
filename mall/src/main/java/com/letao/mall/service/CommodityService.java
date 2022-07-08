@@ -2,6 +2,7 @@ package com.letao.mall.service;
 
 import com.letao.mall.dao.entity.Commodity;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 import java.math.BigDecimal;
 
@@ -22,4 +23,8 @@ public interface CommodityService extends IService<Commodity> {
     int countCusTotal();
 
     Boolean isExisted(String cname, String attribute_list, BigDecimal price);
+
+    Boolean setPicture(long id,String cpicture);
+
+    String  getPicture(@Param("id") long id);
 }
