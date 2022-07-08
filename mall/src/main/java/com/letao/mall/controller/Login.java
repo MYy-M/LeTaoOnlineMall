@@ -22,7 +22,7 @@ public class Login {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public boolean login(Long id,String passWord){
+    public String login(Long id,String passWord){
         return loginService.login(id,passWord);
     }
 

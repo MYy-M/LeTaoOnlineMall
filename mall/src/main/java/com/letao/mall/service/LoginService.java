@@ -12,7 +12,7 @@ import com.letao.mall.dao.entity.Admin;
  * @since 2022-06-30
  */
 public interface LoginService extends IService<Admin> {
-        boolean login(Long id, String passWord);
+        String login(Long id, String passWord);
 
         boolean logout(String token);
 

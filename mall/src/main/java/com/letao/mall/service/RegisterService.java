@@ -13,5 +13,5 @@ import com.letao.mall.dao.entity.Admin;
  */
 public interface RegisterService extends IService<Admin> {
 
-    boolean register(Admin admin);
+    String register(Admin admin);
 }

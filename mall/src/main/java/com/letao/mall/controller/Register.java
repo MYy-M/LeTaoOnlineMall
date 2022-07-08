@@ -23,7 +23,7 @@ public class Register {
     private RegisterService registerService;
 
     @PostMapping
-    public boolean register(@RequestBody Admin admin){
+    public String register(@RequestBody Admin admin){
         return registerService.register(admin);
     }
 }

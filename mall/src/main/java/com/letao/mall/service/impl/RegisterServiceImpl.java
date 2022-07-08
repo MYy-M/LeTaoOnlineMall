@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Admin;
 import com.letao.mall.dao.mapper.AdminMapper;
 import com.letao.mall.service.AdminService;
-import com.letao.mall.service.LoginService;
 import com.letao.mall.service.RegisterService;
 import com.letao.mall.util.JWTUtils;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -39,19 +38,18 @@ public class RegisterServiceImpl<admin> extends ServiceImpl<AdminMapper, Admin> 
 
 
     @Override
-    public boolean register(Admin admin) {
+    public String register(Admin admin) {
         String username = admin.getAusername();
         String password = admin.getApassword();
         if(StringUtils.isBlank(username)|| StringUtils.isBlank(password)){
-            return false;
+            return null;
         }
         LambdaQueryWrapper<Admin> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Admin::getAusername,username);
         queryWrapper.last("limit 1");
         Admin adminA = adminService.getOne(queryWrapper);
         if(adminA!=null){
-            System.out.println("账户已存在");
-            return false;
+            return "账户已存在";
         }
         password = DigestUtils.md5Hex(password+slat);
         admin.setApassword(password);
@@ -59,7 +57,7 @@ public class RegisterServiceImpl<admin> extends ServiceImpl<AdminMapper, Admin> 
         String token = JWTUtils.createToken(admin.getAid());
         redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(admin),1, TimeUnit.DAYS);
         Long id = adminService.getOne(new LambdaQueryWrapper<Admin>().eq(Admin::getAusername,username)).getAid();
-        return adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid,id).set(Admin::getAlevel,1));
-
+        adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid,id).set(Admin::getAlevel,1));
+        return token;
     }
 }

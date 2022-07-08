@@ -38,21 +38,22 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private static final String slat = "qsfplm!@#";
 
     @Override
-    public boolean login(Long id, String password) {
+    public String login(Long id, String password) {
         if(id==0||StringUtils.isBlank(password)){
-            return false;
+            return "您的账号/密码为空！";
         }
         password = DigestUtils.md5Hex(password+slat);
         Admin admin = adminService.getById(id);
         if(!admin.getApassword().equals(password)){
-            return false;
+            return "您输入的账号不存在！请注册";
         }
         String token = JWTUtils.createToken(id);
         if(admin.getAlevel()==1){
-            return false;
+            return "您的账号已登录！";
         }else{
             redisTemplate.opsForValue().set("TOKEN_"+token,JSON.toJSONString(admin),1, TimeUnit.DAYS);
-            return adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid,id).set(Admin::getAlevel,1));
+            adminService.update(new LambdaUpdateWrapper<Admin>().eq(Admin::getAid,id).set(Admin::getAlevel,1));
+            return token;
         }
     }
 
