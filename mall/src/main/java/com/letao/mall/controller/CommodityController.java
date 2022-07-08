@@ -1,12 +1,14 @@
 package com.letao.mall.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import com.letao.mall.service.CommodityService;
+import com.letao.mall.dao.entity.Commodity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -20,15 +22,55 @@ import java.util.ArrayList;
 @RequestMapping("/mall/commodity")
 public class CommodityController {
 
-    @GetMapping("/getlist")
-    public ArrayList<String> showCommodityListByxxx(){
-        return new ArrayList<>();
+    @Autowired
+    private CommodityService commodityService;
+
+    //根据评分商品排序
+    @GetMapping("/getlist/score")
+    public void showCommodityListByScore(
+            @RequestBody Commodity cm
+    ){
+        QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("score");
+        List<Commodity> commodityList = commodityService.list(wrapper);
+        for ( Commodity commodity : commodityList)
+        {
+            System.out.println(commodity);
+        }
     }
 
+    //根据销量商品排序
+    @GetMapping("/getlist/sales")
+    public void showCommodityListBySales(
+    ){
+        QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("sales");
+        List<Commodity> commodityList = commodityService.list(wrapper);
+        for ( Commodity commodity : commodityList)
+        {
+            System.out.println(commodity);
+        }
+    }
 
+    //根据价格商品排序
+    @GetMapping("/getlist/price")
+    public void showCommodityListByPrice(
+    ){
+        QueryWrapper<Commodity> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("score");
+        List<Commodity> commodityList = commodityService.list(wrapper);
+        for (Commodity commodity : commodityList)
+        {
+            System.out.println(commodity);
+        }
+    }
+
+    //查看商品细节
     @GetMapping("/getDetail")
-    public ArrayList<String> getCommodityDetail(){
-        return new ArrayList<>();
+    public Commodity getCommodityDetail(
+            Commodity commodity
+    ){
+        return commodityService.getById(commodity);
     }
 
 }
