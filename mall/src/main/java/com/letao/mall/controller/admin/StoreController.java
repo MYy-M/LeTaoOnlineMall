@@ -2,17 +2,18 @@ package com.letao.mall.controller.admin;
 
 
 import com.letao.mall.service.StoreService;
+import com.letao.mall.dao.entity.Store;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 骑手反叛联盟
@@ -25,28 +26,31 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @GetMapping("/modify")
-    public int modifyStoreAttributes(){
-        return 0;
-    }
 
-    @GetMapping("/delete")
-    public int deleteStore(){
-        return 0;
+    //修改店铺信息
+    @RequestMapping("/modify")
+    public Boolean modifyStoreAttributes(Store sm) {
+        return storeService.updateById(sm);
     }
 
 
-    @GetMapping("/add")
-    public int addStore(){
-        return 0;
+    //删除店铺
+    @RequestMapping("/delete")
+    public boolean deleteStore(Integer id) {
+        return storeService.removeById(id);
     }
 
+    //添加门店
+    @RequestMapping("/add")
+    public boolean addStore(@RequestBody Store store) {
+        return storeService.save(store);
+    }
 
+    //根据店铺id查询其店铺信息
     @GetMapping("/get")
-    public int getStore(){
-        return 0;
+    public Store getStore(Store store) {
+        return storeService.getById(store);
     }
-
 
 }
 
