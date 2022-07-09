@@ -7,6 +7,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.service.CommodityService;
 import com.letao.mall.util.UploadPic;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.AddCommodityParam;
+import com.letao.mall.vo.param.CpictureParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,42 +50,43 @@ public class ACommodityController {
      * 分页显示商品
      * @return
      */
-    @RequestMapping("/page/{pnum}")
+  /*  @RequestMapping("/page/{pnum}")
     public IPage getPage(@PathVariable("pnum") long pnum){
         Page<Commodity> page=new Page<>(pnum,2);
         return cms.page(page);
-    }
+    }*/
 
     /**
      * 添加商品(商品名，属性列表，价格都相同就不能添加)
      * 先加商品，成功再加图片
-     * @param cm
+     * @param acParam
      * @return
      */
     @RequestMapping("/add")
-    public Boolean addCommodity(MultipartFile file, Commodity cm) throws Exception{
-
+    public Result addCommodity(@RequestBody AddCommodityParam acParam) throws Exception{
+        MultipartFile file=acParam.getFile();
+        Commodity cm=acParam.getCm();
         if(cms.isExisted(cm.getCname(),cm.getAttribute_list(),cm.getCprice())){
             if(cms.save(cm)&&!file.isEmpty()){
                 String urlImg=uploadPic.upPic(file);
-                return cms.setPicture(cm.getCid(),urlImg);
+
+                return cms.setPicture(cm.getCid(),urlImg)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
             }
-            return true;
+            return Result.success(new Boolean(true));
         }
-        return false;
+        return Result.fail(10001,"图片插入失败");
     }
 
     /**
      * 修改图片
-     * @param id(商品id)
-     * @param file
+     * @param cpictureParam
      * @return
      * @throws IOException
      */
     @RequestMapping("/modifyCpicture")
-    public Boolean modifyCpicture(long id,MultipartFile file) throws IOException{
-        String urlImg=uploadPic.upPic(file);
-        return cms.setPicture(id,urlImg);
+    public Result modifyCpicture(@RequestBody CpictureParam cpictureParam) throws IOException{
+        String urlImg=uploadPic.upPic(cpictureParam.getFile());
+        return cms.setPicture(cpictureParam.getId(),urlImg)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
 
     /**
@@ -101,11 +106,11 @@ public class ACommodityController {
      * @return
      */
     @RequestMapping("/delete")
-    public Boolean deleteCommodity(Integer id){
+    public Result deleteCommodity(Integer id){
         if(cms.deleteCommodity(id)>0){
-            return true;
+            return Result.success(new Boolean(true));
         }
-        return false;
+        return Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
     }
 
     /**
@@ -114,8 +119,9 @@ public class ACommodityController {
      * @return
      */
     @RequestMapping("/modify")
-    public Boolean modifyCommodityAttribute(Commodity cm){
-        return cms.updateById(cm);
+    public Result modifyCommodityAttribute(Commodity cm){
+
+        return cms.updateById(cm)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
 }
 

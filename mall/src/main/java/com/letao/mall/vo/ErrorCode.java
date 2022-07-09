@@ -4,11 +4,23 @@ public enum  ErrorCode {
     PARAMS_ERROR(10001,"参数有误"),
     ACCOUNT_PWD_NOT_EXIST(10002,"用户名或密码不存在"),
     TOKEN_ERROR(10003,"token不合法"),
+
     ACCOUNT_EXIST(10004,"账号已存在"),
     ACCOUNT_NOT_EXIST(10005,"账号不存在"),
+
+    ADD_ERROR(20001,"添加失败"),
+
+    DELETE_ERROR(20002,"删除失败"),
+
+    MODIFY_ERROR(20003,"修改失败"),
+
+    SEARCH_ERROR(20004,"查询失败"),
+
     NO_PERMISSION(70001,"无访问权限"),
     SESSION_TIME_OUT(90001,"会话超时"),
     LOGIN_ING(90002,"已登录"),
+
+
     NO_LOGIN(90003,"未登录"),;
 
     private int code;

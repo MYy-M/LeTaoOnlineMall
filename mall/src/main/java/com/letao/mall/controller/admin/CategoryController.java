@@ -1,13 +1,15 @@
 package com.letao.mall.controller.admin;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.AttributeKey;
 import com.letao.mall.dao.entity.AttributeValue;
 import com.letao.mall.dao.entity.Category;
 import com.letao.mall.service.AttributeKeyService;
 import com.letao.mall.service.AttributeValueService;
 import com.letao.mall.service.CategoryService;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CategoryPageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,19 +41,19 @@ public class CategoryController {
      * @return
      */
     @RequestMapping("/getCategoryFirst")
-    public Page getCategoryFirst(@RequestParam int current){
-        return cgs.getCategoryFirst(current);
+    public Result getCategoryFirst(@RequestParam int current){
+        return Result.success(cgs.getCategoryFirst(current));
     }
 
     /**
      * 根据一级分类id找二级分类
-     * @param id
+     * @param cParam
      * @return
      */
 
-    @RequestMapping("/getCategorySecond/{id}")
-    public Page getCategorySecond(@PathVariable long id, @RequestParam int current){
-        return cgs.getCategorySecond(id,current);
+    @RequestMapping("/getCategorySecond")
+    public Result getCategorySecond(@RequestBody CategoryPageParam cParam){
+        return Result.success(cgs.getCategorySecond(cParam.getId(),cParam.getCurrent()));
     }
 
     /**
@@ -60,8 +62,8 @@ public class CategoryController {
      * @return
      */
     @RequestMapping("/add")
-    public Boolean addCategory(@RequestBody Category category){
-        return cgs.save(category);
+    public Result addCategory(@RequestBody Category category){
+        return cgs.save(category)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
 
     /**
@@ -70,8 +72,8 @@ public class CategoryController {
      * @return
      */
     @RequestMapping("/modify")
-    public Boolean modifyCategory(@RequestBody Category category){
-        return cgs.updateById(category);
+    public Result modifyCategory(@RequestBody Category category){
+        return cgs.updateById(category)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
 
     /**
@@ -81,71 +83,74 @@ public class CategoryController {
      * 0删除失败
      * -1有子类不能删
      */
-    @RequestMapping("/delete/{id}")
-    public int deleteCategory(@PathVariable long id){
+    @RequestMapping("/delete")
+    public Result deleteCategory(long id){
         if(cgs.getAllSecondCategory(id).isEmpty()){
-            return cgs.deleteCategoryByid(id);
+            return cgs.deleteCategoryByid(id)>0?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
         }else{
-            return -1;
+            //有子类不能删
+            return Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
         }
     }
 
     /**
      * 根据二级分类id查找属性列表
-     * @param id
-     * @param current
+     * @param cParam
      * @return
      */
-    @RequestMapping("/getAttributeKeyById/{id}")
-    public Page getAttributeKeyById(@PathVariable long id,@RequestParam(defaultValue = "1") int current){
-        return aks.getAttributeByCategoryID(id,current);
+    @RequestMapping("/getAttributeKeyById")
+    public Result getAttributeKeyById(@RequestBody CategoryPageParam cParam){
+        return Result.success(aks.getAttributeByCategoryID(cParam.getId(),cParam.getCurrent()));
     }
-
     /**
      * 添加新属性
      * @param attributeKey
      * @return
      */
     @RequestMapping("/addAttributeKey")
-    public Boolean addAttributeKey(@RequestBody AttributeKey attributeKey){
-        return aks.save(attributeKey);
+    public Result addAttributeKey(@RequestBody AttributeKey attributeKey){
+        return aks.save(attributeKey)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
+
     @RequestMapping("/modifyAttributeKey")
-    public Boolean modifyAttributeKey(@RequestBody AttributeKey attributeKey){
-        return aks.updateById(attributeKey);
+    public Result modifyAttributeKey(@RequestBody AttributeKey attributeKey){
+        return aks.updateById(attributeKey)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
     /**
      * 删除（先看有没有value）
      * @param id
      * @return
      */
-    @RequestMapping("/deleteAttributeKey/{id}")
-    public Boolean deleteAttributeKey(long id){
+    @RequestMapping("/deleteAttributeKey")
+    public Result deleteAttributeKey(long id){
         if(avs.getAttributeValueByKey(id).isEmpty()){
-            return aks.deleteAttributeKey(id);
+            return aks.deleteAttributeKey(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
         }
-        return false;
+        return Result.fail(10001,"删除失败");
     }
     /**
      * 根据属性名找属性值
      * @param id
      * @return
      */
-    @RequestMapping("/getAttributeValueByKey/{id}")
-    public List<AttributeValue> getAttributeValueByKey(@PathVariable long id){
-        return avs.getAttributeValueByKey(id);
+    @RequestMapping("/getAttributeValueByKey")
+    public Result getAttributeValueByKey( long id){
+        List<AttributeValue> list=avs.getAttributeValueByKey(id);
+        return list.isEmpty()?Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg()):Result.success(list);
     }
+
     @RequestMapping("/addAttributeValue")
-    public Boolean addAttributeValue(@RequestBody AttributeValue attributeValue){
-        return avs.save(attributeValue);
+    public Result addAttributeValue(@RequestBody AttributeValue attributeValue){
+        return avs.save(attributeValue)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
+
     @RequestMapping("/modifyAttributeValue")
-    public Boolean modifyAttributeValue(@RequestBody AttributeValue attributeValue){
-        return avs.updateById(attributeValue);
+    public Result modifyAttributeValue(@RequestBody AttributeValue attributeValue){
+        return avs.updateById(attributeValue)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
-    @RequestMapping("/deleteAttributeValue/{id}")
-    public Boolean deleteAttributeValue(@PathVariable long id){
-        return avs.deleteAttributeValue(id);
+    @RequestMapping("/deleteAttributeValue")
+    public Result deleteAttributeValue(long id){
+        return avs.deleteAttributeValue(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
     }
 
 
