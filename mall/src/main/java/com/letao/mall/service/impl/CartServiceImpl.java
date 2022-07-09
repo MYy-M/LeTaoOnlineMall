@@ -32,14 +32,14 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         Cart c = this.getOne(queryWrapper);
         if(c==null){
             if(this.save(cart)){
-                return Result.success(this.getOne(queryWrapper).getCartId());
+                return Result.success(this.getOne(queryWrapper).getCartId()+"");
             }
         }else{
             LambdaUpdateWrapper<Cart> updateWrapper=new LambdaUpdateWrapper<>();
             updateWrapper.eq(Cart::getCartId,c.getCartId());
             updateWrapper.set(Cart::getCartNum,c.getCartNum()+1);
             if(this.update(updateWrapper)) {
-                return Result.success(c.getCartId());
+                return Result.success(c.getCartId()+"");
             }
         }
         return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
