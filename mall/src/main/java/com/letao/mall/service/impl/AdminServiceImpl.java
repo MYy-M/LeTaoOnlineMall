@@ -1,19 +1,14 @@
 package com.letao.mall.service.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.letao.mall.dao.entity.Admin;
 import com.letao.mall.dao.mapper.AdminMapper;
 import com.letao.mall.service.AdminService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.letao.mall.service.LoginService;
 import com.letao.mall.service.TokenService;
-import com.letao.mall.util.JWTUtils;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 /**
  * <p>
@@ -30,13 +25,12 @@ public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     @Autowired
     private TokenService tokenService;
     @Override
-    public Admin findAdminByToken(String token) {
+    public Result findAdminByToken(String token) {
         Admin admin = tokenService.checkToken(token);
         if(admin==null){
-            System.out.println("token不合法");
-            return null;
+            return Result.fail(ErrorCode.TOKEN_ERROR.getCode(),ErrorCode.TOKEN_ERROR.getMsg());
         }
-        return admin;
+        return Result.success(admin);
     }
 
 }

@@ -21,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/mall/commodity")
+@CrossOrigin
 public class CommodityController {
 
     @Autowired

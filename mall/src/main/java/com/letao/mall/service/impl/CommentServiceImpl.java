@@ -6,7 +6,8 @@ import com.letao.mall.dao.entity.Comment;
 import com.letao.mall.dao.mapper.CommentMapper;
 import com.letao.mall.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,15 +23,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     /**
      * 显示商品评论
-     * @param cid
-     * @param currentPageNum
+     * @param pageParam
      * @return
      */
     @Override
-    public Page showComments(Long cid, int currentPageNum) {
-        Page<Comment> commentPage = new Page<>(currentPageNum,8);
+    public Result showComments(PageParam pageParam) {
+        Page<Comment> commentPage = new Page<>(pageParam.getPage(),pageParam.getPageSize());
         LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Comment::getCid,cid);
-        return this.page(commentPage,queryWrapper);
+        queryWrapper.eq(Comment::getCid,pageParam.getCid());
+        return Result.success(this.page(commentPage,queryWrapper));
     }
 }

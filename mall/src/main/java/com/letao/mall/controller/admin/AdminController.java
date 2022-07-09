@@ -5,12 +5,9 @@ import com.alibaba.fastjson.JSON;
 import com.letao.mall.dao.entity.Admin;
 import com.letao.mall.dao.entity.User;
 import com.letao.mall.service.AdminService;
+import com.letao.mall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -23,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mall/admin")
+@CrossOrigin
 public class AdminController {
 
     @Autowired
@@ -35,7 +33,7 @@ public class AdminController {
      * @return
      */
     @GetMapping("/currentAdmin")
-    public Admin getCurrentUser(@RequestHeader("Authorization")String token){
+    public Result getCurrentUser(@RequestHeader("Authorization")String token){
         return adminService.findAdminByToken(token);
     }
 

@@ -2,6 +2,8 @@ package com.letao.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.dao.entity.Admin;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.LoginParam;
 
 /**
  * <p>
@@ -13,5 +15,5 @@ import com.letao.mall.dao.entity.Admin;
  */
 public interface RegisterService extends IService<Admin> {
 
-    String register(Admin admin);
+    Result register(LoginParam loginParam);
 }

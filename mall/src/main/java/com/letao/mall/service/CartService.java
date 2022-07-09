@@ -3,6 +3,8 @@ package com.letao.mall.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Cart;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 
 /**
  * <p>
@@ -19,13 +21,13 @@ public interface CartService extends IService<Cart> {
      * @param cart
      * @return
      */
-    boolean addToCart(Cart cart);
+    Result addToCart(Cart cart);
+
 
     /**
      * 查询个人的购物车
-     * @param uid
-     * @param currentPageNum
+     * @param pageParam
      * @return
      */
-    Page showCart(Long uid, int currentPageNum);
+    Result showCart(PageParam pageParam);
 }

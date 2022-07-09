@@ -5,9 +5,11 @@ public enum  ErrorCode {
     ACCOUNT_PWD_NOT_EXIST(10002,"用户名或密码不存在"),
     TOKEN_ERROR(10003,"token不合法"),
     ACCOUNT_EXIST(10004,"账号已存在"),
+    ACCOUNT_NOT_EXIST(10005,"账号不存在"),
     NO_PERMISSION(70001,"无访问权限"),
     SESSION_TIME_OUT(90001,"会话超时"),
-    NO_LOGIN(90002,"未登录"),;
+    LOGIN_ING(90002,"已登录"),
+    NO_LOGIN(90003,"未登录"),;
 
     private int code;
     private String msg;
@@ -31,4 +33,5 @@ public enum  ErrorCode {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
 }

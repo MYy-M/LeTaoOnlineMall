@@ -1,8 +1,9 @@
 package com.letao.mall.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 
 /**
  * <p>
@@ -13,6 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-06-30
  */
 public interface CommentService extends IService<Comment> {
-
-    Page showComments(Long cid, int currentPageNum);
+    Result showComments(PageParam pageParam);
 }

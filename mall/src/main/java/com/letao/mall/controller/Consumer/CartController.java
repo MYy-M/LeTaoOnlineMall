@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Cart;
 import com.letao.mall.service.CartService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,41 +20,43 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/mall/consumer/cart")
+@CrossOrigin
 public class CartController {
 
     @Autowired
     private CartService cartService;
 
     @PostMapping("/addCommodity")
-    public boolean addCommodity(@RequestBody Cart cart) {
+    public Result addCommodity(@RequestBody Cart cart) {
+        System.out.println(cartService.addToCart(cart).getData());
         return cartService.addToCart(cart);
     }
 
     @GetMapping("/deleteCommodity")
-    public boolean deleteCommodity(Long id) {
-        return cartService.removeById(id);
+    public Result deleteCommodity(Long id) {
+        return Result.success(cartService.removeById(id));
     }
 
     @GetMapping("/addNum")
-    public boolean addNum(Long id) {
+    public Result addNum(Long id) {
         Cart cart = cartService.getById(id);
-        return cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() + 1));
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() + 1)));
     }
 
     @GetMapping("/reduceNum")
-    public boolean reduceNum(Long id) {
+    public Result reduceNum(Long id) {
         Cart cart = cartService.getById(id);
-        return cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() - 1));
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() - 1)));
     }
 
     @GetMapping("/setNum")
-    public boolean setNum(Long id, int num) {
-        return cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum,num));
+    public Result setNum(Long id, int num) {
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum,num)));
     }
 
-    @GetMapping("/showCart")
-    public Page showCart(Long uid,int currentPageNum) {
-        return cartService.showCart(uid,currentPageNum);
+    @PostMapping("/showCart")
+    public Result showCart(@RequestBody PageParam pageParam) {
+        return cartService.showCart(pageParam);
     }
 
 

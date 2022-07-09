@@ -29,7 +29,7 @@ public class TokenServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private  RedisTemplate<String,String> redisTemplate;
 
     @Override
-    public  Admin checkToken(String token) {
+    public Admin checkToken(String token) {
         if(StringUtils.isBlank(token)){
             System.out.println("token不合法");
             return null;

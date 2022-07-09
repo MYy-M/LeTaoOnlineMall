@@ -1,6 +1,7 @@
 package com.letao.mall.controller;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
  */
 @RestController
 @RequestMapping("/mall/lt-order")
+@CrossOrigin
 public class LtOrderController {
 
     @GetMapping("/modify")

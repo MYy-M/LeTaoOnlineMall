@@ -1,6 +1,7 @@
 package com.letao.mall.controller.Consumer;
 
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
  */
 @RestController
 @RequestMapping("/mall/consumer/commodity")
+@CrossOrigin
 public class CCommodityController {
 
     @GetMapping("/recommend")

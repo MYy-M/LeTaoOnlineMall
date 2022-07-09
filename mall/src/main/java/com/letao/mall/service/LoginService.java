@@ -2,6 +2,8 @@ package com.letao.mall.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.dao.entity.Admin;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.LoginParam;
 
 /**
  * <p>
@@ -12,8 +14,9 @@ import com.letao.mall.dao.entity.Admin;
  * @since 2022-06-30
  */
 public interface LoginService extends IService<Admin> {
-        String login(Long id, String passWord);
 
-        boolean logout(String token);
 
+    Result logout(String token);
+
+    Result login(LoginParam loginParam);
 }

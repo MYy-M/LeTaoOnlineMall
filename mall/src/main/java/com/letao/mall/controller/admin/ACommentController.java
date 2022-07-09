@@ -1,13 +1,11 @@
 package com.letao.mall.controller.admin;
 
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.service.CommentService;
-import io.lettuce.core.dynamic.annotation.Param;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mall/admin/comment")
+@CrossOrigin
 public class ACommentController {
 
     @Autowired
@@ -26,13 +25,12 @@ public class ACommentController {
 
     /**
      * 根据商品id获取商品评论
-     * @param cid
-     * @param currentPageNum
+     * @param pageParam
      * @return
      */
-    @GetMapping("/show")
-    public Page getCommentsByCId(Long cid,int currentPageNum){
-        return commentService.showComments(cid,currentPageNum);
+    @PostMapping("/show")
+    public Result getCommentsByCId(@RequestBody PageParam pageParam){
+        return commentService.showComments(pageParam);
     }
 
     /**
@@ -41,8 +39,8 @@ public class ACommentController {
      * @return
      */
     @GetMapping("/delete")
-    public boolean deleteComments(Long commentId){
-        return commentService.removeById(commentId);
+    public Result deleteComments(@PathVariable("commentId") Long commentId){
+        return Result.success(commentService.removeById(commentId));
     }
 }
 

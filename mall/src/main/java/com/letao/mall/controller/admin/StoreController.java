@@ -21,6 +21,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/mall/admin/store")
+@CrossOrigin
 public class StoreController {
 
     @Autowired
