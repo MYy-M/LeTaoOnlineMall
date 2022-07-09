@@ -24,6 +24,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/mall/admin/commodity")
+@CrossOrigin
 public class ACommodityController {
 
     @Autowired
