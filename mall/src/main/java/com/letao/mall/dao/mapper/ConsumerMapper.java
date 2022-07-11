@@ -1,6 +1,6 @@
 package com.letao.mall.dao.mapper;
 
-import com.letao.mall.dao.entity.User;
+import com.letao.mall.dao.entity.Consumer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author 骑手反叛联盟
  * @since 2022-06-30
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface ConsumerMapper extends BaseMapper<Consumer> {
 
 }

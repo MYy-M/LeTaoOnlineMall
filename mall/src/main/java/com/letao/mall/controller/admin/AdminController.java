@@ -1,9 +1,6 @@
 package com.letao.mall.controller.admin;
 
 
-import com.alibaba.fastjson.JSON;
-import com.letao.mall.dao.entity.Admin;
-import com.letao.mall.dao.entity.User;
 import com.letao.mall.service.AdminService;
 import com.letao.mall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;

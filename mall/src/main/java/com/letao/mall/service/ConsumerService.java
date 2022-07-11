@@ -1,7 +1,8 @@
 package com.letao.mall.service;
 
+import com.letao.mall.dao.entity.Consumer;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.letao.mall.dao.entity.Admin;
+import com.letao.mall.vo.Result;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.letao.mall.dao.entity.Admin;
  * @author 骑手反叛联盟
  * @since 2022-06-30
  */
-public interface TokenService extends IService<Admin> {
-    String checkToken(String token);
+public interface ConsumerService extends IService<Consumer> {
+
+    Result findConsumerByToken(String token);
 }
