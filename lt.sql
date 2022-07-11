@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 07/07/2022 10:03:30
+ Date: 11/07/2022 10:26:01
 */
 
 SET NAMES utf8mb4;
@@ -32,6 +32,8 @@ CREATE TABLE `admin`  (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
+INSERT INTO `admin` VALUES (1544937232450715649, 'MYY', '609a058aef638c16adddd59ae36a6f78', 0);
+INSERT INTO `admin` VALUES (1545590388763418626, 'string', 'a73fffebce4a1156dfa1a58429b3f670', 0);
 
 -- ----------------------------
 -- Table structure for attribute_key
@@ -82,6 +84,12 @@ CREATE TABLE `cart`  (
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
+INSERT INTO `cart` VALUES (1544943535994802177, 1234, 1234, 45, 1);
+INSERT INTO `cart` VALUES (1545601429366935554, 111, 111, 2, 1);
+INSERT INTO `cart` VALUES (1545605042323599361, 123, 123, 3, 1);
+INSERT INTO `cart` VALUES (1545606998110838786, 12, 123, 1, 1);
+INSERT INTO `cart` VALUES (1545618829147742209, 422, 422, 2, 1);
+INSERT INTO `cart` VALUES (1545657885273366529, 9090, 9090, 5, 1);
 
 -- ----------------------------
 -- Table structure for category
@@ -126,10 +134,11 @@ CREATE TABLE `commodity`  (
   `cnum` int NOT NULL DEFAULT 0,
   `attribute_list` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '规格列表',
   `cdetail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商品介绍',
-  `cpicture` text NULL COMMENT '图片',
+  `cpicture` blob NULL COMMENT '图片',
   `category_id` bigint NOT NULL,
   `csales` int NULL DEFAULT 0,
   PRIMARY KEY (`cid`) USING BTREE,
+  UNIQUE INDEX `cname`(`cname`) USING BTREE,
   INDEX `cid`(`cid`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
@@ -153,6 +162,26 @@ CREATE TABLE `commodity_specs`  (
 
 -- ----------------------------
 -- Records of commodity_specs
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for consumer
+-- ----------------------------
+DROP TABLE IF EXISTS `consumer`;
+CREATE TABLE `consumer`  (
+  `uid` bigint NOT NULL,
+  `uname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `upassword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `upicture` blob NULL COMMENT '头像',
+  `umail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `uaddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户地址',
+  `uphone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '电话号码',
+  `ulevel` int NULL DEFAULT NULL COMMENT 'vip等级',
+  PRIMARY KEY (`uid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of consumer
 -- ----------------------------
 
 -- ----------------------------
@@ -204,26 +233,6 @@ CREATE TABLE `store`  (
 
 -- ----------------------------
 -- Records of store
--- ----------------------------
-
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
-  `uid` bigint NOT NULL,
-  `uname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `upassword` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `upicture` blob NULL COMMENT '头像',
-  `umail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `uaddress` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户地址',
-  `uphone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '电话号码',
-  `ulevel` int NULL DEFAULT NULL COMMENT 'vip等级',
-  PRIMARY KEY (`uid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user
 -- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;
