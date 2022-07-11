@@ -6,6 +6,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -26,8 +28,10 @@ public class Myorder implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "order_id", type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long orderId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long uid;
 
     private String address;

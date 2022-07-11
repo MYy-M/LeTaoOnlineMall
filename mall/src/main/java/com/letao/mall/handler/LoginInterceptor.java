@@ -3,6 +3,7 @@ package com.letao.mall.handler;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.letao.mall.dao.entity.Admin;
+import com.letao.mall.dao.entity.Consumer;
 import com.letao.mall.service.TokenService;
 import com.letao.mall.util.UserThreadLocal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,15 @@ public class LoginInterceptor implements HandlerInterceptor {
             response.getWriter().print(responseInfo);
             return false;
         }
-        String adminJSON = tokenService.checkToken(token);
-        Admin admin = JSON.parseObject(adminJSON, Admin.class);
-        if(admin==null){
+        String consumerJSON = tokenService.checkToken(token);
+        Consumer consumer = JSON.parseObject(consumerJSON, Consumer.class);
+        if(consumer==null){
             String responseInfo = "未登录";
             response.setContentType("application/json;charset=utf-8");
             response.getWriter().print(responseInfo);
             return false;
         }
-        UserThreadLocal.put(admin);
+        UserThreadLocal.put(consumer);
         return true;
     }
 

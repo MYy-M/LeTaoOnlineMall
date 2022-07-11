@@ -3,6 +3,7 @@ package com.letao.mall.service;
 import com.letao.mall.dao.entity.Consumer;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.LoginParam;
 
 /**
  * <p>

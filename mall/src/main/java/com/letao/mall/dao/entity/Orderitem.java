@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,8 +27,10 @@ public class Orderitem implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "Order_id", type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long orderId;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long csId;
 
     //单个商品购买数量

@@ -1,15 +1,11 @@
 package com.letao.mall.controller.Consumer;
 
 
-import com.letao.mall.dao.entity.Consumer;
 import com.letao.mall.service.ConsumerService;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.LoginParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -20,12 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/consumer/user")
+@RequestMapping("/mall/consumer")
 public class ConsumerController {
 
     @Autowired
     private ConsumerService consumerService;
-
+    /**
+     * 根据token获取当前消费者信息
+     * @param token
+     * @return
+     */
     @GetMapping("/currentUser")
     public Result getCurrentUser(@RequestHeader("Authorization")String token){
         return consumerService.findConsumerByToken(token);

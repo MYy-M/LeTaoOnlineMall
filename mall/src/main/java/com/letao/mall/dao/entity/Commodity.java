@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Blob;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -26,6 +28,7 @@ public class Commodity implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "cid", type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid;
 
     private String cname;
@@ -43,6 +46,7 @@ public class Commodity implements Serializable {
     //图片
     private String cpicture;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
 
 
