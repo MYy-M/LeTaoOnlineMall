@@ -2,6 +2,8 @@ package com.letao.mall.service;
 
 import com.letao.mall.dao.entity.Store;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 
 /**
  * <p>
@@ -12,5 +14,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2022-06-30
  */
 public interface StoreService extends IService<Store> {
-
+    /**
+     * 查询个人的购物车
+     * @param pageParam
+     * @return
+     */
+    Result showStore(PageParam pageParam);
 }
