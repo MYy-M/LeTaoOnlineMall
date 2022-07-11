@@ -49,8 +49,11 @@ public class LoginServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
         }
         password = DigestUtils.md5Hex(password+slat);
         Admin admin = adminService.getById(id);
+        if(admin==null){
+            return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
+        }
         if(!admin.getApassword().equals(password)){
-            return Result.fail(ErrorCode.ACCOUNT_NOT_EXIST.getCode(), ErrorCode.ACCOUNT_NOT_EXIST.getMsg());
+            return Result.fail(ErrorCode.INCORRECT_PASSWORD.getCode(), ErrorCode.INCORRECT_PASSWORD.getMsg());
         }
         String token = JWTUtils.createToken(id);
         if(admin.getAlevel()==1){

@@ -5,7 +5,7 @@ public enum  ErrorCode {
     ACCOUNT_PWD_NOT_EXIST(10002,"用户名或密码不存在"),
     TOKEN_ERROR(10003,"token不合法"),
     ACCOUNT_EXIST(10004,"账号已存在"),
-    ACCOUNT_NOT_EXIST(10005,"账号不存在"),
+    INCORRECT_PASSWORD(10005,"密码错误"),
     ADD_ERROR(20001,"添加失败"),
     DELETE_ERROR(20002,"删除失败"),
     MODIFY_ERROR(20003,"修改失败"),
