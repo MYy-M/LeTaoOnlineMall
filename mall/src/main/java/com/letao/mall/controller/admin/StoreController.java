@@ -3,11 +3,12 @@ package com.letao.mall.controller.admin;
 
 import com.letao.mall.service.StoreService;
 import com.letao.mall.dao.entity.Store;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import java.util.*;
 
@@ -30,27 +31,34 @@ public class StoreController {
 
     //修改店铺信息
     @RequestMapping("/modify")
-    public Boolean modifyStoreAttributes(Store sm) {
-        return storeService.updateById(sm);
+    public Result modifyStoreAttributes(Store store) {
+        if(storeService.getById(store) == null)
+            return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return Result.success(storeService.updateById(store));
     }
 
 
-    //删除店铺
-    @RequestMapping("/delete")
-    public boolean deleteStore(Integer id) {
-        return storeService.removeById(id);
+    //根据id删除店铺
+    @GetMapping("/delete")
+    public Result deleteStore(@PathVariable Long id) {
+        if(storeService.getById(id) == null)
+            return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return Result.success(storeService.removeById(id));
     }
 
     //添加门店
     @RequestMapping("/add")
-    public boolean addStore(@RequestBody Store store) {
-        return storeService.save(store);
+    public Result addStore(@RequestBody Store store) {
+        if(storeService.getById(store) != null)
+            return Result.fail(ErrorCode.STORE_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return Result.success(storeService.save(store));
     }
 
     //根据店铺id查询其店铺信息
-    @GetMapping("/get")
-    public Store getStore(Store store) {
-        return storeService.getById(store);
+    @PostMapping("/get")
+    public Result getStore(PageParam pageParam) {
+
+        return Result.success(storeService.showStore(pageParam));
     }
 
 }
