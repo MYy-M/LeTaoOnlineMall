@@ -1,7 +1,10 @@
 package com.letao.mall.controller.Consumer;
 
 
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.letao.mall.dao.entity.Consumer;
 import com.letao.mall.service.ConsumerService;
+import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.LoginParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +34,15 @@ public class ConsumerController {
         return consumerService.findConsumerByToken(token);
     }
 
-    @GetMapping("/modify")
-    public int modifyUserInfo(){
-        return 0;
+    @PostMapping("/modify")
+    public Result modifyUserInfo(@RequestBody Consumer consumer){
+        LambdaUpdateWrapper<Consumer> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(Consumer::getUid,consumer.getUid());
+        if(consumerService.update(consumer,updateWrapper)){
+            return Result.success(null);
+        }else{
+            return Result.fail(ErrorCode.MODIFY_ERROR.getCode(),ErrorCode.MODIFY_ERROR.getMsg());
+        }
     }
 
 }
