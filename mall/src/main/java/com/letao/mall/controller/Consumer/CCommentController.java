@@ -1,10 +1,13 @@
 package com.letao.mall.controller.Consumer;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.letao.mall.dao.entity.Comment;
+import com.letao.mall.service.CommentService;
+import com.letao.mall.service.LtOrderService;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -19,14 +22,26 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class CCommentController {
 
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private LtOrderService ltOrderService;
+
+    //顾客添加评论
     @GetMapping("/add")
-    public int addComments(){
-        return 0;
+    public Result addComments(@RequestBody Comment comment){
+        if(ltOrderService.query().eq("uid",comment.getUid()).eq("order_state", "1" )== null)
+            return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
+        if(commentService.getById(comment) !=null)
+            return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
+        return  Result.success(commentService.save(comment));
     }
 
     @GetMapping("/delete")
-    public int deleteComments(){
-        return 0;
+    public Result deleteComments(Long commentId){
+        if(commentService.getById(commentId) == null)
+            return Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
+        return Result.success(commentService.removeById(commentId));
     }
 
 
