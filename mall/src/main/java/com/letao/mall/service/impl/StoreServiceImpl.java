@@ -3,13 +3,17 @@ package com.letao.mall.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Store;
 import com.letao.mall.dao.mapper.StoreMapper;
 import com.letao.mall.service.StoreService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.PageParam;
+import com.letao.mall.vo.param.StoreParam;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,8 +26,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements StoreService {
 
+    private StoreMapper storeMapper;
     /**
-     * 查询个人的购物车
+     * 查询门店信息
      * @param pageParam
      * @return
      */
@@ -33,5 +38,45 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
         LambdaQueryWrapper<Store> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Store::getSid,pageParam.getUid());
         return Result.success(this.page(cartPage,queryWrapper));
+    }
+
+    /**
+     * 查询区域内所有门店,
+     * @param storeParam
+     * @return
+     */
+    @Override
+    public Page showStoreListByAddress(StoreParam storeParam) {
+        Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
+        QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("saddress",storeParam.getStoreadress());
+        return storeMapper.selectPage(storePage, queryWrapper);
+    }
+
+
+    /**
+     * 查询该电话的门店
+     * @param storeParam
+     * @return
+     */
+    @Override
+    public Page showStoreListByPhone(StoreParam storeParam) {
+        Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
+        QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("sphone",storeParam.getStorephone());
+        return storeMapper.selectPage(storePage, queryWrapper);
+    }
+
+    /**
+     * 查询有含有所搜查关键词名字的所有门店
+     * @param storeParam
+     * @return
+     */
+    @Override
+    public Page showStoreListByName(StoreParam storeParam) {
+        Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
+        QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("sname",storeParam.getStorename());
+        return storeMapper.selectPage(storePage, queryWrapper);
     }
 }

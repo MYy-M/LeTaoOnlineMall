@@ -6,6 +6,7 @@ import com.letao.mall.dao.entity.Store;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.PageParam;
+import com.letao.mall.vo.param.StoreParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -56,10 +57,15 @@ public class StoreController {
 
     //根据店铺id查询其店铺信息
     @PostMapping("/get")
-    public Result getStore(@RequestBody PageParam pageParam) {
+    public Result getStoreDetail(@RequestBody PageParam pageParam) {
 
         return Result.success(storeService.showStore(pageParam));
     }
 
+    //查询所有店铺信息,可划定区域查询
+    @GetMapping("/getstorelist/address")
+    public Result getStoreListByAddress(@RequestBody StoreParam storeParam) {
+        return Result.success(storeService.showStoreListByAddress(storeParam));
+    }
 }
 
