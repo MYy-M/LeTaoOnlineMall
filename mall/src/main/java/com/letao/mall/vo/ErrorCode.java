@@ -6,6 +6,7 @@ public enum  ErrorCode {
     TOKEN_ERROR(10003,"token不合法"),
     ACCOUNT_EXIST(10004,"账号已存在"),
     INCORRECT_PASSWORD(10005,"密码错误"),
+    PAY_FAILED(10006,"支付失败"),
     ADD_ERROR(20001,"添加失败"),
     DELETE_ERROR(20002,"删除失败"),
     MODIFY_ERROR(20003,"修改失败"),

@@ -27,7 +27,11 @@ public class CCommentController {
     @Autowired
     private LtOrderService ltOrderService;
 
-    //顾客添加评论
+    /**
+     * 消费者进行评论
+     * @param comment
+     * @return
+     */
     @GetMapping("/add")
     public Result addComments(@RequestBody Comment comment){
         if(ltOrderService.query().eq("uid",comment.getUid()).eq("order_state", "1" )== null)
@@ -37,6 +41,11 @@ public class CCommentController {
         return  Result.success(commentService.save(comment));
     }
 
+    /**
+     * 消费者删除自己的评论
+     * @param commentId
+     * @return
+     */
     @GetMapping("/delete")
     public Result deleteComments(Long commentId){
         if(commentService.getById(commentId) == null)

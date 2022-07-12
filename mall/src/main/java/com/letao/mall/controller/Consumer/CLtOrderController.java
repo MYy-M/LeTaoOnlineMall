@@ -1,10 +1,14 @@
 package com.letao.mall.controller.Consumer;
 
 
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -19,14 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class CLtOrderController {
     @GetMapping("/payOrder")
-    public int payOrder(){
-        return 0;
+    public Result payOrder(BigDecimal price){
+        if(true){
+            return Result.success(price);
+        }else {
+            return Result.fail(ErrorCode.PAY_FAILED.getCode(),ErrorCode.PAY_FAILED.getMsg());
+        }
     }
 
     @GetMapping("/addOrder")
-    public int addOrder(){
-        return 0;
+    public Result addOrder(){
+
+        return null;
     }
+
 
     @GetMapping("/finishOrder")
     public int finishOrder(){

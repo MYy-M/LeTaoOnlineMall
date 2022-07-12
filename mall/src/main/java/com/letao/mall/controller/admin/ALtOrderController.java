@@ -1,13 +1,9 @@
-package com.letao.mall.controller;
-
+package com.letao.mall.controller.admin;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
 
 /**
  * <p>
@@ -18,19 +14,16 @@ import java.util.ArrayList;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/lt-order")
+@RequestMapping("/mall/admin/lt-order")
 @CrossOrigin
-public class LtOrderController {
+public class ALtOrderController {
 
-    @GetMapping("/get")
-    public ArrayList<String> getOrderListById(){
-        return new ArrayList<>();
+    /**
+     * 发货
+     * @return
+     */
+    @GetMapping("/delivery")
+    public int delivery(){
+        return 0;
     }
-
-    @GetMapping("/getlist")
-    public ArrayList<String> getOrderList(){
-        return new ArrayList<>();
-    }
-
 }
-

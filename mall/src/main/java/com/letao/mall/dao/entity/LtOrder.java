@@ -43,7 +43,11 @@ public class LtOrder implements Serializable {
     //物流情况
     private String logistic;
 
-    //“0”表示未收到，“1”表示已收到
+    //“0”表示待付款，
+    //“1”表示待发货
+    //“2”表示待收货
+    //“3”表示待评价
+    //“4”表示已完成
     private Integer orderState;
 
 
