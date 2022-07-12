@@ -24,16 +24,6 @@ public class ACommentController {
     private CommentService commentService;
 
     /**
-     * 根据商品id获取商品评论
-     * @param pageParam
-     * @return
-     */
-    @PostMapping("/show")
-    public Result getCommentsByCId(@RequestBody PageParam pageParam){
-        return commentService.showComments(pageParam);
-    }
-
-    /**
      * 根据评论id，删除指定评论
      * @param commentId
      * @return

@@ -31,7 +31,7 @@ public class StoreController {
 
     //修改店铺信息
     @RequestMapping("/modify")
-    public Result modifyStoreAttributes(Store store) {
+    public Result modifyStoreAttributes(@RequestBody Store store) {
         if(storeService.getById(store) == null)
             return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
         return Result.success(storeService.updateById(store));
@@ -40,7 +40,7 @@ public class StoreController {
 
     //根据id删除店铺
     @GetMapping("/delete")
-    public Result deleteStore(@PathVariable Long id) {
+    public Result deleteStore(long id) {
         if(storeService.getById(id) == null)
             return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
         return Result.success(storeService.removeById(id));
@@ -56,7 +56,7 @@ public class StoreController {
 
     //根据店铺id查询其店铺信息
     @PostMapping("/get")
-    public Result getStore(PageParam pageParam) {
+    public Result getStore(@RequestBody PageParam pageParam) {
 
         return Result.success(storeService.showStore(pageParam));
     }
