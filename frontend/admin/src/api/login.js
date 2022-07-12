@@ -1,27 +1,49 @@
 import request from '@/utils/request'
+import axios from 'axios'
 
-export function login(username, password) {
+export function login2(id, password) {
+  console.log("login")
   return request({
-    url: '/admin/login',
+    // url: '/admin/login',
+    url: '/mall/login',
     method: 'post',
+    headers: {
+      "Content-Type": "application/json" // 如果写成contentType会报错
+    },
     data: {
-      username,
+      id,
       password
     }
   })
 }
 
-export function getInfo() {
-  return request({
-    url: '/admin/info',
-    method: 'get',
+export function login(id, password) {
+  return axios({
+    url: "http://localhost:8088/mall/admin/login",
+    method: "POST",
+    data: { id, password }
   })
 }
 
-export function logout() {
-  return request({
-    url: '/admin/logout',
-    method: 'post'
+
+
+export function getInfo(token) {
+  return axios({
+    url: "http://localhost:8088/mall/admin/currentAdmin",
+    method: "GET",
+    headers: {
+      'Authorization': token
+    }
+  })
+}
+
+export function logout(token) {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/logout',
+    method: 'get',
+    headers: {
+      'Authorization': token
+    }
   })
 }
 

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 export function fetchList(params) {
-  return request({
+  return axios({
     url:'/returnApply/list',
     method:'get',
     params:params

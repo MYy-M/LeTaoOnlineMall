@@ -13,7 +13,7 @@
         <el-form-item prop="username">
           <el-input name="username"
                     type="text"
-                    v-model="loginForm.username"
+                    v-model="loginForm.id"
                     autoComplete="on"
                     placeholder="请输入用户名">
           <span slot="prefix">
@@ -89,7 +89,7 @@
       };
       return {
         loginForm: {
-          username: '',
+          id: '',
           password: '',
         },
         loginRules: {
@@ -104,10 +104,10 @@
       }
     },
     created() {
-      this.loginForm.username = getCookie("username");
+      this.loginForm.id = getCookie("username");
       this.loginForm.password = getCookie("password");
-      if(this.loginForm.username === undefined||this.loginForm.username==null||this.loginForm.username===''){
-        this.loginForm.username = 'admin';
+      if(this.loginForm.id === undefined||this.loginForm.id==null||this.loginForm.id===''){
+        this.loginForm.id = 'admin';
       }
       if(this.loginForm.password === undefined||this.loginForm.password==null){
         this.loginForm.password = '';
@@ -130,9 +130,10 @@
             //   return;
             // }
             this.loading = true;
+
             this.$store.dispatch('Login', this.loginForm).then(() => {
               this.loading = false;
-              setCookie("username",this.loginForm.username,15);
+              setCookie("username",this.loginForm.id,15);
               setCookie("password",this.loginForm.password,15);
               this.$router.push({path: '/'})
             }).catch(() => {
