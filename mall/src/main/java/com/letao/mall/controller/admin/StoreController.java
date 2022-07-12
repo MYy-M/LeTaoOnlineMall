@@ -63,8 +63,20 @@ public class StoreController {
     }
 
     //查询所有店铺信息,可划定区域查询
-    @GetMapping("/getstorelist/address")
+    @PostMapping("/getstorelist/address")
     public Result getStoreListByAddress(@RequestBody StoreParam storeParam) {
+        return Result.success(storeService.showStoreListByAddress(storeParam));
+    }
+
+    //查询所有店铺信息,可划定区域查询
+    @PostMapping("/getstorelist/phone")
+    public Result getStoreListByPhone(@RequestBody StoreParam storeParam) {
+        return Result.success(storeService.showStoreListByAddress(storeParam));
+    }
+
+    //查询所有店铺信息,可划定区域查询
+    @PostMapping("/getstorelist/name")
+    public Result getStoreListByName(@RequestBody StoreParam storeParam) {
         return Result.success(storeService.showStoreListByAddress(storeParam));
     }
 }
