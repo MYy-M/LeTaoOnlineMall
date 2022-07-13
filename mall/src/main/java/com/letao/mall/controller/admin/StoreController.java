@@ -68,7 +68,7 @@ public class StoreController {
      * @param storeParam
      * @return
      */
-    @PostMapping("/getstorelist/address")
+    @PostMapping("/getstorelist")
     public Result getStoreListByCondition(@RequestBody StoreParam storeParam) {
         return Result.success(storeService.showStoreListByCondition(storeParam));
     }

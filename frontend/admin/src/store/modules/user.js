@@ -32,7 +32,7 @@ const user = {
       return new Promise((resolve, reject) => {
         login(id, userInfo.password).then(response => {
           const data = response.data
-          console.log('Login')
+          console.log(data)
           // const tokenStr = data.tokenHead+data.token
           // console.log(tokenStr)
           setToken(data.data)

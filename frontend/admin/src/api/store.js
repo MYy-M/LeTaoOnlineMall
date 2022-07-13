@@ -1,15 +1,22 @@
 import axios from "axios"
 
-export function getStoreList(params) {
+export function getStoreList(pagenum,pagesize,storeaddress,storename,storephone) {
+
     return axios({
-        url: 'http://localhost:8088/mall/admin/store' ,
-        method: 'get',
-        params: params
+        url: 'http://localhost:8088/mall/admin/store/getstorelist' ,
+        method: 'post',
+        data: {
+            pagenum,
+            pagesize,
+            storeaddress,
+            storename,
+            storephone
+        }
     })
 }
 export function addStore(data) {
     return axios({
-        url: 'http://localhost:8088/mall/admin/store',
+        url: 'http://localhost:8088/mall/admin/store/add',
         method: 'post',
         data: data
     })
