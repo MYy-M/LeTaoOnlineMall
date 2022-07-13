@@ -51,16 +51,17 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
         String storename=storeParam.getStorename();
         String storephone=storeParam.getStorephone();
         Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
-        QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<Store> queryWrapper = new LambdaQueryWrapper<>();
         if(storeadress!=null){
-            queryWrapper.like("saddress",storeadress);
+            queryWrapper.like(Store::getSaddress,storeadress);
         }
         if(storename!=null){
-            queryWrapper.like("sname",storename);
+            queryWrapper.like(Store::getSname,storename);
         }
         if(storephone!=null) {
-            queryWrapper.like("sphone", storephone);
+            queryWrapper.like(Store::getSphone, storephone);
         }
         return storeMapper.selectPage(storePage, queryWrapper);
+
     }
 }

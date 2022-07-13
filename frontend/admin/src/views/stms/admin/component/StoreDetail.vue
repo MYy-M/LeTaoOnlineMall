@@ -47,7 +47,7 @@
 </template>
 
 <script>
-
+import { addStore,updateStore } from '@/api/store';
 
 export default {
   name: "StoreDetail",
@@ -78,47 +78,10 @@ export default {
       }
     };
   },
-  // created() {
-  //   this.getProductCateList();
-  // },
-  // computed:{
-  //   //商品的编号
-  //   productId(){
-  //     return this.value.id;
-  //   }
-  // },
-  // watch: {
-  //   productId:function(newValue){
-  //     if(!this.isEdit)return;
-  //     if(this.hasEditCreated)return;
-  //     if(newValue===undefined||newValue==null||newValue===0)return;
-  //     this.handleEditCreated();
-  //   },
-  // },
-  // methods: {
-  //   //处理编辑逻辑
-  //   handleEditCreated(){
-  //     if(this.value.productCategoryId!=null){
-  //       this.selectProductCateValue.push(this.value.cateParentId);
-  //       this.selectProductCateValue.push(this.value.productCategoryId);
-  //     }
-  //     this.hasEditCreated=true;
-  //   },
-  //   handleNext(formName){
-  //     this.$refs[formName].validate((valid) => {
-  //       if (valid) {
-  //         this.$emit('nextStep');
-  //       } else {
-  //         this.$message({
-  //           message: '验证失败',
-  //           type: 'error',
-  //           duration:1000
-  //         });
-  //         return false;
-  //       }
-  //     });
-  //   }
-  // }
+  created(){
+    if(isEdit)
+    ;
+  }
 }
 </script>
 <style scoped>

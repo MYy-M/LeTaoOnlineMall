@@ -62,7 +62,7 @@
       <span>数据列表</span>
       <el-button
         class="btn-add"
-        @click="handleAddProduct()"
+        @click="handleAddStore()"
         size="mini"
       >
         添加
@@ -87,14 +87,16 @@
           width="200"
           align="center"
         >
-          <template slot-scope="scope">{{scope.row.id}}</template>
+          <template slot-scope="scope">
+            <p>{{scope.row.name}}</p>
+          </template>
         </el-table-column>
         <el-table-column
           label="门店地址"
           align="center"
         >
           <template slot-scope="scope">
-            <p>{{scope.row.name}}</p>
+            <p>{{scope.row.address}}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -103,7 +105,7 @@
           align="center"
         >
           <template slot-scope="scope">
-            <p>{{scope.row.price}}</p>
+            <p>{{scope.row.phone}}</p>
           </template>
         </el-table-column>
 
@@ -116,7 +118,7 @@
             <p>
               <el-button
                 size="mini"
-                @click="handleUpdateProduct(scope.$index, scope.row)"
+                @click="handleUpdateStore(scope.$index, scope.row)"
               >编辑
               </el-button>
             </p>
@@ -173,17 +175,17 @@
 </template>
 <script>
 import {
-  getStoreList
+  getStoreList,
+  deleteStore
 } from '@/api/store'
 
 
 const defaultListQuery = {
-  keyword: null,
   pageNum: 1,
   pageSize: 5,
   storeName: null,
-  storeAddress:null,
-  storePhone:null
+  storeAddress: null,
+  storePhone: null
 };
 export default {
   name: "storeList",
@@ -219,7 +221,7 @@ export default {
       this.listQuery.pageNum = 1;
       this.getList();
     },
-    handleAddProduct() {
+    handleAddStore() {
       this.$router.push({ path: '/stms/admin/add' });
     },
     handleBatchOperate() {
@@ -285,14 +287,14 @@ export default {
         this.updateDeleteStatus(1, ids);
       });
     },
-    handleUpdateProduct(index, row) {
+    handleUpdateStore(index, row) {
       this.$router.push({ path: '/stms/admin/update', query: { id: row.id } });
     },
     updateDeleteStatus(deleteStatus, ids) {
       let params = new URLSearchParams();
       params.append('ids', ids);
       params.append('deleteStatus', deleteStatus);
-      updateDeleteStatus(params).then(response => {
+      deleteStore(params).then(response => {
         this.$message({
           message: '删除成功',
           type: 'success',
