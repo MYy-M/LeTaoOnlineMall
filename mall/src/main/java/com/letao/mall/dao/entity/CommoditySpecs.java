@@ -33,6 +33,8 @@ public class CommoditySpecs implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid;
 
+    private String cpicture;
+
     //商品规格
     private String cSpecs;
 

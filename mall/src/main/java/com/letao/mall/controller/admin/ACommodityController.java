@@ -99,7 +99,7 @@ public class ACommodityController {
      * @return
      */
     @RequestMapping("/delete")
-    public Result deleteCommodity(Integer id){
+    public Result deleteCommodity(long id){
         if(cms.deleteCommodity(id)>0){
             return Result.success(new Boolean(true));
         }
