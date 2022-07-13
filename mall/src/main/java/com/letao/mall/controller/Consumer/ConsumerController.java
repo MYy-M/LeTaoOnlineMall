@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/mall/consumer")
+@CrossOrigin
 public class ConsumerController {
 
     @Autowired

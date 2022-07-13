@@ -13,6 +13,7 @@ import com.letao.mall.util.JWTUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.LoginParam;
+import lombok.val;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -46,19 +47,23 @@ public class ConsumerSSOServiceImpl extends ServiceImpl<ConsumerMapper, Consumer
 
     @Override
     public Result login(LoginParam loginParam) {
-        Long id = loginParam.getId();
+        String username = loginParam.getUsername();
         String password = loginParam.getPassword();
-        if (id == 0 || StringUtils.isBlank(password)) {
-            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.ACCOUNT_EXIST.getMsg());
+        System.out.println(username);
+        System.out.println(password);
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
+        //将前端传回的password加密
         password = DigestUtils.md5Hex(password + slat);
-        Consumer consumer = consumerService.getById(id);
+        Consumer consumer =  consumerService.getOne(new LambdaQueryWrapper<Consumer>().eq(Consumer::getUname,username));
         if (consumer == null) {
             return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(), ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
         }
         if (!consumer.getUpassword().equals(password)) {
             return Result.fail(ErrorCode.INCORRECT_PASSWORD.getCode(), ErrorCode.INCORRECT_PASSWORD.getMsg());
         }
+        Long id = consumer.getUid();
         String token = JWTUtils.createToken(id);
         redisTemplate.opsForValue().set("TOKEN_" + token, JSON.toJSONString(consumer), 1, TimeUnit.DAYS);
         return Result.success(token);
@@ -71,21 +76,14 @@ public class ConsumerSSOServiceImpl extends ServiceImpl<ConsumerMapper, Consumer
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
-        LambdaQueryWrapper<Consumer> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Consumer::getUname, username);
-        queryWrapper.last("limit 1");
-        Consumer consumer = consumerService.getOne(queryWrapper);
-        if (consumer != null) {
-            return Result.fail(ErrorCode.ACCOUNT_EXIST.getCode(), ErrorCode.ACCOUNT_EXIST.getMsg());
-        }
         password = DigestUtils.md5Hex(password + slat);
         Consumer consumerU = new Consumer();
         consumerU.setUname(username);
         consumerU.setUpassword(password);
         consumerService.save(consumerU);
-        String token = JWTUtils.createToken(consumerU.getUid());
-        redisTemplate.opsForValue().set("TOKEN_" + token, JSON.toJSONString(consumerU), 1, TimeUnit.DAYS);
-        return Result.success(token);
+//        String token = JWTUtils.createToken(consumerU.getUid());
+//        redisTemplate.opsForValue().set("TOKEN_" + token, JSON.toJSONString(consumerU), 1, TimeUnit.DAYS);
+        return Result.success("注册成功!!!");
     }
 
     @Override
