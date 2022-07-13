@@ -41,42 +41,26 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
     }
 
     /**
-     * 查询区域内所有门店,
+     * 根据条件查询所有门店
      * @param storeParam
      * @return
      */
     @Override
-    public Page showStoreListByAddress(StoreParam storeParam) {
+    public Page showStoreListByCondition(StoreParam storeParam) {
+        String storeadress=storeParam.getStoreadress();
+        String storename=storeParam.getStorename();
+        String storephone=storeParam.getStorephone();
         Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
         QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("saddress",storeParam.getStoreadress());
-        return storeMapper.selectPage(storePage, queryWrapper);
-    }
-
-
-    /**
-     * 查询该电话的门店
-     * @param storeParam
-     * @return
-     */
-    @Override
-    public Page showStoreListByPhone(StoreParam storeParam) {
-        Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
-        QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("sphone",storeParam.getStorephone());
-        return storeMapper.selectPage(storePage, queryWrapper);
-    }
-
-    /**
-     * 查询有含有所搜查关键词名字的所有门店
-     * @param storeParam
-     * @return
-     */
-    @Override
-    public Page showStoreListByName(StoreParam storeParam) {
-        Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
-        QueryWrapper<Store> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like("sname",storeParam.getStorename());
+        if(storeadress!=null){
+            queryWrapper.like("saddress",storeadress);
+        }
+        if(storename!=null){
+            queryWrapper.like("sname",storename);
+        }
+        if(storephone!=null) {
+            queryWrapper.like("sphone", storephone);
+        }
         return storeMapper.selectPage(storePage, queryWrapper);
     }
 }

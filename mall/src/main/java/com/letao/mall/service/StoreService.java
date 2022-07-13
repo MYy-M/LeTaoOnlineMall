@@ -30,19 +30,6 @@ public interface StoreService extends IService<Store> {
      * @param storeParam
      * @return
      */
-    public Page showStoreListByAddress(StoreParam storeParam);
+    public Page showStoreListByCondition(StoreParam storeParam);
 
-    /**
-     * 查询所留电话为所输入所有门店
-     * @param storeParam
-     * @return
-     */
-    public Page showStoreListByPhone(StoreParam storeParam);
-
-    /**
-     * 查询含关键词名的所有门店
-     * @param storeParam
-     * @return
-     */
-    public Page showStoreListByName(StoreParam storeParam);
 }
