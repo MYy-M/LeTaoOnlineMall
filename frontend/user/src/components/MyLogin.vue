@@ -13,12 +13,7 @@
           <el-input prefix-icon="el-icon-user-solid" placeholder="请输入账号" v-model="LoginUser.name"></el-input>
         </el-form-item>
         <el-form-item prop="pass">
-          <el-input
-            prefix-icon="el-icon-view"
-            type="password"
-            placeholder="请输入密码"
-            v-model="LoginUser.pass"
-          ></el-input>
+          <el-input prefix-icon="el-icon-view" type="password" placeholder="请输入密码" v-model="LoginUser.pass"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button size="medium" type="primary" @click="Login" style="width:100%;">登录</el-button>
@@ -95,22 +90,34 @@ export default {
         //如果通过校验开始登录
         if (valid) {
           this.$axios
-            .post("/api/users/login", {
-              userName: this.LoginUser.name,
+            .post("/mall/consumer/login", {
+              username: this.LoginUser.name,
               password: this.LoginUser.pass
             })
             .then(res => {
-              // “001”代表登录成功，其他的均为失败
-              if (res.data.code === "001") {
+              // “200”代表登录成功，其他的均为失败
+              if (res.data.code === 200) {
                 // 隐藏登录组件
                 this.isLogin = false;
-                // 登录信息存到本地
-                let user = JSON.stringify(res.data.user);
-                localStorage.setItem("user", user);
-                // 登录信息存到vuex
-                this.setUser(res.data.user);
-                // 弹出通知框提示登录成功信息
-                this.notifySucceed(res.data.msg);
+                // 登录生成的密钥存到本地
+                let token = res.data.data;
+                localStorage.token = token;
+                this.$axios
+                  .get("/mall/consumer/currentUser", {
+                    headers: { 'Authorization': localStorage.token }
+                  })
+                  .then(res => {
+                    // “200”代表登录成功，其他的均为失败
+                    if (res.data.code === 200) {
+                      // 登录信息存到本地
+                      let user = JSON.stringify(res.data.data);
+                      localStorage.setItem("user", user);
+                      // 登录信息存到vuex
+                      this.setUser(res.data.data);
+                      // 弹出通知框提示登录成功信息
+                      this.notifySucceed(res.data.msg);
+                    }
+                  })
               } else {
                 // 清空输入框的校验状态
                 this.$refs["ruleForm"].resetFields();
