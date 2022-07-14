@@ -42,9 +42,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     public List<Category> getAllSecondCategory(long id){
-        QueryWrapper<Category> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("parent_id",id);
-        return cgm.selectList(queryWrapper);
+        if(id==0){
+            return null;
+        }else{
+            QueryWrapper<Category> queryWrapper=new QueryWrapper<>();
+            queryWrapper.eq("parent_id",id);
+            return cgm.selectList(queryWrapper);
+        }
     }
 
     public  int deleteCategoryByid(@Param("id") long id){

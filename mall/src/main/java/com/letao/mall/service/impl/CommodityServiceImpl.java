@@ -77,9 +77,13 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     public Result showCommodityByCategory(Long categoryId) {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
         List<Commodity> commodityList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            Long secondId = list.get(i).getCategoryId();
-            commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,secondId)));
+        if(list==null){
+            commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,categoryId)));
+        }else{
+            for (int i = 0; i < list.size(); i++) {
+                Long secondId = list.get(i).getCategoryId();
+                commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,secondId)));
+            }
         }
         if(commodityList!=null){
             return Result.success(commodityList);
