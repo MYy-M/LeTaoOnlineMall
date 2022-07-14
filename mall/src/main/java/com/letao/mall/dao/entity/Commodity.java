@@ -43,11 +43,13 @@ public class Commodity implements Serializable {
     //商品介绍
     private String cdetail;
 
-    //图片
-    private String cpicture;
-
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
+
+    private Integer csales;
+
+    //默认0，不推荐
+    private Integer isRecommended;
 
 
 }

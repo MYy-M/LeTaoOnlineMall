@@ -24,7 +24,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Autowired
     private CommodityMapper commodityMapper;
-    public int deleteCommodity(Integer id){
+    public int deleteCommodity(long id){
         return commodityMapper.deleteCommodity(id);
     }
 

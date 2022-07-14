@@ -19,6 +19,7 @@ import Global from './Global';
 Vue.use(Global);
 
 import Axios from 'axios';
+Axios.defaults.baseURL='http://localhost:8088';
 Vue.prototype.$axios = Axios;
 // 全局请求拦截器
 Axios.interceptors.request.use(

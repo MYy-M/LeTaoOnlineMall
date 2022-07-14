@@ -19,7 +19,7 @@ import org.apache.ibatis.annotations.Update;
 public interface CommodityMapper extends BaseMapper<Commodity> {
 
     @Update("update commodity set cnum=0 where cid=#{id}")
-    int deleteCommodity(Integer id);
+    int deleteCommodity(long id);
 
     @Select("select count(*) from commodity")
     int countAdminTotal();

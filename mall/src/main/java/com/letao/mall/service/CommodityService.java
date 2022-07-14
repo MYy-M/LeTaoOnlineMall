@@ -16,7 +16,7 @@ import java.math.BigDecimal;
  */
 public interface CommodityService extends IService<Commodity> {
 
-    int deleteCommodity(Integer id);
+    int deleteCommodity(long id);
 
     int countAdminTotal();
 
