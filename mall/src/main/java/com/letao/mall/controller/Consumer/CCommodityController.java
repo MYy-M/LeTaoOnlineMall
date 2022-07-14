@@ -1,11 +1,14 @@
 package com.letao.mall.controller.Consumer;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.letao.mall.service.RecommendService;
+import com.letao.mall.util.UploadPic;
+import com.letao.mall.vo.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -21,9 +24,14 @@ import java.util.ArrayList;
 @CrossOrigin
 public class CCommodityController {
 
-    @GetMapping("/recommend")
-    public int recommendCommodity(){
-        return 0;
+    /**
+     * 获取轮播图
+     * @return
+     */
+    @PostMapping("/carousel")
+    public Result getRecommend(){
+        return null;
     }
+
 }
 
