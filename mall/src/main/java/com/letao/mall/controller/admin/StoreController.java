@@ -29,8 +29,13 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
+    
 
-    //修改店铺信息
+    /**
+     * 修改店铺信息
+     * @param store
+     * @return
+     */
     @PostMapping("/modify")
     public Result modifyStoreAttributes(@RequestBody Store store) {
         if(store.getSid() == null)
@@ -39,7 +44,11 @@ public class StoreController {
     }
 
 
-    //根据id删除店铺
+    /**
+     * 根据id删除店铺
+     * @param id
+     * @return
+     */
     @GetMapping("/delete")
     public Result deleteStore(Long id) {
         if(storeService.getById(id) == null&&id!=null)
@@ -47,19 +56,37 @@ public class StoreController {
         return Result.success(storeService.removeById(id));
     }
 
-    //添加门店
+
+
+    /**
+     * 添加门店
+     * @param store
+     * @return
+     */
     @PostMapping("/add")
     public Result addStore(@RequestBody Store store) {
          return Result.success(storeService.save(store));
     }
 
-    //根据店铺id查询其店铺信息
+
+
+    /**
+     * 根据店铺id查询其店铺信息
+     * @param pageParam
+     * @return
+     */
     @PostMapping("/get")
     public Result getStoreDetail(@RequestBody PageParam pageParam) {
 
         return Result.success(storeService.showStore(pageParam));
     }
-    //根据店铺id查询其店铺信息
+
+
+    /**
+     * 根据店铺id查询其店铺信息
+     * @param id
+     * @return
+     */
     @GetMapping("/getStoreByID")
     public Result getStoreByID(Long id){
         if(storeService.getById(id) == null&&id!=null)
