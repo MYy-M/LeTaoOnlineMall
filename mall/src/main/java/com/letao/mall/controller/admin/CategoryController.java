@@ -40,7 +40,7 @@ public class CategoryController {
      * 获得所有第一级分类
      * @return
      */
-    @RequestMapping("/getCategoryFirst")
+    @PostMapping("/getCategoryFirst")
     public Result getCategoryFirst(@RequestParam int current){
         return Result.success(cgs.getCategoryFirst(current));
     }
@@ -51,7 +51,7 @@ public class CategoryController {
      * @return
      */
 
-    @RequestMapping("/getCategorySecond")
+    @PostMapping("/getCategorySecond")
     public Result getCategorySecond(@RequestBody CategoryPageParam cParam){
         return Result.success(cgs.getCategorySecond(cParam.getId(),cParam.getCurrent()));
     }
@@ -61,7 +61,7 @@ public class CategoryController {
      * @param category
      * @return
      */
-    @RequestMapping("/add")
+    @PostMapping("/add")
     public Result addCategory(@RequestBody Category category){
         return cgs.save(category)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
@@ -71,7 +71,7 @@ public class CategoryController {
      * @param category
      * @return
      */
-    @RequestMapping("/modify")
+    @PostMapping("/modify")
     public Result modifyCategory(@RequestBody Category category){
         return cgs.updateById(category)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
@@ -83,7 +83,7 @@ public class CategoryController {
      * 0删除失败
      * -1有子类不能删
      */
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     public Result deleteCategory(long id){
         if(cgs.getAllSecondCategory(id).isEmpty()){
             return cgs.deleteCategoryByid(id)>0?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
@@ -98,7 +98,7 @@ public class CategoryController {
      * @param cParam
      * @return
      */
-    @RequestMapping("/getAttributeKeyById")
+    @PostMapping("/getAttributeKeyById")
     public Result getAttributeKeyById(@RequestBody CategoryPageParam cParam){
         return Result.success(aks.getAttributeByCategoryID(cParam.getId(),cParam.getCurrent()));
     }
@@ -107,12 +107,12 @@ public class CategoryController {
      * @param attributeKey
      * @return
      */
-    @RequestMapping("/addAttributeKey")
+    @PostMapping("/addAttributeKey")
     public Result addAttributeKey(@RequestBody AttributeKey attributeKey){
         return aks.save(attributeKey)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
 
-    @RequestMapping("/modifyAttributeKey")
+    @PostMapping("/modifyAttributeKey")
     public Result modifyAttributeKey(@RequestBody AttributeKey attributeKey){
         return aks.updateById(attributeKey)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
@@ -121,7 +121,7 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @RequestMapping("/deleteAttributeKey")
+    @PostMapping("/deleteAttributeKey")
     public Result deleteAttributeKey(long id){
         if(avs.getAttributeValueByKey(id).isEmpty()){
             return aks.deleteAttributeKey(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
@@ -133,22 +133,22 @@ public class CategoryController {
      * @param id
      * @return
      */
-    @RequestMapping("/getAttributeValueByKey")
+    @PostMapping("/getAttributeValueByKey")
     public Result getAttributeValueByKey( long id){
         List<AttributeValue> list=avs.getAttributeValueByKey(id);
         return list.isEmpty()?Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg()):Result.success(list);
     }
 
-    @RequestMapping("/addAttributeValue")
+    @PostMapping("/addAttributeValue")
     public Result addAttributeValue(@RequestBody AttributeValue attributeValue){
         return avs.save(attributeValue)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
 
-    @RequestMapping("/modifyAttributeValue")
+    @PostMapping("/modifyAttributeValue")
     public Result modifyAttributeValue(@RequestBody AttributeValue attributeValue){
         return avs.updateById(attributeValue)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
-    @RequestMapping("/deleteAttributeValue")
+    @GetMapping("/deleteAttributeValue")
     public Result deleteAttributeValue(long id){
         return avs.deleteAttributeValue(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
     }

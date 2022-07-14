@@ -35,7 +35,7 @@ public class CLtOrderController {
         }
     }
 
-    @RequestMapping("/submitOrder")
+    @GetMapping("/submitOrder")
     public Boolean submitOrder(String orderParam){
         JSONObject jsonObject= JSON.parseObject(orderParam);
 

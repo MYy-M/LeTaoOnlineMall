@@ -1,15 +1,22 @@
 package com.letao.mall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.letao.mall.dao.entity.Category;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.dao.mapper.CommodityMapper;
+import com.letao.mall.service.CategoryService;
 import com.letao.mall.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -24,6 +31,11 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Autowired
     private CommodityMapper commodityMapper;
+
+    @Autowired
+    private CategoryService categoryService;
+
+
     public int deleteCommodity(long id){
         return commodityMapper.deleteCommodity(id);
     }
@@ -58,5 +70,21 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     public String getPicture(@Param("id") long id){
         return commodityMapper.getPicture(id);
+    }
+
+
+    @Override
+    public Result showCommodityByCategory(Long categoryId) {
+        List<Category> list = categoryService.getAllSecondCategory(categoryId);
+        List<Commodity> commodityList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            Long secondId = list.get(i).getCategoryId();
+            commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,secondId)));
+        }
+        if(commodityList!=null){
+            return Result.success(commodityList);
+        }else{
+            return Result.fail(ErrorCode.SEARCH_ERROR.getCode(),ErrorCode.SEARCH_ERROR.getMsg());
+        }
     }
 }

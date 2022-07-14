@@ -31,7 +31,7 @@ public class StoreController {
 
 
     //修改店铺信息
-    @RequestMapping("/modify")
+    @PostMapping("/modify")
     public Result modifyStoreAttributes(@RequestBody Store store) {
         if(storeService.getById(store) == null)
             return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
@@ -48,7 +48,7 @@ public class StoreController {
     }
 
     //添加门店
-    @RequestMapping("/add")
+    @PostMapping("/add")
     public Result addStore(@RequestBody Store store) {
         if(storeService.getById(store) != null)
             return Result.fail(ErrorCode.STORE_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());

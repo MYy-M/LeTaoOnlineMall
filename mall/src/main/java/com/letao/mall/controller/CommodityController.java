@@ -31,8 +31,19 @@ public class CommodityController {
     private CommodityService commodityService;
 
 
+    /**
+     * 根据分类显示商品
+     * @param categoryId
+     * @return
+     */
+    @PostMapping("/showByCategory")
+    public Result showCommodityByCategory(Long categoryId){
+        return commodityService.showCommodityByCategory(categoryId);
+    }
+
+
     //根据销量商品排序分页展示
-    @RequestMapping("/getlist/salesdesc/{pnum}")
+    @GetMapping("/getlist/salesdesc/{pnum}")
     public Result showCommodityListBySales(
             @RequestBody CommoditySortParam commoditySortParam
     ){
@@ -45,8 +56,9 @@ public class CommodityController {
         return Result.success(commodityService.page(commodityPage,wrapper));
     }
 
+
     //输入商品名字根据价格商品降序排序分页展示
-    @RequestMapping("/getlist/pricedesc")
+    @GetMapping("/getlist/pricedesc")
     public Result showCommodityListByPriceDesc(
             @RequestBody CommoditySortParam commoditySortParam
     ){
@@ -60,7 +72,7 @@ public class CommodityController {
     }
 
     //输入商品名字根据价格商品升序排序分页展示
-    @RequestMapping("/getlist/priceasc")
+    @GetMapping("/getlist/priceasc")
     public Result showCommodityListByPriceAsc(
             @RequestBody CommoditySortParam commoditySortParam
     ){

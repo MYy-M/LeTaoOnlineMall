@@ -61,7 +61,7 @@ public class ACommodityController {
      * @param cm
      * @return
      */
-    @RequestMapping("/add")
+    @PostMapping("/add")
     public Result addCommodity(@RequestBody Commodity cm){
         if(cms.isExisted(cm.getCname(),cm.getAttribute_list(),cm.getCprice())){
             return cms.save(cm)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
@@ -76,7 +76,7 @@ public class ACommodityController {
      * @return
      * @throws IOException
      */
-    @RequestMapping("/modifyCpicture")
+    @PostMapping("/modifyCpicture")
     public Result modifyCpicture(long id,MultipartFile file) throws IOException{
         String urlImg=uploadPic.upPic(file);
         return cms.setPicture(id,urlImg)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
@@ -87,7 +87,7 @@ public class ACommodityController {
      * @param cid
      * @param response
      */
-    @RequestMapping("/loadCpicture")
+    @PostMapping("/loadCpicture")
     public void loadCpicture(long cid, HttpServletResponse response){
         String cpicture=cms.getPicture(cid);
         uploadPic.load(cpicture,response);
@@ -98,7 +98,7 @@ public class ACommodityController {
      * @param id
      * @return
      */
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public Result deleteCommodity(long id){
         if(cms.deleteCommodity(id)>0){
             return Result.success(new Boolean(true));
@@ -111,8 +111,8 @@ public class ACommodityController {
      * @param cm
      * @return
      */
-    @RequestMapping("/modify")
-    public Result modifyCommodityAttribute(Commodity cm){
+    @PostMapping("/modify")
+    public Result modifyCommodityAttribute(@RequestBody Commodity cm){
 
         return cms.updateById(cm)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
     }
