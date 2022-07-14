@@ -1,22 +1,6 @@
 import request from '@/utils/request'
 import axios from 'axios'
 
-export function login2(id, password) {
-  console.log("login")
-  return request({
-    // url: '/admin/login',
-    url: '/mall/login',
-    method: 'post',
-    headers: {
-      "Content-Type": "application/json" // 如果写成contentType会报错
-    },
-    data: {
-      id,
-      password
-    }
-  })
-}
-
 export function login(id, password) {
   return axios({
     url: "http://localhost:8088/mall/admin/login",

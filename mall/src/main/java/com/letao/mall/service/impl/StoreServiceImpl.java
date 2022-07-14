@@ -11,6 +11,7 @@ import com.letao.mall.service.StoreService;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.PageParam;
 import com.letao.mall.vo.param.StoreParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 @Service
 public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements StoreService {
 
+    @Autowired
     private StoreMapper storeMapper;
     /**
      * 查询门店信息
@@ -47,13 +49,13 @@ public class StoreServiceImpl extends ServiceImpl<StoreMapper, Store> implements
      */
     @Override
     public Page showStoreListByCondition(StoreParam storeParam) {
-        String storeadress=storeParam.getStoreadress();
+        String storeaddress=storeParam.getStoreaddress();
         String storename=storeParam.getStorename();
         String storephone=storeParam.getStorephone();
         Page<Store> storePage = new Page<>(storeParam.getPagenum(), storeParam.getPagesize());
         LambdaQueryWrapper<Store> queryWrapper = new LambdaQueryWrapper<>();
-        if(storeadress!=null){
-            queryWrapper.like(Store::getSaddress,storeadress);
+        if(storeaddress!=null){
+            queryWrapper.like(Store::getSaddress,storeaddress);
         }
         if(storename!=null){
             queryWrapper.like(Store::getSname,storename);

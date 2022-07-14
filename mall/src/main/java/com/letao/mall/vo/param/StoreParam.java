@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StoreParam {
-    private String storeadress;
+    private String storeaddress;
     private String storename;
     private String storephone;
     private int pagenum = 1;

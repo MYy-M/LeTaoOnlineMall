@@ -33,7 +33,7 @@ public class StoreController {
     //修改店铺信息
     @PostMapping("/modify")
     public Result modifyStoreAttributes(@RequestBody Store store) {
-        if(storeService.getById(store) == null)
+        if(store.getSid() == null)
             return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
         return Result.success(storeService.updateById(store));
     }
@@ -41,8 +41,8 @@ public class StoreController {
 
     //根据id删除店铺
     @GetMapping("/delete")
-    public Result deleteStore(long id) {
-        if(storeService.getById(id) == null)
+    public Result deleteStore(Long id) {
+        if(storeService.getById(id) == null&&id!=null)
             return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
         return Result.success(storeService.removeById(id));
     }
@@ -50,9 +50,7 @@ public class StoreController {
     //添加门店
     @PostMapping("/add")
     public Result addStore(@RequestBody Store store) {
-        if(storeService.getById(store) != null)
-            return Result.fail(ErrorCode.STORE_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
-        return Result.success(storeService.save(store));
+         return Result.success(storeService.save(store));
     }
 
     //根据店铺id查询其店铺信息
@@ -61,14 +59,20 @@ public class StoreController {
 
         return Result.success(storeService.showStore(pageParam));
     }
-
+    //根据店铺id查询其店铺信息
+    @GetMapping("/getStoreByID")
+    public Result getStoreByID(Long id){
+        if(storeService.getById(id) == null&&id!=null)
+            return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return  Result.success((storeService.getById(id)));
+    }
 
     /**
      * 根据条件查询数据
      * @param storeParam
      * @return
      */
-    @PostMapping("/getstorelist/address")
+    @PostMapping("/getstorelist")
     public Result getStoreListByCondition(@RequestBody StoreParam storeParam) {
         return Result.success(storeService.showStoreListByCondition(storeParam));
     }

@@ -83,12 +83,21 @@
           align="center"
         ></el-table-column>
         <el-table-column
+          label="门店编号"
+          width="200"
+          align="center"
+        >
+          <template slot-scope="scope">
+            <p>{{scope.row.sid}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column
           label="门店名称"
           width="200"
           align="center"
         >
           <template slot-scope="scope">
-            <p>{{scope.row.name}}</p>
+            <p>{{scope.row.sname}}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -96,16 +105,16 @@
           align="center"
         >
           <template slot-scope="scope">
-            <p>{{scope.row.address}}</p>
+            <p>{{scope.row.saddress}}</p>
           </template>
         </el-table-column>
         <el-table-column
           label="门店电话"
-          width="100"
+          width="200"
           align="center"
         >
           <template slot-scope="scope">
-            <p>{{scope.row.phone}}</p>
+            <p>{{scope.row.sphone}}</p>
           </template>
         </el-table-column>
 
@@ -118,7 +127,7 @@
             <p>
               <el-button
                 size="mini"
-                @click="handleUpdateStore(scope.$index, scope.row)"
+                @click="handleUpdateStore(scope.row)"
               >编辑
               </el-button>
             </p>
@@ -126,7 +135,7 @@
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)"
+                @click="handleDelete(scope.row)"
               >删除
               </el-button>
             </p>
@@ -211,18 +220,21 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-      getStoreList(this.listQuery).then(response => {
-        this.listLoading = false;
-        this.list = response.data.list;
-        this.total = response.data.list.length;
-      });
+      console.log(this.listQuery)
+      getStoreList(this.listQuery.pageNum, this.listQuery.pageSize,
+        this.listQuery.storeAddress, this.listQuery.storeName, this.listQuery.storePhone).then(response => {
+          this.listLoading = false;
+          this.list = response.data.data.records;
+          this.total = response.data.data.length;
+        });
+
     },
     handleSearchList() {
       this.listQuery.pageNum = 1;
       this.getList();
     },
     handleAddStore() {
-      this.$router.push({ path: '/stms/admin/add' });
+      this.$router.push({ path: '/stms/admin/addStore' });
     },
     handleBatchOperate() {
       if (this.operateType == null) {
@@ -252,7 +264,7 @@ export default {
         }
         switch (this.operateType) {
           case this.operates[0].value:
-            this.updateDeleteStatus(1, ids);
+            this.updateDeleteStatus();
             break;
           default:
             break;
@@ -275,26 +287,29 @@ export default {
     handleResetSearch() {
       this.selectProductCateValue = [];
       this.listQuery = Object.assign({}, defaultListQuery);
+      this.getList();
     },
-    handleDelete(index, row) {
+    handleDelete(row) {
       this.$confirm('是否要进行删除操作?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let ids = [];
-        ids.push(row.id);
-        this.updateDeleteStatus(1, ids);
+        this.updateDeleteStatus(row.sid);
       });
     },
-    handleUpdateStore(index, row) {
-      this.$router.push({ path: '/stms/admin/update', query: { id: row.id } });
+    handleUpdateStore(row) {
+
+      this.$router.push({
+        path: '/stms/admin/updateStore',
+        query: {
+          sid: row.sid
+        }
+      });
     },
-    updateDeleteStatus(deleteStatus, ids) {
-      let params = new URLSearchParams();
-      params.append('ids', ids);
-      params.append('deleteStatus', deleteStatus);
-      deleteStore(params).then(response => {
+    updateDeleteStatus(id) {
+      deleteStore(id).then(response => {
+        console.log(response)
         this.$message({
           message: '删除成功',
           type: 'success',
