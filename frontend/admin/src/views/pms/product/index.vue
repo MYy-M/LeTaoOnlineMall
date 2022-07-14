@@ -20,11 +20,11 @@
       </div>
       <div style="margin-top: 15px">
         <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="输入搜索：">
-            <el-input style="width: 203px" v-model="listQuery.keyword" placeholder="商品名称"></el-input>
+          <el-form-item label="商品名称：">
+            <el-input style="width: 203px" v-model="listQuery.keyword" placeholder="名称"></el-input>
           </el-form-item>
           <el-form-item label="商品货号：">
-            <el-input style="width: 203px" v-model="listQuery.productSn" placeholder="商品货号"></el-input>
+            <el-input style="width: 203px" v-model="listQuery.productSn" placeholder="货号"></el-input>
           </el-form-item>
           <el-form-item label="商品分类：">
             <el-cascader
@@ -33,36 +33,6 @@
               :options="productCateOptions">
             </el-cascader>
           </el-form-item>
-          <!-- <el-form-item label="商品品牌：">
-            <el-select v-model="listQuery.brandId" placeholder="请选择品牌" clearable>
-              <el-option
-                v-for="item in brandOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item> -->
-          <!-- <el-form-item label="上架状态：">
-            <el-select v-model="listQuery.publishStatus" placeholder="全部" clearable>
-              <el-option
-                v-for="item in publishStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item> -->
-          <!-- <el-form-item label="审核状态：">
-            <el-select v-model="listQuery.verifyStatus" placeholder="全部" clearable>
-              <el-option
-                v-for="item in verifyStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item> -->
         </el-form>
       </div>
     </el-card>
@@ -143,17 +113,6 @@
         <el-table-column label="销量" width="100" align="center">
           <template slot-scope="scope">{{scope.row.sale}}</template>
         </el-table-column>
-        <!-- <el-table-column label="审核状态" width="100" align="center">
-          <template slot-scope="scope">
-            <p>{{scope.row.verifyStatus | verifyStatusFilter}}</p>
-            <p>
-              <el-button
-                type="text"
-                @click="handleShowVerifyDetail(scope.$index, scope.row)">审核详情
-              </el-button>
-            </p>
-          </template>
-        </el-table-column> -->
         <el-table-column label="操作" width="160" align="center">
           <template slot-scope="scope">
             <p>
@@ -257,14 +216,6 @@
             <el-input v-model="scope.row.stock"></el-input>
           </template>
         </el-table-column>
-        <!-- <el-table-column
-          label="库存预警值"
-          width="100"
-          align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.lowStock"></el-input>
-          </template>
-        </el-table-column> -->
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editSkuInfo.dialogVisible = false">取 消</el-button>

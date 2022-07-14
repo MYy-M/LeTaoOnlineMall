@@ -5,7 +5,7 @@
   import StoreDetail from './component/StoreDetail'
   export default {
     name: 'addStore',
-    components: { StoreDetail }
+    components: { StoreDetail },
   }
 </script>
 <style>
