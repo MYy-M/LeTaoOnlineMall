@@ -212,7 +212,7 @@ CREATE TABLE `orderitem`  (
   `cid` bigint NOT NULL,
   `cnum` int NULL DEFAULT 0 COMMENT '单个商品购买数量',
   `cprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '商品单/总价(同一件商品的总价)',
-  PRIMARY KEY (`order_id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
