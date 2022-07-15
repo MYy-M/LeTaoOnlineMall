@@ -12,5 +12,5 @@ import com.letao.mall.dao.entity.Admin;
  * @since 2022-06-30
  */
 public interface TokenService extends IService<Admin> {
-    Admin checkToken(String token);
+    String checkToken(String token);
 }

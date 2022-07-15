@@ -27,15 +27,19 @@ const user = {
   actions: {
     // 登录
     Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
+      const id = userInfo.id.trim()
+
       return new Promise((resolve, reject) => {
-        login(username, userInfo.password).then(response => {
+        login(id, userInfo.password).then(response => {
           const data = response.data
-          const tokenStr = data.tokenHead+data.token
-          setToken(tokenStr)
-          commit('SET_TOKEN', tokenStr)
+          console.log(data)
+          // const tokenStr = data.tokenHead+data.token
+          // console.log(tokenStr)
+          setToken(data.data)
+          commit('SET_TOKEN', data.data)
           resolve()
         }).catch(error => {
+          console.log(error)
           reject(error)
         })
       })
@@ -44,15 +48,15 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo().then(response => {
+        getInfo(state.token).then(response => {
           const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.username)
-          commit('SET_AVATAR', data.icon)
+          // if (true) { // 验证返回的roles是否是一个非空数组
+          commit('SET_ROLES', 0)
+          // } else {
+          //   reject('getInfo: roles must be a non-null array !')
+          // }
+          commit('SET_NAME', data.ausername)
+          commit('SET_AVATAR', 'https://tse1-mm.cn.bing.net/th/id/OIP-C.KCJw3UfhV081PCC37LZojQAAAA?w=203&h=203&c=7&r=0&o=5&dpr=1.5&pid=1.7')
           resolve(response)
         }).catch(error => {
           reject(error)

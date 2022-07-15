@@ -2,17 +2,20 @@ package com.letao.mall.controller.admin;
 
 
 import com.letao.mall.service.StoreService;
+import com.letao.mall.dao.entity.Store;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
+import com.letao.mall.vo.param.StoreParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 骑手反叛联盟
@@ -20,33 +23,86 @@ import java.util.ArrayList;
  */
 @RestController
 @RequestMapping("/mall/admin/store")
+@CrossOrigin
 public class StoreController {
 
     @Autowired
     private StoreService storeService;
 
-    @GetMapping("/modify")
-    public int modifyStoreAttributes(){
-        return 0;
+    
+
+    /**
+     * 修改店铺信息
+     * @param store
+     * @return
+     */
+    @PostMapping("/modify")
+    public Result modifyStoreAttributes(@RequestBody Store store) {
+        if(store.getSid() == null)
+            return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return Result.success(storeService.updateById(store));
     }
 
+
+    /**
+     * 根据id删除店铺
+     * @param id
+     * @return
+     */
     @GetMapping("/delete")
-    public int deleteStore(){
-        return 0;
+    public Result deleteStore(Long id) {
+        if(storeService.getById(id) == null&&id!=null)
+            return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return Result.success(storeService.removeById(id));
     }
 
 
-    @GetMapping("/add")
-    public int addStore(){
-        return 0;
+
+    /**
+     * 添加门店
+     * @param store
+     * @return
+     */
+    @PostMapping("/add")
+    public Result addStore(@RequestBody Store store) {
+         return Result.success(storeService.save(store));
     }
 
 
-    @GetMapping("/get")
-    public int getStore(){
-        return 0;
+
+    /**
+     * 根据店铺id查询其店铺信息
+     * @param pageParam
+     * @return
+     */
+    @PostMapping("/get")
+    public Result getStoreDetail(@RequestBody PageParam pageParam) {
+
+        return Result.success(storeService.showStore(pageParam));
     }
 
+
+    /**
+     * 根据店铺id查询其店铺信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/getStoreByID")
+    public Result getStoreByID(Long id){
+        if(storeService.getById(id) == null&&id!=null)
+            return Result.fail(ErrorCode.STORE_NOT_EXIST.getCode(), ErrorCode.STORE_NOT_EXIST.getMsg());
+        return  Result.success((storeService.getById(id)));
+    }
+
+    /**
+     * 根据条件查询数据
+     * @param storeParam
+     * @return
+     */
+    @PostMapping("/getstorelist")
+    public Result getStoreListByCondition(@RequestBody StoreParam storeParam) {
+        return Result.success(storeService.showStoreListByCondition(storeParam));
+    }
 
 }
 

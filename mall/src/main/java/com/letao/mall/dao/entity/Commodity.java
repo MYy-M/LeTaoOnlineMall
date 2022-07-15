@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Blob;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -26,6 +28,7 @@ public class Commodity implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "cid", type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid;
 
     private String cname;
@@ -35,15 +38,18 @@ public class Commodity implements Serializable {
     private Integer cnum;
 
     //规格列表
-    private String attributeList;
+    private String attribute_list;
 
     //商品介绍
     private String cdetail;
 
-    //图片
-    private Blob cpicture;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
+
+    private Integer csales;
+
+    //默认0，不推荐
+    private Integer isRecommended;
 
 
 }

@@ -43,7 +43,7 @@
             <div class="more" id="more">
               <MyMenu :val="2" @fromChild="getChildMsg">
                 <span slot="1">热门</span>
-                <span slot="2">新品</span>
+                <span slot="2">电视影音</span>
               </MyMenu>
             </div>
           </div>

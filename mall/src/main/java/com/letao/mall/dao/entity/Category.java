@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -24,12 +26,14 @@ public class Category implements Serializable {
     private static final long serialVersionUID=1L;
 
     @TableId(value = "category_id", type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
 
     //分类名称
     private String categoryName;
 
     //父类id
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parentId;
 
     //分类层级

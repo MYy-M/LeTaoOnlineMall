@@ -1,9 +1,11 @@
 package com.letao.mall.controller.admin;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.letao.mall.service.CommentService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -15,17 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mall/admin/comment")
+@CrossOrigin
 public class ACommentController {
 
+    @Autowired
+    private CommentService commentService;
 
-    @GetMapping("/show")
-    public int getCommentsByCId(){
-        return 0;
-    }
-
+    /**
+     * 根据评论id，删除指定评论
+     * @param commentId
+     * @return
+     */
     @GetMapping("/delete")
-    public int deleteComments(){
-        return 0;
+    public Result deleteComments(@PathVariable("commentId") Long commentId){
+        return Result.success(commentService.removeById(commentId));
     }
 }
 

@@ -1,7 +1,9 @@
 package com.letao.mall.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.LtOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -13,4 +15,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface LtOrderService extends IService<LtOrder> {
 
+    int getOrderState(@Param("oid") long id);
+
+    Boolean deleteOrder(@Param("oid") long id);
+
+    int modifyOrderState(@Param("id") long id,@Param("state") int state);
+
+    Page getOrderListById(long id, int current);
+
+    Page getOrderList(int current);
 }

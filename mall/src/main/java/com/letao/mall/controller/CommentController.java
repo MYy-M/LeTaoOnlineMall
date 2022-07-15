@@ -1,9 +1,11 @@
 package com.letao.mall.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.letao.mall.service.CommentService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.PageParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -15,11 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mall/comment")
+@CrossOrigin
 public class CommentController {
-    @GetMapping("/get")
-    public int getComments(){
-        return 0;
+    @Autowired
+    private CommentService commentService;
+    /**
+     * 根据商品id获取商品评论
+     * @param pageParam
+     * @return
+     */
+    @PostMapping("/show")
+    public Result getCommentsByCId(@RequestBody PageParam pageParam){
+        return commentService.showComments(pageParam);
     }
-
 }
 

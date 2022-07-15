@@ -2,7 +2,8 @@ package com.letao.mall.service;
 
 import com.letao.mall.dao.entity.Admin;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.letao.mall.dao.entity.User;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.LoginParam;
 
 /**
  * <p>
@@ -14,6 +15,6 @@ import com.letao.mall.dao.entity.User;
  */
 public interface AdminService extends IService<Admin> {
 
-    Admin findAdminByToken(String token);
+    Result findAdminByToken(String token);
 
 }

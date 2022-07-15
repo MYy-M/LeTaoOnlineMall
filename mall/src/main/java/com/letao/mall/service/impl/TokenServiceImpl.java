@@ -1,11 +1,9 @@
 package com.letao.mall.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Admin;
 import com.letao.mall.dao.mapper.AdminMapper;
-import com.letao.mall.service.AdminService;
 import com.letao.mall.service.TokenService;
 import com.letao.mall.util.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,21 +27,18 @@ public class TokenServiceImpl extends ServiceImpl<AdminMapper, Admin> implements
     private  RedisTemplate<String,String> redisTemplate;
 
     @Override
-    public  Admin checkToken(String token) {
+    public String checkToken(String token) {
         if(StringUtils.isBlank(token)){
-            System.out.println("token不合法");
-            return null;
+            return "token不合法";
         }
         Map<String, Object> stringObjectMap = JWTUtils.checkToken(token);
         if(stringObjectMap==null){
-            return null;
+            return "null";
         }
-        String adminJSON = redisTemplate.opsForValue().get("Token_" + token);
-        if(StringUtils.isBlank(adminJSON)){
-            return null;
+        String userJSON = redisTemplate.opsForValue().get("TOKEN_" + token);
+        if(StringUtils.isBlank(userJSON)){
+            return "null";
         }
-
-        Admin admin = JSON.parseObject(adminJSON, Admin.class);
-        return admin;
+        return userJSON;
     }
 }

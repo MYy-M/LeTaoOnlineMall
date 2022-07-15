@@ -1,14 +1,19 @@
 package com.letao.mall.controller.Consumer;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.letao.mall.dao.entity.Cart;
+import com.letao.mall.service.CartService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CartSetNumParam;
+import com.letao.mall.vo.param.PageParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 骑手反叛联盟
@@ -16,36 +21,43 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mall/consumer/cart")
+@CrossOrigin
 public class CartController {
 
-    @GetMapping("/addcommodity")
-    public int addCommodity(){
-        return 0;
+    @Autowired
+    private CartService cartService;
+
+    @PostMapping("/addCommodity")
+    public Result addCommodity(@RequestBody Cart cart) {
+        System.out.println(cartService.addToCart(cart).getData());
+        return cartService.addToCart(cart);
     }
 
-    @GetMapping("/deletecommodity")
-    public int deleteCommodity(){
-        return 0;
+    @GetMapping("/deleteCommodity")
+    public Result deleteCommodity(Long id) {
+        return Result.success(cartService.removeById(id));
     }
 
     @GetMapping("/addNum")
-    public int addNum(){
-        return 0;
+    public Result addNum(Long id) {
+        Cart cart = cartService.getById(id);
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() + 1)));
     }
 
     @GetMapping("/reduceNum")
-    public int reduceNum(){
-        return 0;
+    public Result reduceNum(Long id) {
+        Cart cart = cartService.getById(id);
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() - 1)));
     }
 
-    @GetMapping("/setNum")
-    public int setNum(){
-        return 0;
+    @PostMapping("/setNum")
+    public Result setNum(@RequestBody CartSetNumParam cartSetNumParam) {
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, cartSetNumParam.getCartId()).set(Cart::getCartNum,cartSetNumParam.getNum())));
     }
 
-    @GetMapping("/setCart")
-    public int showCart(){
-        return 0;
+    @PostMapping("/showCart")
+    public Result showCart(@RequestBody PageParam pageParam) {
+        return cartService.showCart(pageParam);
     }
 
 

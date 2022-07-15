@@ -1,27 +1,33 @@
 import request from '@/utils/request'
+import axios from 'axios'
 
-export function login(username, password) {
-  return request({
-    url: '/admin/login',
-    method: 'post',
-    data: {
-      username,
-      password
+export function login(id, password) {
+  return axios({
+    url: "http://localhost:8088/mall/admin/login",
+    method: "POST",
+    data: { id, password }
+  })
+}
+
+
+
+export function getInfo(token) {
+  return axios({
+    url: "http://localhost:8088/mall/admin/currentAdmin",
+    method: "GET",
+    headers: {
+      'Authorization': token
     }
   })
 }
 
-export function getInfo() {
-  return request({
-    url: '/admin/info',
+export function logout(token) {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/logout',
     method: 'get',
-  })
-}
-
-export function logout() {
-  return request({
-    url: '/admin/logout',
-    method: 'post'
+    headers: {
+      'Authorization': token
+    }
   })
 }
 

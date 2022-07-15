@@ -1,10 +1,11 @@
 package com.letao.mall.controller;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import com.letao.mall.service.OrderitemService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CategoryPageParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 
@@ -18,17 +19,29 @@ import java.util.ArrayList;
  */
 @RestController
 @RequestMapping("/mall/orderitem")
+@CrossOrigin
 public class OrderitemController {
 
-    @GetMapping("/get")
-    public ArrayList<String> getOrderItemListById(){
-        return new ArrayList<>();
+    @Autowired
+    private OrderitemService itemService;
+
+    //根据订单id查找对应的订单详细
+    @PostMapping("/get")
+    public Result getOrderItemListById(@RequestBody CategoryPageParam param){
+        long id=param.getId();
+        int current= param.getCurrent();
+        return Result.success(itemService.getOrderItemListById(id,current));
     }
 
     //删除跟某个订单表相关的所有订单明细
-    public boolean deleteOrderItemById(){
-        return true;
+    public Boolean deleteOrderItemById(long id){
+        if(itemService.deleteItems(id)>0){
+            return true;
+        }else{
+            return false;
+        }
     }
+
 
 }
 

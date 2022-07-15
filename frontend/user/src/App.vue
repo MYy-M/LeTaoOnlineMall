@@ -61,6 +61,7 @@
           </div>
           <el-menu-item index="/">首页</el-menu-item>
           <el-menu-item index="/goods">全部商品</el-menu-item>
+          <el-menu-item index="/about">关于我们</el-menu-item>
 
           <div class="so">
             <el-input placeholder="请输入搜索内容" v-model="search">
