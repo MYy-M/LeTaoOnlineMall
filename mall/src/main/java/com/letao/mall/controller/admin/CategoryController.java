@@ -126,7 +126,7 @@ public class CategoryController {
         if(avs.getAttributeValueByKey(id).isEmpty()){
             return aks.deleteAttributeKey(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
         }
-        return Result.fail(10001,"删除失败");
+        return Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
     }
     /**
      * 根据属性名找属性值

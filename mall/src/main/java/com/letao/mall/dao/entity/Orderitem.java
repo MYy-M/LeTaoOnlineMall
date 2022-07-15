@@ -31,7 +31,7 @@ public class Orderitem implements Serializable {
     private Long orderId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long csId;
+    private Long cid;
 
     //单个商品购买数量
     private Integer cnum;

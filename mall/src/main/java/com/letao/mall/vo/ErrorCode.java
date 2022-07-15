@@ -7,6 +7,7 @@ public enum  ErrorCode {
     ACCOUNT_EXIST(10004,"账号已存在"),
     INCORRECT_PASSWORD(10005,"密码错误"),
     PAY_FAILED(10006,"支付失败"),
+    PAID(10007,"已支付"),
     ADD_ERROR(20001,"添加失败"),
     DELETE_ERROR(20002,"删除失败"),
     MODIFY_ERROR(20003,"修改失败"),
