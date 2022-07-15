@@ -1,60 +1,76 @@
 import request from '@/utils/request'
-export function fetchList(parentId,params) {
-  return request({
-    url:'/productCategory/list/'+parentId,
-    method:'get',
-    params:params
+import axios from 'axios'
+
+export function fetchFirstCateList(listQuery) {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/getCategoryFirst',
+    method: 'post',
+    params: {
+      current: listQuery.pageNum,
+      pageSize: listQuery.pageSize
+    }
+  })
+}
+export function fetchSecondCateList(id, listQuery) {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/getCategorySecond',
+    method: 'post',
+    data: {
+      id,
+      current: listQuery.pageNum,
+      pageSize: listQuery.pageSize
+    }
   })
 }
 export function deleteProductCate(id) {
-  return request({
-    url:'/productCategory/delete/'+id,
-    method:'post'
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/delete',
+    method: 'get',
+    params: {
+      id
+    }
   })
 }
 
-export function createProductCate(data) {
-  return request({
-    url:'/productCategory/create',
-    method:'post',
-    data:data
+export function createProductCate(data, categoryLevel) {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/add',
+    method: 'post',
+    data: { 
+      categoryName:data.categoryName,
+      parentId:data.parentId, 
+      categoryLevel 
+    }
   })
 }
 
-export function updateProductCate(id,data) {
-  return request({
-    url:'/productCategory/update/'+id,
-    method:'post',
-    data:data
+export function updateProductCate(id,data, categoryLevel) {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/modify' ,
+    method: 'post',
+    data: { 
+      categoryId:data.categoryId,
+      categoryName:data.categoryName,
+      parentId:data.parentId, 
+      categoryLevel 
+    }
   })
 }
 
 export function getProductCate(id) {
-  return request({
-    url:'/productCategory/'+id,
-    method:'get',
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/getCategoryByID',
+    method: 'get',
+    params: {
+      id
+    }
   })
 }
 
-export function updateShowStatus(data) {
-  return request({
-    url:'/productCategory/update/showStatus',
-    method:'post',
-    data:data
-  })
-}
-
-export function updateNavStatus(data) {
-  return request({
-    url:'/productCategory/update/navStatus',
-    method:'post',
-    data:data
-  })
-}
 
 export function fetchListWithChildren() {
   return request({
-    url:'/productCategory/list/withChildren',
-    method:'get'
+    url: '/productCategory/list/withChildren',
+    method: 'get'
   })
 }

@@ -14,49 +14,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="分类筛选样式:">
-        <el-radio-group v-model="productAttr.filterType">
-          <el-radio :label="0">普通</el-radio>
-          <el-radio :label="1">颜色</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="能否进行检索:">
-        <el-radio-group v-model="productAttr.searchType">
-          <el-radio :label="0">不需要检索</el-radio>
-          <el-radio :label="1">关键字检索</el-radio>
-          <el-radio :label="2">范围检索</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="商品属性关联:">
-        <el-radio-group v-model="productAttr.relatedStatus">
-          <el-radio :label="1">是</el-radio>
-          <el-radio :label="0">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="属性是否可选:">
-        <el-radio-group v-model="productAttr.selectType">
-          <el-radio :label="0">唯一</el-radio>
-          <el-radio :label="1">单选</el-radio>
-          <el-radio :label="2">复选</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="属性值的录入方式:">
-        <el-radio-group v-model="productAttr.inputType">
-          <el-radio :label="0">手工录入</el-radio>
-          <el-radio :label="1">从下面列表中选择</el-radio>
-        </el-radio-group>
-      </el-form-item>
       <el-form-item label="属性值可选值列表:">
         <el-input :autosize="true" type="textarea" v-model="inputListFormat"></el-input>
-      </el-form-item>
-      <el-form-item label="是否支持手动新增:">
-        <el-radio-group v-model="productAttr.handAddStatus">
-          <el-radio :label="1">是</el-radio>
-          <el-radio :label="0">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="排序属性：">
-        <el-input v-model="productAttr.sort"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit('productAttrFrom')">提交</el-button>
@@ -71,16 +30,9 @@
   import {createProductAttr,getProductAttr,updateProductAttr} from '@/api/productAttr'
 
   const defaultProductAttr = {
-    filterType: 0,
-    handAddStatus: 0,
     inputList: '',
-    inputType: 0,
     name: '',
     productAttributeCategoryId: 0,
-    relatedStatus: 0,
-    searchType: 0,
-    selectType: 0,
-    sort: 0,
     type: 0
   };
   export default {

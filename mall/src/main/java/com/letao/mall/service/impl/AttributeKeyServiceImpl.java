@@ -17,4 +17,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class AttributeKeyServiceImpl extends ServiceImpl<AttributeKeyMapper, AttributeKey> implements AttributeKeyService {
 
+<<<<<<< Updated upstream
+=======
+    @Autowired
+    private AttributeKeyMapper attributeKeyMapper;
+
+    public Page getAttributeByCategoryID(long id, int current,int pageSize){
+        Page<AttributeKey> page=new Page<>(current,pageSize);
+        QueryWrapper<AttributeKey> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("category_id",id);
+        return attributeKeyMapper.selectPage(page,queryWrapper);
+    }
+    public Boolean deleteAttributeKey(long id){
+        QueryWrapper<AttributeKey> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        if(attributeKeyMapper.delete(queryWrapper)>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+>>>>>>> Stashed changes
 }

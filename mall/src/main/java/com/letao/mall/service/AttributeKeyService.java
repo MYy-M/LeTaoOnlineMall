@@ -13,4 +13,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AttributeKeyService extends IService<AttributeKey> {
 
+<<<<<<< Updated upstream
+=======
+    Page getAttributeByCategoryID(long id, int current,int pageSize);
+
+    Boolean deleteAttributeKey(long id);
+>>>>>>> Stashed changes
 }

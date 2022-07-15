@@ -13,4 +13,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CategoryService extends IService<Category> {
 
+<<<<<<< Updated upstream
+=======
+    Page getCategoryFirst(int current);
+
+    Page getCategorySecond(@Param("pid") long pid, int current,int pageSize);
+
+    Page getAllCategorySecond(int current,int pageSize);
+    List<Category> getAllSecondCategory(long id);
+
+    int deleteCategoryByid(@Param("id") long id);
+>>>>>>> Stashed changes
 }

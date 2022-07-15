@@ -47,6 +47,7 @@ export const asyncRouterMap = [
       component: () => import('@/views/pms/product/index'),
       meta: {title: '商品列表', icon: 'product-list'}
     },
+<<<<<<< Updated upstream
       {
         path: 'addProduct',
         name: 'addProduct',
@@ -107,6 +108,38 @@ export const asyncRouterMap = [
         meta: {title: '修改商品属性'},
         hidden: true
       }
+=======
+    {
+      path: 'productAttr',
+
+      name: 'productAttr',
+      component: () => import('@/views/pms/productAttr/index'),
+      meta: { title: '商品规格', icon: 'product-attr' }
+    },
+    {
+      path: 'productAttrList',
+      name: 'productAttrList',
+      component: () => import('@/views/pms/productAttr/productAttrList'),
+      meta: { title: '商品属性列表' },
+      hidden: true
+    },
+    {
+      path: 'addProductAttr',
+
+      name: 'addProductAttr',
+      component: () => import('@/views/pms/productAttr/addProductAttr'),
+      meta: { title: '添加商品属性' },
+      hidden: true
+    },
+    {
+      path: 'updateProductAttr',
+
+      name: 'updateProductAttr',
+      component: () => import('@/views/pms/productAttr/updateProductAttr'),
+      meta: { title: '修改商品属性' },
+      hidden: true
+    }
+>>>>>>> Stashed changes
     ]
   },
   {
