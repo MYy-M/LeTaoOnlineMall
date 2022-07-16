@@ -22,14 +22,6 @@ export function closeOrder(params) {
   })
 }
 
-export function deleteOrder(params) {
-  return request({
-    url:'/order/delete',
-    method:'post',
-    params:params
-  })
-}
-
 export function deliveryOrder(data) {
   return request({
     url:'/order/update/delivery',
@@ -39,9 +31,14 @@ export function deliveryOrder(data) {
 }
 
 export function getOrderDetail(id) {
-  return request({
-    url:'/order/'+id,
-    method:'get'
+  return axios({
+    url:'http://localhost:8088/mall/admin/lt-order/getOrderListByC',
+    method:'post',
+    data:{
+      orderID:id,
+      pagenum:1,
+      pagesize:1
+    }
   });
 }
 
@@ -53,18 +50,4 @@ export function updateReceiverInfo(data) {
   });
 }
 
-export function updateMoneyInfo(data) {
-  return request({
-    url:'/order/update/moneyInfo',
-    method:'post',
-    data:data
-  });
-}
 
-export function updateOrderNote(params) {
-  return request({
-    url:'/order/update/note',
-    method:'post',
-    params:params
-  })
-}

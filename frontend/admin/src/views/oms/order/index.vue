@@ -150,11 +150,6 @@
               @click="handleViewLogistics(scope.$index, scope.row)"
               v-show="scope.row.orderState===2||scope.row.orderState===3"
             >订单跟踪</el-button>
-            <!-- <el-button
-              size="mini"
-              type="danger"
-              @click="handleDeleteOrder(scope.$index, scope.row)"
-              v-show="scope.row.status===4">删除订单</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -225,7 +220,7 @@
   </div>
 </template>
 <script>
-import { fetchList, closeOrder, deleteOrder } from '@/api/order'
+import { fetchList, closeOrder } from '@/api/order'
 import { formatDate } from '@/utils/date';
 import LogisticsDialog from '@/views/oms/order/components/logisticsDialog';
 const defaultListQuery = {
@@ -348,11 +343,11 @@ export default {
       this.multipleSelection = val;
     },
     handleViewOrder(index, row) {
-      this.$router.push({ path: '/oms/orderDetail', query: { id: row.id } })
+      this.$router.push({ path: '/oms/orderDetail', query: { id: row.orderId } })
     },
     handleCloseOrder(index, row) {
       this.closeOrder.dialogVisible = true;
-      this.closeOrder.orderIds = [row.id];
+      this.closeOrder.orderIds = [row.orderId];
     },
     handleDeliveryOrder(index, row) {
       let listItem = this.covertOrder(row);
