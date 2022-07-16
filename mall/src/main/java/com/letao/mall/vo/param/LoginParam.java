@@ -1,5 +1,6 @@
 package com.letao.mall.vo.param;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
