@@ -48,8 +48,6 @@ public class Commodity implements Serializable {
 
     private Integer csales;
 
-    //默认0，不推荐
-    private Integer isRecommended;
 
 
 }

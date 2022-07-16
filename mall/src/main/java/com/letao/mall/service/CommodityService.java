@@ -32,4 +32,6 @@ public interface CommodityService extends IService<Commodity> {
     Result showCommodityByCategory(Long categoryId);
 
     Result showCommodityByCategory(String categoryName);
+
+    Result getHotProduct(String categoryName);
 }

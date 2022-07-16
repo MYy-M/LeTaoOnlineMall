@@ -76,22 +76,43 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Override
     public Result showCommodityByCategory(Long categoryId) {
+        return showCommodityByCategory(categoryId, false);
+    }
+
+    public Result showCommodityByCategory(Long categoryId, boolean isSort) {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
+        System.out.println(list);
         List<Commodity> commodityList = new ArrayList<>();
+        LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Commodity::getCategoryId, categoryId);
         if (list == null || list.size() == 0) {
-            commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, categoryId)));
-        } else {
-            for (int i = 0; i < list.size(); i++) {
-                Long secondId = list.get(i).getCategoryId();
-                commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId)));
+            if (isSort) {
+                System.out.println("9009090909090");
+                commodityList.addAll(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales)));
+            } else {
+                commodityList.addAll(commodityMapper.selectList(queryWrapper));
             }
+        } else {
+            if (isSort) {
+                for (int i = 0; i < list.size(); i++) {
+                    Long secondId = list.get(i).getCategoryId();
+                    commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId).orderByDesc(Commodity::getCsales)));
+                }
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    Long secondId = list.get(i).getCategoryId();
+                    commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId)));
+                }
+            }
+
         }
-        if (commodityList != null && list.size() != 0) {
+        if (commodityList != null && commodityList.size() != 0) {
             return Result.success(commodityList);
         } else {
             return Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
         }
     }
+
 
     @Override
     public Result showCommodityByCategory(String categoryName) {
@@ -99,8 +120,21 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         if (category == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         } else {
-            Long categortId = category.getCategoryId();
-            return showCommodityByCategory(categortId);
+            Long categoryId = category.getCategoryId();
+            return showCommodityByCategory(categoryId);
         }
     }
+
+    @Override
+    public Result getHotProduct(String categoryName) {
+        Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
+        if (category == null) {
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        } else {
+            Long categoryId = category.getCategoryId();
+            return showCommodityByCategory(categoryId,true);
+        }
+    }
+
+
 }
