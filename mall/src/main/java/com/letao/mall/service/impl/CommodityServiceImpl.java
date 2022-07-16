@@ -127,12 +127,16 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Override
     public Result getHotProduct(String categoryName) {
-        Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
-        if (category == null) {
-            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
-        } else {
-            Long categoryId = category.getCategoryId();
-            return showCommodityByCategory(categoryId,true);
+        if(categoryName==null){
+             commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().orderByDesc(Commodity::getCsales).last("limit 0,10"));
+        }else{
+            Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
+            if (category == null) {
+                return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+            } else {
+                Long categoryId = category.getCategoryId();
+                return showCommodityByCategory(categoryId,true);
+            }
         }
     }
 
