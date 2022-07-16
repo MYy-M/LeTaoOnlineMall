@@ -5,41 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/store/modules/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/store/modules/permission.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/oms/order/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/oms/order/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/pms/productAttr/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/pms/productAttr/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/pms/productAttr/productAttrList.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/pms/productAttr/productAttrList.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/pms/productCate/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/pms/productCate/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/stms/admin/component/StoreDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/stms/admin/component/StoreDetail.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/stms/admin/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/stms/admin/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/stms/admin/update.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/stms/admin/update.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/LtOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/LtOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/AttributeKeyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/AttributeKeyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/CategoryService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/LtOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/LtOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/AttributeKeyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/AttributeKeyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CategoryServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/LtOrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/LtOrderServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CCommodityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CCommodityController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CLtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CLtOrderController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/LtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/LtOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/OrderitemController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/OrderitemController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/ALtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/ALtOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/CategoryController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/entity/Orderitem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/entity/Orderitem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/LtOrderMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/LtOrderMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/CategoryService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/LtOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/LtOrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/OrderitemService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/OrderitemService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/CategoryServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/CategoryServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/OrderitemServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/OrderitemServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/ErrorCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/ErrorCode.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

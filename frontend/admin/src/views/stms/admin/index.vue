@@ -226,7 +226,6 @@ export default {
           this.list = response.data.data.records;
           this.total = response.data.data.length;
         });
-
     },
     handleSearchList() {
       this.listQuery.pageNum = 1;
@@ -313,8 +312,8 @@ export default {
           type: 'success',
           duration: 1000
         });
+        this.getList();
       });
-      this.getList();
     }
   }
 }
