@@ -3,11 +3,10 @@ package com.letao.mall.controller.admin;
 import com.letao.mall.service.LtOrderService;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.SearchOrderParam;
+import com.letao.mall.vo.param.StoreParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -37,5 +36,16 @@ public class ALtOrderController {
             }
         }
         return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+    }
+
+
+    /**
+     * 根据条件查询数据
+     * @param searchOrderParam
+     * @return
+     */
+    @PostMapping("/getOrderListByC")
+    public Result getOrderListByCondition(@RequestBody SearchOrderParam searchOrderParam) {
+        return orderService.getStoreListByCondition(searchOrderParam);
     }
 }

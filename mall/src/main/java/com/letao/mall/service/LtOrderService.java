@@ -3,6 +3,8 @@ package com.letao.mall.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.LtOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.SearchOrderParam;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -24,4 +26,6 @@ public interface LtOrderService extends IService<LtOrder> {
     Page getOrderListById(long id, int current);
 
     Page getOrderList(int current);
+
+    Result getStoreListByCondition( SearchOrderParam searchOrderParamm);
 }
