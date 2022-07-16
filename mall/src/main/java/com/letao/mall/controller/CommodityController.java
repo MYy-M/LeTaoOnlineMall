@@ -36,9 +36,19 @@ public class CommodityController {
      * @param categoryId
      * @return
      */
-    @PostMapping("/showByCategory")
-    public Result showCommodityByCategory(Long categoryId){
+    @PostMapping("/showByCategoryId")
+    public Result showCommodityById(Long categoryId){
         return commodityService.showCommodityByCategory(categoryId);
+    }
+
+    /**
+     * 根据分类名称显示商品
+     * @param categoryName
+     * @return
+     */
+    @PostMapping("/showByCategoryName")
+    public Result showCommodityByName(String categoryName){
+        return commodityService.showCommodityByCategory(categoryName);
     }
 
 
