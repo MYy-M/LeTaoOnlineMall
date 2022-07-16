@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 骑手反叛联盟
@@ -36,59 +36,109 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     private CategoryService categoryService;
 
 
-    public int deleteCommodity(long id){
+    public int deleteCommodity(long id) {
         return commodityMapper.deleteCommodity(id);
     }
 
-    public int countAdminTotal(){
+    public int countAdminTotal() {
         return commodityMapper.countAdminTotal();
     }
 
     /**
      * 返回cnum>0的总数
+     *
      * @return
      */
-    public int countCusTotal(){
+    public int countCusTotal() {
         return commodityMapper.countCusTotal();
     }
 
-    public Boolean isExisted(String cname, String attribute_list, BigDecimal price){
-        QueryWrapper<Commodity> queryWrapper=new QueryWrapper<>();
+    public Boolean isExisted(String cname, String attribute_list, BigDecimal price) {
+        QueryWrapper<Commodity> queryWrapper = new QueryWrapper<>();
         queryWrapper
-                .eq("cprice",price)
-                .eq("cname",cname)
-                .eq("attribute_list",attribute_list);
-        if(commodityMapper.selectCount(queryWrapper)>0){
+                .eq("cprice", price)
+                .eq("cname", cname)
+                .eq("attribute_list", attribute_list);
+        if (commodityMapper.selectCount(queryWrapper) > 0) {
             return false;
         }
         return true;
     }
 
-    public Boolean setPicture(long id,String cpicture){
-        return commodityMapper.setPicture(id,cpicture);
+    public Boolean setPicture(long id, String cpicture) {
+        return commodityMapper.setPicture(id, cpicture);
     }
 
-    public String getPicture(@Param("id") long id){
+    public String getPicture(@Param("id") long id) {
         return commodityMapper.getPicture(id);
     }
 
 
     @Override
     public Result showCommodityByCategory(Long categoryId) {
+        return showCommodityByCategory(categoryId, false);
+    }
+
+    public Result showCommodityByCategory(Long categoryId, boolean isSort) {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
+        System.out.println(list);
         List<Commodity> commodityList = new ArrayList<>();
-        if(list==null||list.size()==0){
-            commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,categoryId)));
-        }else{
-            for (int i = 0; i < list.size(); i++) {
-                Long secondId = list.get(i).getCategoryId();
-                commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,secondId)));
+        LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Commodity::getCategoryId, categoryId);
+        if (list == null || list.size() == 0) {
+            if (isSort) {
+                System.out.println("9009090909090");
+                commodityList.addAll(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales)));
+            } else {
+                commodityList.addAll(commodityMapper.selectList(queryWrapper));
             }
+        } else {
+            if (isSort) {
+                for (int i = 0; i < list.size(); i++) {
+                    Long secondId = list.get(i).getCategoryId();
+                    commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId).orderByDesc(Commodity::getCsales)));
+                }
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    Long secondId = list.get(i).getCategoryId();
+                    commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId)));
+                }
+            }
+
         }
-        if(commodityList!=null&&list.size()!=0){
+        if (commodityList != null && commodityList.size() != 0) {
             return Result.success(commodityList);
-        }else{
-            return Result.fail(ErrorCode.SEARCH_ERROR.getCode(),ErrorCode.SEARCH_ERROR.getMsg());
+        } else {
+            return Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
         }
     }
+
+
+    @Override
+    public Result showCommodityByCategory(String categoryName) {
+        Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
+        if (category == null) {
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        } else {
+            Long categoryId = category.getCategoryId();
+            return showCommodityByCategory(categoryId);
+        }
+    }
+
+    @Override
+    public Result getHotProduct(String categoryName) {
+        if(categoryName==null){
+             commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().orderByDesc(Commodity::getCsales).last("limit 0,10"));
+        }else{
+            Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
+            if (category == null) {
+                return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+            } else {
+                Long categoryId = category.getCategoryId();
+                return showCommodityByCategory(categoryId,true);
+            }
+        }
+    }
+
+
 }

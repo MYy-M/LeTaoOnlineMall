@@ -36,11 +36,31 @@ public class CommodityController {
      * @param categoryId
      * @return
      */
-    @PostMapping("/showByCategory")
-    public Result showCommodityByCategory(Long categoryId){
+    @GetMapping("/showByCategoryId")
+    public Result showCommodityById(Long categoryId){
         return commodityService.showCommodityByCategory(categoryId);
     }
 
+    /**
+     * 根据分类名称显示商品
+     * @param categoryName
+     * @return
+     */
+    @GetMapping("/showByCategoryName")
+    public Result showCommodityByName(String categoryName){
+        return commodityService.showCommodityByCategory(categoryName);
+    }
+
+
+    /**
+     * 根据分类名称显示商品
+     * @param categoryName
+     * @return
+     */
+    @PostMapping("/getHotProduct")
+    public Result getHotProduct(String categoryName){
+        return commodityService.getHotProduct(categoryName);
+    }
 
     //根据销量商品排序分页展示
     @GetMapping("/getlist/salesdesc/{pnum}")

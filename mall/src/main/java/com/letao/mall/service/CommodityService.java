@@ -30,4 +30,8 @@ public interface CommodityService extends IService<Commodity> {
     String  getPicture(@Param("id") long id);
 
     Result showCommodityByCategory(Long categoryId);
+
+    Result showCommodityByCategory(String categoryName);
+
+    Result getHotProduct(String categoryName);
 }
