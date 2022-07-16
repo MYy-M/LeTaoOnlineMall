@@ -128,7 +128,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Override
     public Result getHotProduct(String categoryName) {
         if(categoryName==null){
-             commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().orderByDesc(Commodity::getCsales).last("limit 0,10"));
+            return Result.success(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().orderByDesc(Commodity::getCsales).last("limit 0,10")));
         }else{
             Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
             if (category == null) {
