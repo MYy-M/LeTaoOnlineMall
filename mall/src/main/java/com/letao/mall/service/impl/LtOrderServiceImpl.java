@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -71,7 +72,9 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
             queryWrapper.eq(LtOrder::getOrderState,state);
         }
         if(date!=null) {
-            queryWrapper.like(LtOrder::getTime, date);
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+            String time=sdf.format(date);
+            queryWrapper.eq(LtOrder::getTime,time);
         }
         return Result.success(orderMapper.selectPage(orderPage, queryWrapper));
 

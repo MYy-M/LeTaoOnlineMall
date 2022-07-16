@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/oms/order/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/oms/order/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/LtOrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/LtOrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/SearchOrderParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/SearchOrderParam.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,5 +62,13 @@
       <updated>1657350051836</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="state" />
+        <watch expression="date" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

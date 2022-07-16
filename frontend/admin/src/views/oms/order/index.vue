@@ -32,7 +32,7 @@
         >
           <el-form-item label="输入搜索：">
             <el-input
-              v-model="listQuery.orderSn"
+              v-model="listQuery.orderId"
               class="input-width"
               placeholder="订单编号"
             ></el-input>
@@ -49,7 +49,7 @@
           </el-form-item>
           <el-form-item label="订单状态：">
             <el-select
-              v-model="listQuery.status"
+              v-model="listQuery.orderState"
               class="input-width"
               placeholder="全部"
               clearable
@@ -138,17 +138,17 @@
             <el-button
               size="mini"
               @click="handleCloseOrder(scope.$index, scope.row)"
-              v-show="scope.row.status===0"
+              v-show="scope.row.orderState===0"
             >关闭订单</el-button>
             <el-button
               size="mini"
               @click="handleDeliveryOrder(scope.$index, scope.row)"
-              v-show="scope.row.status===1"
+              v-show="scope.row.orderState===1"
             >订单发货</el-button>
             <el-button
               size="mini"
               @click="handleViewLogistics(scope.$index, scope.row)"
-              v-show="scope.row.status===2||scope.row.status===3"
+              v-show="scope.row.orderState===2||scope.row.orderState===3"
             >订单跟踪</el-button>
             <!-- <el-button
               size="mini"
@@ -338,6 +338,7 @@ export default {
   methods: {
     handleResetSearch() {
       this.listQuery = Object.assign({}, defaultListQuery);
+      this.getList();
     },
     handleSearchList() {
       this.listQuery.pageNum = 1;
@@ -378,7 +379,7 @@ export default {
         //批量发货
         let list = [];
         for (let i = 0; i < this.multipleSelection.length; i++) {
-          if (this.multipleSelection[i].status === 1) {
+          if (this.multipleSelection[i].orderState === 1) {
             list.push(this.covertOrder(this.multipleSelection[i]));
           }
         }
@@ -442,8 +443,7 @@ export default {
     getList() {
       this.listLoading = true;
       fetchList(this.listQuery).then(response => {
-        console.log(this.listQuery)
-        console.log(response)
+        
         this.listLoading = false;
         this.list = response.data.data.records;
         this.total = response.data.data.records.length;
