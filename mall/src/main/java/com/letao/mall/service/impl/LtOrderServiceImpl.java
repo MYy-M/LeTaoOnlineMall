@@ -58,23 +58,20 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
     }
 
     @Override
-    public Result getStoreListByCondition(SearchOrderParam searchOrderParamm) {
-        Long orderId=searchOrderParamm.getOrderID();
-        int state = searchOrderParamm.getState();
-        Date date = searchOrderParamm.getDate();
-        Page<LtOrder> orderPage = new Page<>(searchOrderParamm.getPagenum(), searchOrderParamm.getPagesize());
+    public Result getStoreListByCondition(SearchOrderParam searchOrderParam) {
+        Long orderId=searchOrderParam.getOrderID();
+        Integer state = searchOrderParam.getState();
+        Date date = searchOrderParam.getDate();
+        Page<LtOrder> orderPage = new Page<>(searchOrderParam.getPagenum(), searchOrderParam.getPagesize());
         LambdaQueryWrapper<LtOrder> queryWrapper = new LambdaQueryWrapper<>();
         if(orderId!=null){
             queryWrapper.like(LtOrder::getOrderId,orderId);
         }
-        if(state>=0&&state<=4){
-            queryWrapper.like(LtOrder::getOrderState,state);
+        if(state!=null){
+            queryWrapper.eq(LtOrder::getOrderState,state);
         }
         if(date!=null) {
             queryWrapper.like(LtOrder::getTime, date);
-        }
-        if(orderId!=null&&!(state>=0&&state<=4)&&date==null){
-            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
         }
         return Result.success(orderMapper.selectPage(orderPage, queryWrapper));
 

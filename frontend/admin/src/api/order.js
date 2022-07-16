@@ -1,9 +1,16 @@
 import request from '@/utils/request'
-export function fetchList(params) {
-  return request({
-    url:'/order/list',
-    method:'get',
-    params:params
+import axios from 'axios'
+export function fetchList(listQuery) {
+  return axios({
+    url:'http://localhost:8088/mall/admin/lt-order/getOrderListByC',
+    method:'post',
+    data:{
+      orderID:listQuery.orderId,
+      date:listQuery.time,
+      state:listQuery.orderState,
+      pagenum:listQuery.pageNum,
+      pagesize:listQuery.pageSize
+    }
   })
 }
 

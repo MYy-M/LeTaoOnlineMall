@@ -40,7 +40,7 @@
           <el-form-item label="提交时间：">
             <el-date-picker
               class="input-width"
-              v-model="listQuery.createTime"
+              v-model="listQuery.time"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="请选择时间"
@@ -88,38 +88,31 @@
           align="center"
         ></el-table-column>
         <el-table-column
-          label="编号"
-          width="80"
-          align="center"
-        >
-          <template slot-scope="scope">{{scope.row.id}}</template>
-        </el-table-column>
-        <el-table-column
           label="订单编号"
           width="180"
           align="center"
         >
-          <template slot-scope="scope">{{scope.row.orderSn}}</template>
+          <template slot-scope="scope">{{scope.row.orderId}}</template>
         </el-table-column>
         <el-table-column
           label="提交时间"
           width="180"
           align="center"
         >
-          <template slot-scope="scope">{{scope.row.createTime | formatCreateTime}}</template>
+          <template slot-scope="scope">{{scope.row.time | formatTime}}</template>
         </el-table-column>
         <el-table-column
           label="用户账号"
           align="center"
         >
-          <template slot-scope="scope">{{scope.row.memberUsername}}</template>
+          <template slot-scope="scope">{{scope.row.uid}}</template>
         </el-table-column>
         <el-table-column
           label="订单金额"
           width="120"
           align="center"
         >
-          <template slot-scope="scope">￥{{scope.row.totalAmount}}</template>
+          <template slot-scope="scope">￥{{scope.row.price}}</template>
         </el-table-column>
         <!-- 注意修改成送货方式 -->
         <!-- <el-table-column label="送货方式" width="120" align="center">
@@ -130,7 +123,7 @@
           width="120"
           align="center"
         >
-          <template slot-scope="scope">{{scope.row.status | formatStatus}}</template>
+          <template slot-scope="scope">{{scope.row.orderState | formatStatus}}</template>
         </el-table-column>
         <el-table-column
           label="操作"
@@ -238,11 +231,10 @@ import LogisticsDialog from '@/views/oms/order/components/logisticsDialog';
 const defaultListQuery = {
   pageNum: 1,
   pageSize: 10,
-  orderSn: null,
-  status: null,
-  orderType: null,
-  sourceType: null,
-  createTime: null,
+  orderId: null,
+  orderState: null,
+  // orderType: null,
+  time: null,
 };
 export default {
   name: "orderList",
@@ -270,28 +262,28 @@ export default {
           value: 1
         },
         {
-          label: '已发货',
+          label: '待收货',
           value: 2
         },
         {
-          label: '已完成',
+          label: '待评价',
           value: 3
         },
         {
-          label: '已关闭',
+          label: '已完成',
           value: 4
         }
       ],
-      orderTypeOptions: [
-        {
-          label: '正常订单',
-          value: 0
-        },
-        {
-          label: '秒杀订单',
-          value: 1
-        }
-      ],
+      // orderTypeOptions: [
+      //   {
+      //     label: '正常订单',
+      //     value: 0
+      //   },
+      //   {
+      //     label: '秒杀订单',
+      //     value: 1
+      //   }
+      // ],
       deliverTypeOptions: [
         {
           label: '送货上门',
@@ -323,23 +315,23 @@ export default {
     this.getList();
   },
   filters: {
-    formatCreateTime(time) {
+    formatTime(time) {
       let date = new Date(time);
       return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
     },
     formatStatus(value) {
-      if (value === 1) {
+      if (value === 0) {
+        return '待付款';
+      } else if (value === 1) {
         return '待发货';
       } else if (value === 2) {
-        return '已发货';
+        return '待收货';
       } else if (value === 3) {
-        return '已完成';
+        return '待评价';
       } else if (value === 4) {
-        return '已关闭';
-      } else if (value === 5) {
-        return '无效订单';
+        return '已完成';
       } else {
-        return '待付款';
+        return '无效订单';
       }
     },
   },
@@ -450,9 +442,11 @@ export default {
     getList() {
       this.listLoading = true;
       fetchList(this.listQuery).then(response => {
+        console.log(this.listQuery)
+        console.log(response)
         this.listLoading = false;
-        this.list = response.data.list;
-        this.total = response.data.total;
+        this.list = response.data.data.records;
+        this.total = response.data.data.records.length;
       });
     },
     deleteOrder(ids) {
