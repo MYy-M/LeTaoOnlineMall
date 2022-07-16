@@ -12,6 +12,9 @@ public enum  ErrorCode {
     DELETE_ERROR(20002,"删除失败"),
     MODIFY_ERROR(20003,"修改失败"),
     SEARCH_ERROR(20004,"查询失败"),
+    KEY_EXIST(20005,"属性名已存在"),
+    ADD_VALUE_ERROR(20006,"值添加失败"),
+
     STORE_EXIST(30001,"门店已存在"),
     STORE_NOT_EXIST(30002,"门店不存在"),
     COMMODITY_NOT_EXIST(30003,"您想要的商品还未上架,小乐已为您记录"),

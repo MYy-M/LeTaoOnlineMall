@@ -2,10 +2,7 @@ package com.letao.mall.dao.mapper;
 
 import com.letao.mall.dao.entity.LtOrder;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 /**
  * <p>
@@ -15,6 +12,7 @@ import org.apache.ibatis.annotations.Update;
  * @author 骑手反叛联盟
  * @since 2022-06-30
  */
+@Mapper
 public interface LtOrderMapper extends BaseMapper<LtOrder> {
 
     @Select("select order_State from lt_order where order_id=#{oid}")
