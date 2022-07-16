@@ -36,15 +36,15 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
         return orderMapper.modifyOrderState(id,state);
     }
 
-    public Page getOrderListById(long id, int current){
-        Page<LtOrder> page=new Page<>(current,10);
+    public Page getOrderListById(long id, int current,int pageSize){
+        Page<LtOrder> page=new Page<>(current,pageSize);
         QueryWrapper<LtOrder> wrapper=new QueryWrapper<>();
         wrapper.eq("uid",id);
         return orderMapper.selectPage(page,wrapper);
     }
 
-    public Page getOrderList(int current){
-        Page<LtOrder> page=new Page<>(current,10);
+    public Page getOrderList(int current,int pageSize){
+        Page<LtOrder> page=new Page<>(current,pageSize);
         QueryWrapper<LtOrder> wrapper=new QueryWrapper<>();
         return orderMapper.selectPage(page,wrapper);
     }

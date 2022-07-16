@@ -41,7 +41,6 @@ const permission = {
           // admin帐号直接返回所有菜单
           return true;
         });
-        console.log(accessedRouters)
         //对菜单进行排序
         sortRouters(accessedRouters);
         commit('SET_ROUTERS', accessedRouters);

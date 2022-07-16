@@ -47,7 +47,6 @@ export const asyncRouterMap = [
       component: () => import('@/views/pms/product/index'),
       meta: {title: '商品列表', icon: 'product-list'}
     },
-<<<<<<< Updated upstream
       {
         path: 'addProduct',
         name: 'addProduct',
@@ -108,38 +107,6 @@ export const asyncRouterMap = [
         meta: {title: '修改商品属性'},
         hidden: true
       }
-=======
-    {
-      path: 'productAttr',
-
-      name: 'productAttr',
-      component: () => import('@/views/pms/productAttr/index'),
-      meta: { title: '商品规格', icon: 'product-attr' }
-    },
-    {
-      path: 'productAttrList',
-      name: 'productAttrList',
-      component: () => import('@/views/pms/productAttr/productAttrList'),
-      meta: { title: '商品属性列表' },
-      hidden: true
-    },
-    {
-      path: 'addProductAttr',
-
-      name: 'addProductAttr',
-      component: () => import('@/views/pms/productAttr/addProductAttr'),
-      meta: { title: '添加商品属性' },
-      hidden: true
-    },
-    {
-      path: 'updateProductAttr',
-
-      name: 'updateProductAttr',
-      component: () => import('@/views/pms/productAttr/updateProductAttr'),
-      meta: { title: '修改商品属性' },
-      hidden: true
-    }
->>>>>>> Stashed changes
     ]
   },
   {
@@ -199,26 +166,26 @@ export const asyncRouterMap = [
   {
     path: '/stms',
     component: Layout,
-    redirect: '/stms',
+    redirect: '/stms/admin',
     name: 'stms',
     meta: {title: '门店', icon: 'order'},
     children: [
       {
         path: 'store',
         name: 'store',
-        component: () => import('@/views/stms/index'),
+        component: () => import('@/views/stms/admin/index'),
         meta: {title: '门店列表', icon: 'product-list'}
       },
       {
         path: 'addStore',
         name: 'addStore',
-        component: () => import('@/views/stms/add'),
-        meta: {title: '添加门店'},
+        component: () => import('@/views/stms/admin/add'),
+        meta: {title: '添加门店',icon: 'product-list'},
       },
       {
         path: 'updateStore',
         name: 'updateStore',
-        component: () => import('@/views/stms/update'),
+        component: () => import('@/views/stms/admin/update'),
         meta: {title: '修改门店'},
         hidden:true
       }
@@ -282,6 +249,35 @@ export const asyncRouterMap = [
         component: () => import('@/views/sms/subject/index'),
         meta: {title: '专题推荐', icon: 'sms-subject'}
       },
+    ]
+  },
+  {
+    path: '/statistics',
+    component: Layout,
+
+    path: '/statistics/count',
+    name: 'statistics',
+    meta: { title: '统计', icon: 'ums' },
+    children: [
+      {
+        path: 'comStat',
+
+        name: 'comStat',
+        component: () => import('@/views/statistics/count/comStat'),
+        meta: { title: '商品统计', icon: 'ums-admin' }
+      },
+      {
+        path: 'orderStat',
+        name: 'orderStat',
+        component: () => import('@/views/statistics/count/orderStat'),
+        meta: { title: '订单统计', icon: 'ums-resource' }
+      },
+      {
+        path: 'saleStat',
+        name: 'saleStat',
+        component: () => import('@/views/statistics/count/saleStat'),
+        meta: { title: '销售统计', icon: 'ums-resource' }
+      }
     ]
   },
   {

@@ -21,7 +21,7 @@ public interface LtOrderService extends IService<LtOrder> {
 
     int modifyOrderState(@Param("id") long id,@Param("state") int state);
 
-    Page getOrderListById(long id, int current);
+    Page getOrderListById(long id, int current,int pageSize);
 
-    Page getOrderList(int current);
+    Page getOrderList(int current,int pageSize);
 }

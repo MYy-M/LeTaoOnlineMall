@@ -1,9 +1,12 @@
 package com.letao.mall.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.AttributeKey;
 import com.letao.mall.dao.mapper.AttributeKeyMapper;
 import com.letao.mall.service.AttributeKeyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,12 +20,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AttributeKeyServiceImpl extends ServiceImpl<AttributeKeyMapper, AttributeKey> implements AttributeKeyService {
 
-<<<<<<< Updated upstream
-=======
     @Autowired
     private AttributeKeyMapper attributeKeyMapper;
 
-    public Page getAttributeByCategoryID(long id, int current,int pageSize){
+    public Page getAttributeByCategoryID(long id, int current, int pageSize){
         Page<AttributeKey> page=new Page<>(current,pageSize);
         QueryWrapper<AttributeKey> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("category_id",id);
@@ -37,5 +38,4 @@ public class AttributeKeyServiceImpl extends ServiceImpl<AttributeKeyMapper, Att
             return false;
         }
     }
->>>>>>> Stashed changes
 }

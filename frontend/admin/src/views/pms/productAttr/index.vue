@@ -92,7 +92,7 @@
         this.getList();
       },
       getAttrList(row) {
-        this.$router.push({path: '/pms/product/productAttrList',query:{cid:row.categoryId,cname:row.categoryName}})
+        this.$router.push({path: '/pms/productAttrList',query:{cid:row.categoryId,cname:row.categoryName}})
       },
     }
   }

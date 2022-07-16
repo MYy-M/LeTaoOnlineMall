@@ -1,10 +1,19 @@
 package com.letao.mall.controller.admin;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.letao.mall.dao.entity.AttributeKey;
+import com.letao.mall.dao.entity.AttributeValue;
+import com.letao.mall.dao.entity.Category;
+import com.letao.mall.service.AttributeKeyService;
+import com.letao.mall.service.AttributeValueService;
+import com.letao.mall.service.CategoryService;
+import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CategoryPageParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
 
 /**
  * <p>
@@ -16,31 +25,25 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/mall/admin/category")
+@CrossOrigin
 public class CategoryController {
 
-<<<<<<< Updated upstream
-    @GetMapping("/add")
-    public int addCategory(){
-        return 0;
-    }
-
-    @GetMapping("/modify")
-    public int modifyCategory(){
-        return 0;
-=======
     @Autowired
     private AttributeKeyService aks;
 
     @Autowired
     private AttributeValueService avs;
 
+    @Autowired
+    private CategoryService cgs;
     /**
      * 获得所有第一级分类
      * @return
      */
     @PostMapping("/getCategoryFirst")
-    public Result getCategoryFirst(@RequestParam int current ,@RequestParam int pageSize){
-        return Result.success(cgs.getCategoryFirst(current));
+    public Result getCategoryFirst(@RequestParam int current , @RequestParam int pageSize){
+
+        return Result.success(cgs.getCategoryFirst(current,pageSize));
     }
 
     /**
@@ -73,19 +76,26 @@ public class CategoryController {
     @PostMapping("/add")
     public Result addCategory(@RequestBody Category category){
         return cgs.save(category)?Result.success(new Boolean(true)):Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
->>>>>>> Stashed changes
     }
 
     /**
-     * 删除类别，不合理
+     * 修改分类
+     * @param category
+     * @return
+     */
+    @PostMapping("/modify")
+    public Result modifyCategory(@RequestBody Category category){
+        return cgs.updateById(category)?Result.success(new Boolean(true)):Result.fail(ErrorCode.MODIFY_ERROR.getCode(), ErrorCode.MODIFY_ERROR.getMsg());
+    }
+
+    /**
+     * 删除类别
      * 所以判断当前此类别是否具有子类别，如果all子类别商品数量为零，可以删除
+     * 1删除成功，
+     * 0删除失败
+     * -1有子类不能删
      */
     @GetMapping("/delete")
-<<<<<<< Updated upstream
-    public int deleteCategory(){
-        return 0;
-    }
-=======
     public Result deleteCategory(Long id){
         if(cgs.getAllSecondCategory(id).isEmpty()&&id!=null){
             return cgs.deleteCategoryByid(id)>0?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
@@ -155,7 +165,7 @@ public class CategoryController {
         return avs.deleteAttributeValue(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
     }
 
->>>>>>> Stashed changes
+
 
 }
 

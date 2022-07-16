@@ -220,7 +220,6 @@ export default {
   methods: {
     getList() {
       this.listLoading = true;
-      console.log(this.listQuery)
       getStoreList(this.listQuery.pageNum, this.listQuery.pageSize,
         this.listQuery.storeAddress, this.listQuery.storeName, this.listQuery.storePhone).then(response => {
           this.listLoading = false;
@@ -234,7 +233,7 @@ export default {
       this.getList();
     },
     handleAddStore() {
-      this.$router.push({ path: '/stms/admin/addStore' });
+      this.$router.push({ path: '/stms/addStore' });
     },
     handleBatchOperate() {
       if (this.operateType == null) {
@@ -301,7 +300,7 @@ export default {
     handleUpdateStore(row) {
 
       this.$router.push({
-        path: '/stms/admin/updateStore',
+        path: '/stms/updateStore',
         query: {
           sid: row.sid
         }
@@ -309,7 +308,6 @@ export default {
     },
     updateDeleteStatus(id) {
       deleteStore(id).then(response => {
-        console.log(response)
         this.$message({
           message: '删除成功',
           type: 'success',

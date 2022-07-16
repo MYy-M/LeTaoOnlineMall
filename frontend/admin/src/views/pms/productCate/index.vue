@@ -167,13 +167,12 @@ export default {
       }
     },
     handleAddProductCate() {
-      this.$router.push('/pms/product/addProductCate');
+      this.$router.push('/pms/addProductCate');
     },
     getList() {
       this.listLoading = true;
       if (this.parentId == 0) {
         fetchFirstCateList(this.listQuery).then(response => {
-          console.log(response)
           this.listLoading = false;
           this.list = response.data.data.records;
           this.total = response.data.data.records.length;
@@ -181,7 +180,6 @@ export default {
       }
       else {
         fetchSecondCateList(this.parentId, this.listQuery).then(response => {
-          console.log(response)
           this.listLoading = false;
           this.list = response.data.data.records;
           this.total = response.data.data.records.length;
@@ -198,14 +196,13 @@ export default {
       this.getList();
     },
     handleShowNextLevel(index, row) {
-      this.$router.push({ path: '/pms/product/productCate', query: { parentId: row.categoryId } })
-      console.log(this.parentId)
+      this.$router.push({ path: '/pms/productCate', query: { parentId: row.categoryId } })
     },
     handleTransferProduct(index, row) {
       console.log('handleAddProductCate');
     },
     handleUpdate(index, row) {
-      this.$router.push({ path: '/pms/product/updateProductCate', query: { id: row.categoryId } });
+      this.$router.push({ path: '/pms/updateProductCate', query: { id: row.categoryId } });
     },
     handleDelete(index, row) {
       this.$confirm('是否要删除该分类', '提示', {

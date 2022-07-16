@@ -55,17 +55,27 @@
 
 <script>
 import { addStore, updateStore } from '@/api/store';
-
+const defaultStore = {
+  sname: '',
+  saddress: '',
+  sphone: '',
+  sid: ''
+}
 export default {
   name: "StoreDetail",
   props: {
-    value:{
-      type:Object,
-      default:{}
+    value: {
+      type: Object,
+      default: {
+        name: '',
+        address: '',
+        phone: '',
+        id: ''
+      }
     },
-    isEdit:{
-      type:Boolean,
-      default:false
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -77,7 +87,7 @@ export default {
           { min: 2, max: 140, message: '长度在 2 到 140 个字符', trigger: 'blur' }
         ],
         saddress: [{ required: true, message: '请输入门店地址', trigger: 'blur' }],
-        sphone: [{ required: true,  message: '请输入门店电话', trigger: 'blur' },
+        sphone: [{ required: true, message: '请输入门店电话', trigger: 'blur' },
         { min: 7, max: 12, message: '长度在 7 到 12 个字符', trigger: 'blur' }],
       },
       store: {
@@ -94,12 +104,13 @@ export default {
       this.store.sid = this.value.id;
       this.store.saddress = this.value.address;
       this.store.sphone = this.value.phone;
-      console.log(this.store.sname)
+    }
+    else {
+      this.store = Object.assign({}, defaultStore);
     }
   },
   methods: {
     saveStore() {
-      console.log(this.store.sphone)
       if (this.isEdit) {
         updateStore(this.store).then(response => {
           this.$message({
@@ -119,9 +130,6 @@ export default {
           });
         })
       }
-    },
-    getStore(id){
-
     }
   }
 }

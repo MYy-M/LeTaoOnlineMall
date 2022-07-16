@@ -1,5 +1,6 @@
 package com.letao.mall.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.AttributeKey;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,10 +14,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AttributeKeyService extends IService<AttributeKey> {
 
-<<<<<<< Updated upstream
-=======
-    Page getAttributeByCategoryID(long id, int current,int pageSize);
+    Page getAttributeByCategoryID(long id, int current, int pageSize);
 
     Boolean deleteAttributeKey(long id);
->>>>>>> Stashed changes
+
 }

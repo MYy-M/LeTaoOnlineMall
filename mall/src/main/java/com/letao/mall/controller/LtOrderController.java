@@ -36,14 +36,14 @@ public class LtOrderController {
         long id=param.getId();
         int current=param.getCurrent();
         if(id!=0&&current!=0){
-            return Result.success(orderService.getOrderListById(id,current));
+            return Result.success(orderService.getOrderListById(id,current,param.getPageSize()));
         }
         return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
     }
     //获取所有订单
     @PostMapping("/getlist")
-    public Result getOrderList(int current){
-        return Result.success(orderService.getOrderList(current));
+    public Result getOrderList(int current,int pageSize){
+        return Result.success(orderService.getOrderList(current,pageSize));
     }
 
 

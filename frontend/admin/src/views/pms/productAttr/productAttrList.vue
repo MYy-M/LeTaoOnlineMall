@@ -167,13 +167,14 @@ export default {
         }
         this.list = arr
         this.total = response.data.data.records.length;
+        console.log(arr)
       });
     },
     async getValueList(id) {
       return await fetchValueList(id)
     },
     addProductAttr() {
-      this.$router.push({ path: '/pms/product/addProductAttr', query: { cid: this.$route.query.cid } });
+      this.$router.push({ path: '/pms/addProductAttr', query: { cid: this.$route.query.cid } });
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -211,7 +212,7 @@ export default {
       this.getList();
     },
     handleUpdate(index, row) {
-      this.$router.push({ path: '/pms/product/updateProductAttr', query: { id: row.id } });
+      this.$router.push({ path: '/pms/updateProductAttr', query: { id: row.id } });
     },
     handleDeleteProductAttr(id) {
       this.$confirm('是否要删除该属性', '提示', {
