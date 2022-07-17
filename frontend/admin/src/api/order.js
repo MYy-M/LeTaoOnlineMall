@@ -41,7 +41,16 @@ export function getOrderDetail(id) {
     }
   });
 }
-
+export function getOrderItem(id) {
+  return axios({
+    url:'http://localhost:8088/mall/orderitem/get',
+    method:'post',
+    data:{
+      id,
+      current:1
+    }
+  });
+}
 export function updateReceiverInfo(data) {
   return request({
     url:'/order/update/receiverInfo',

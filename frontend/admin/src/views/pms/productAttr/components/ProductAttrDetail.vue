@@ -8,9 +8,9 @@
         <el-select v-model="productAttr.productAttributeCategoryId" placeholder="请选择">
           <el-option
             v-for="item in productAttrCateList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
+            :key="item.categoryId"
+            :label="item.categoryName"
+            :value="item.categoryId">
           </el-option>
         </el-select>
       </el-form-item>
@@ -33,7 +33,6 @@
     inputList: '',
     name: '',
     productAttributeCategoryId: 0,
-    type: 0
   };
   export default {
     name: "ProductAttrDetail",
@@ -69,7 +68,7 @@
     },
     watch:{
       inputListFormat: function (newValue, oldValue) {
-        newValue = newValue.replace(/\n/g,',');
+        newValue = newValue.replace(/\n/g,';');
         this.productAttr.inputList = newValue;
       }
     },
@@ -77,13 +76,13 @@
       getCateList() {
         let listQuery = {pageNum: 1, pageSize: 100};
         fetchList(listQuery).then(response => {
-          this.productAttrCateList = response.data.list;
+          this.productAttrCateList = response.data.data.records;
+          console.log(this.productAttrCateList)
         });
       },
       resetProductAttr() {
         this.productAttr = Object.assign({}, defaultProductAttr);
         this.productAttr.productAttributeCategoryId = Number(this.$route.query.cid);
-        this.productAttr.type = Number(this.$route.query.type);
       },
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {

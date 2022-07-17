@@ -29,7 +29,7 @@ public class OrderitemServiceImpl extends ServiceImpl<OrderitemMapper, Orderitem
     }
 
     public Page getOrderItemListById(long id, int current){
-        Page<Orderitem> page=new Page<>(current,10);
+        Page<Orderitem> page=new Page<>(current,100);
         QueryWrapper<Orderitem> wrapper=new QueryWrapper<>();
         wrapper.eq("order_id",id);
         return itemMapper.selectPage(page,wrapper);

@@ -29,15 +29,15 @@ export function deleteProductAttr(id) {
 }
 
 export function createProductAttr(data) {
-  return request({
-    url: '/productAttribute/create',
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/create',
     method: 'post',
     data: data
   })
 }
 
 export function updateProductAttr(id, data) {
-  return request({
+  return axios({
     url: '/productAttribute/update/' + id,
     method: 'post',
     data: data

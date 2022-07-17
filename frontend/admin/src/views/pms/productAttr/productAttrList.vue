@@ -159,15 +159,16 @@ export default {
         this.listLoading = false;
         const arr = response.data.data.records;
         for (var key of arr) {
-          key.value=[];
+          key.value = [];
           var res = await this.getValueList(key.id);
-          for (var i = 0; i < res.data.data.length; i++) {
-            key.value.push(res.data.data[i].attributeValue);
+          if (res != null) {
+            for (var i = 0; i < res.data.data.length; i++) {
+              key.value.push(res.data.data[i].attributeValue);
+            }
           }
         }
         this.list = arr
         this.total = response.data.data.records.length;
-        console.log(arr)
       });
     },
     async getValueList(id) {

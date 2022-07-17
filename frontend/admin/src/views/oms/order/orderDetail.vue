@@ -176,7 +176,7 @@
       </div>
       <el-table
         ref="orderItemTable"
-        :data="order.orderItemList"
+        :data="itemList"
         style="width: 100%;margin-top: 20px"
         border
       >
@@ -193,22 +193,20 @@
           </template>
         </el-table-column>
         <el-table-column
-          label="商品名称"
+          label="货号"
           align="center"
         >
           <template slot-scope="scope">
-            <p>{{scope.row.productName}}</p>
-            <p>品牌：{{scope.row.productBrand}}</p>
+            <p>{{scope.row.cid}}</p>
           </template>
         </el-table-column>
         <el-table-column
-          label="价格/货号"
+          label="价格"
           width="120"
           align="center"
         >
           <template slot-scope="scope">
-            <p>价格：￥{{scope.row.productPrice}}</p>
-            <p>货号：{{scope.row.productSn}}</p>
+            <p>价格：￥{{scope.row.cprice}}</p>
           </template>
         </el-table-column>
         <el-table-column
@@ -226,7 +224,7 @@
           align="center"
         >
           <template slot-scope="scope">
-            {{scope.row.productQuantity}}
+            {{scope.row.cnum}}
           </template>
         </el-table-column>
         <el-table-column
@@ -235,12 +233,12 @@
           align="center"
         >
           <template slot-scope="scope">
-            ￥{{scope.row.productPrice*scope.row.productQuantity}}
+            ￥{{scope.row.cprice*scope.row.cnum}}
           </template>
         </el-table-column>
       </el-table>
       <div style="float: right;margin: 20px">
-        合计：<span class="color-danger">￥{{order.totalAmount}}</span>
+        合计：<span class="color-danger">￥{{order.price}}</span>
       </div>
       <div style="margin-top: 20px">
         <svg-icon
@@ -362,7 +360,7 @@
   </div>
 </template>
 <script>
-import { getOrderDetail, updateReceiverInfo, closeOrder} from '@/api/order';
+import { getOrderDetail, updateReceiverInfo, closeOrder,getOrderItem} from '@/api/order';
 import LogisticsDialog from '@/views/oms/order/components/logisticsDialog';
 import { formatDate } from '@/utils/date';
 import VDistpicker from 'v-distpicker';
@@ -388,7 +386,8 @@ export default {
       // receiverInfo:Object.assign({},defaultReceiverInfo),
       closeDialogVisible: false,
       closeInfo: { note: null, id: null },
-      logisticsDialogVisible: false
+      logisticsDialogVisible: false,
+      itemList:[]
     }
   },
   created() {
@@ -396,6 +395,9 @@ export default {
     getOrderDetail(this.id).then(response => {
       this.order = response.data.data.records[0];
     });
+    getOrderItem(this.id).then(response=>{
+      this.itemList=response.data.data.records;
+    })
   },
   filters: {
     formatNull(value) {

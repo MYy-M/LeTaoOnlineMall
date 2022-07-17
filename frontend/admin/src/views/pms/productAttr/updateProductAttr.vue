@@ -6,6 +6,9 @@
   import ProductAttrDetail from './components/ProductAttrDetail'
   export default {
     name: 'updateProductAttr',
+    data(){
+      return{}
+    },
     components: { ProductAttrDetail }
   }
 </script>
