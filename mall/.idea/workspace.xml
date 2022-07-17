@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/api/order.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/api/order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/views/oms/order/orderDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/admin/src/views/oms/order/orderDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/entity/Commodity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/entity/Commodity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/OrderitemServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/OrderitemServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/OrderitemServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/OrderitemServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/AttributeParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../lt.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../lt.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/CategoryController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/AttributeKeyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/AttributeKeyMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/CommoditySpecsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/CommoditySpecsMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/ConsumerMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/ConsumerMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/LtOrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/LtOrderMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/OrderitemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/OrderitemMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/AttributeKeyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/AttributeKeyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/AttributeKeyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/AttributeKeyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CommodityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CommodityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/ErrorCode.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
