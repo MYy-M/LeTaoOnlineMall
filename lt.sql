@@ -42,7 +42,6 @@ CREATE TABLE `attribute_key`  (
   `category_id` bigint NOT NULL,
   `attribute_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '属性值',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `attribute_name`(`attribute_name`) USING BTREE,
   INDEX `category_id`(`category_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
