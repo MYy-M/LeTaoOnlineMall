@@ -69,8 +69,19 @@ export function getProductCate(id) {
 
 
 export function fetchListWithChildren() {
-  return request({
+  return axios({
     url: '/productCategory/list/withChildren',
     method: 'get'
   })
 }
+export function fetchAllSecondCategory() {
+  return axios({
+    url: 'http://localhost:8088/mall/admin/category/getAllCategorySecond',
+    method: 'post',
+    data:{
+      current:1,
+      pageSize:1000000
+    }
+  })
+}
+
