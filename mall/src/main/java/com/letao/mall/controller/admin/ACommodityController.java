@@ -132,12 +132,14 @@ public class ACommodityController {
 
     /**
      * 添加推荐商品
-     * @param recommend
+     * @param cid
+     * @param file
      * @return
+     * @throws IOException
      */
     @PostMapping("/recommend")
-    public Result recommendCommodity(@RequestBody Recommend recommend) {
-        return Result.success(recommendService.save(recommend));
+    public Result recommendCommodity(long cid, MultipartFile file) throws IOException {
+        return Result.success(recommendService.recommend(cid,file));
     }
 }
 

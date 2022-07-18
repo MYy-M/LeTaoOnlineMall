@@ -24,7 +24,7 @@ public class Recommend implements Serializable {
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long id;
+    private Long rid;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid;
