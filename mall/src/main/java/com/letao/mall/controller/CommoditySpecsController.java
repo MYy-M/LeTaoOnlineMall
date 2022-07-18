@@ -19,7 +19,7 @@ import java.io.IOException;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/commodity-specs")
+@RequestMapping("/mall/commoditySpecs")
 @CrossOrigin
 public class CommoditySpecsController {
 
@@ -43,8 +43,9 @@ public class CommoditySpecsController {
      * @param cid
      * @return
      */
-    @PostMapping("/")
+    @PostMapping("/getCommodityPic")
     public Result getCommodityPic(Long cid) throws IOException {
+
         return commoditySpecsService.getPic(cid);
     }
 
