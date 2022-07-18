@@ -53,19 +53,16 @@ public class CommoditySpecsServiceImpl extends ServiceImpl<CommoditySpecsMapper,
     public Result getPic(Long cid) throws IOException {
         List<CommodityVo> list = new ArrayList<>();
         List<CommoditySpecs> temp;
+        String imageUrl;
         temp = this.list(new LambdaQueryWrapper<CommoditySpecs>().eq(CommoditySpecs::getCid,cid));
         for (int i = 0; i < temp.size(); i++) {
             CommodityVo commodityVo = new CommodityVo();
             commodityVo.setCsId(temp.get(i).getCsId());
-            commodityVo.setPic(temp.get(i).getCpicture());
+            commodityVo.setCprice(temp.get(i).getCprice());
+            imageUrl = temp.get(i).getCpicture();
+            commodityVo.setPic(picUtils.encrypt(imageUrl));
             list.add(commodityVo);
         }
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            String imageUrl = list.get(i).getPic();
-            String data =picUtils.encrypt(imageUrl);
-            result.add(data);
-        }
-        return Result.success(result);
+        return Result.success(list);
     }
 }

@@ -11,6 +11,8 @@ import com.letao.mall.vo.param.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 /**
  * <p>
  * 前端控制器
@@ -28,26 +30,26 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/addCommodity")
-    public Result addCommodity(@RequestBody Cart cart) {
+    public Result addCommodity(@RequestBody Cart cart) throws IOException {
         System.out.println(cartService.addToCart(cart).getData());
         return cartService.addToCart(cart);
     }
 
     @GetMapping("/deleteCommodity")
-    public Result deleteCommodity(Long id) {
-        return Result.success(cartService.removeById(id));
+    public Result deleteCommodity(Long cartId) {
+        return Result.success(cartService.removeById(cartId));
     }
 
     @PostMapping("/addNum")
-    public Result addNum(Long id) {
-        Cart cart = cartService.getById(id);
-        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() + 1)));
+    public Result addNum(Long cartId) {
+        Cart cart = cartService.getById(cartId);
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, cartId).set(Cart::getCartNum, cart.getCartNum() + 1)));
     }
 
     @PostMapping("/reduceNum")
-    public Result reduceNum(Long id) {
-        Cart cart = cartService.getById(id);
-        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() - 1)));
+    public Result reduceNum(Long cartId) {
+        Cart cart = cartService.getById(cartId);
+        return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, cartId).set(Cart::getCartNum, cart.getCartNum() - 1)));
     }
 
     @PostMapping("/setNum")

@@ -4,13 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Cart;
+import com.letao.mall.dao.entity.Commodity;
+import com.letao.mall.dao.entity.CommoditySpecs;
 import com.letao.mall.dao.mapper.CartMapper;
 import com.letao.mall.service.CartService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.letao.mall.service.CommodityService;
+import com.letao.mall.service.CommoditySpecsService;
+import com.letao.mall.util.PicUtils;
+import com.letao.mall.vo.CartVo;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.PageParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 /**
  * <p>
@@ -23,8 +32,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements CartService {
 
+    @Autowired
+    private CommoditySpecsService commoditySpecsService;
+
+    @Autowired
+    private CommodityService commodityService;
+
+    @Autowired
+    private PicUtils picUtils;
+
     @Override
-    public Result addToCart(Cart cart) {
+    public Result addToCart(Cart cart) throws IOException {
         Long uid = cart.getUid();
         Long csId = cart.getCsId();//此处应该是规格表的id
         LambdaQueryWrapper<Cart> queryWrapper = new LambdaQueryWrapper<>();
@@ -32,7 +50,17 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         Cart c = this.getOne(queryWrapper);
         if(c==null){
             if(this.save(cart)){
-                return Result.success(this.getOne(queryWrapper).getCartId()+"");
+                CartVo cartVo = new CartVo();
+                Cart cv = this.getOne(queryWrapper);
+                cartVo.setCartId(cv.getCartId());
+                cartVo.setCsId(csId);
+                cartVo.setNum(cv.getCartNum());
+                CommoditySpecs commoditySpecs = commoditySpecsService.getById(csId);
+                Long cid = commoditySpecs.getCid();
+                cartVo.setCPicture(picUtils.encrypt(commoditySpecs.getCpicture()));
+                cartVo.setPrice(commoditySpecs.getCprice());
+                cartVo.setCname(commodityService.getById(cid).getCname());
+                return Result.success(cartVo);
             }
         }else{
             LambdaUpdateWrapper<Cart> updateWrapper=new LambdaUpdateWrapper<>();

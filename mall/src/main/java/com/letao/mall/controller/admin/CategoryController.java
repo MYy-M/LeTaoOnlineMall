@@ -177,7 +177,7 @@ public class CategoryController {
 
         avs.deleteAttributeValue(id);
 
-        String[] value=values.replaceAll(";","；").split("；");
+        String[] value=values.split("；");
         ArrayList<AttributeValue> list=new ArrayList<>();
         for(String v:value){
             AttributeValue attributeValue=new AttributeValue();
