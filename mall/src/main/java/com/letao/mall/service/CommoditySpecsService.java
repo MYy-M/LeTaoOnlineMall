@@ -2,6 +2,7 @@ package com.letao.mall.service;
 
 import com.letao.mall.dao.entity.CommoditySpecs;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.vo.Result;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CommoditySpecsService extends IService<CommoditySpecs> {
 
+    Result getSpecsByCid(Long cid);
 }
