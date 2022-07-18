@@ -42,5 +42,7 @@ public class Cart implements Serializable {
     //"1"表示“可以购买”，”0“表示“商品已失效”
     private Integer commodityState = 1;
 
+    private boolean check = false;
+
 
 }

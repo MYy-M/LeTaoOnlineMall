@@ -27,11 +27,11 @@ public class CommoditySpecsController {
     @Autowired
     private CommoditySpecsService commoditySpecsService;
     /**
-     * 根据分类名称显示商品
+     * 根据商品ID获取规格
      * @param cid
      * @return
      */
-    @GetMapping("/getSpecs")
+    @PostMapping("/getSpecs")
     public Result showCommodityByName(Long cid){
         return commoditySpecsService.getSpecsByCid(cid);
     }
@@ -45,7 +45,6 @@ public class CommoditySpecsController {
      */
     @PostMapping("/getCommodityPic")
     public Result getCommodityPic(Long cid) throws IOException {
-
         return commoditySpecsService.getPic(cid);
     }
 

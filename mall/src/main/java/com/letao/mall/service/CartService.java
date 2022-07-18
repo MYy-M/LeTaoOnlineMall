@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.PageParam;
 
+import java.io.IOException;
+
 /**
  * <p>
  *  服务类
@@ -21,7 +23,7 @@ public interface CartService extends IService<Cart> {
      * @param cart
      * @return
      */
-    Result addToCart(Cart cart);
+    Result addToCart(Cart cart) throws IOException;
 
 
     /**
