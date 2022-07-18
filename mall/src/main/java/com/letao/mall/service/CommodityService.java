@@ -36,7 +36,7 @@ public interface CommodityService extends IService<Commodity> {
 
     Result showCommodityByCategory(String categoryName) throws IOException;
 
-    Result getHotProduct(String categoryName);
+    Result getHotProduct(String categoryName) throws IOException;
 
     Page getCommodityByC(CommodityParam commodityParam);
 }
