@@ -145,6 +145,16 @@ public class ACommodityController {
     @PostMapping("/getCommodityByC")
     public Result getCommodityByC(@RequestBody CommodityParam commodityParam){
         return Result.success(cms.getCommodityByC(commodityParam));
+
+    /**
+     * 取消推荐商品
+     * @param cid
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/recommend")
+    public Result cancelRecommendCommodity(long cid) throws IOException {
+        return recommendService.cancelRecommend(cid);
     }
 }
 

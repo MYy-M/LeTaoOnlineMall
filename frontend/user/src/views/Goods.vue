@@ -60,7 +60,8 @@
 export default {
   data() {
     return {
-      categoryList: "", //分类列表
+      categoryFList: "", //一级分类列表
+      categorySList:"",//二级分类列表
       categoryID: [], // 分类id
       product: "", // 商品列表
       productList: "",

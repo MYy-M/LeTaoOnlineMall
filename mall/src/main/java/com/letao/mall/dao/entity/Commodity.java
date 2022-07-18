@@ -50,5 +50,6 @@ public class Commodity implements Serializable {
 
     private Integer csales;
 
+    private Integer isRecommend = 0;
 
 }

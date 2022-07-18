@@ -94,7 +94,7 @@ export default {
   activated() {
     // 获取订单数据
     this.$axios
-      .post("/api/user/order/getOrder", {
+      .post("/mall/consumer/order/*", {
         user_id: this.$store.getters.getUser.user_id
       })
       .then(res => {

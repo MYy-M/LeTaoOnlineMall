@@ -21,4 +21,5 @@ public interface RecommendService extends IService<Recommend> {
 
     Result getCarousel() throws IOException;
 
+    Result cancelRecommend(long cid);
 }

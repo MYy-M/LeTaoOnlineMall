@@ -11,10 +11,10 @@ export default {
     // shoppingCart结构
     /* 
     shoppingCart = {
-      id: "", // 购物车id
-      productID: "", // 商品id
-      productName: "", // 商品名称
-      productImg: "", // 商品图片
+      cartId: "", // 购物车id
+      csId: "", // 商品id
+      cname: "", // 商品名称
+      cPicture: "", // 商品图片
       price: "", // 商品价格
       num: "", // 商品数量
       maxNum: "", // 商品限购数量
@@ -109,12 +109,12 @@ export default {
       // 根据商品在购物车的数组的索引和属性更改
       state.shoppingCart[payload.key][payload.prop] = payload.val;
     },
-    addShoppingCartNum (state, productID) {
+    addShoppingCartNum (state, cartId) {
       // 增加购物车商品数量
       // 用于在商品详情页点击添加购物车,后台返回002，“该商品已在购物车，数量 +1”，更新vuex的商品数量
       for (let i = 0; i < state.shoppingCart.length; i++) {
         const temp = state.shoppingCart[i];
-        if (temp.productID == productID) {
+        if (temp.cartId== cartId) {
           if (temp.num < temp.maxNum) {
             temp.num++;
           }
@@ -125,7 +125,7 @@ export default {
       // 根据购物车id删除购物车商品
       for (let i = 0; i < state.shoppingCart.length; i++) {
         const temp = state.shoppingCart[i];
-        if (temp.id == id) {
+        if (temp.cartId == id) {
           state.shoppingCart.splice(i, 1);
         }
       }

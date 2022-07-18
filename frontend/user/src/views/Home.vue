@@ -9,9 +9,10 @@
   <div class="home" id="home" name="home">
     <!-- 轮播图 -->
     <div class="block">
-      <el-carousel height="460px">
+      <el-carousel height="520px">
         <el-carousel-item v-for="item in carousel" :key="item.carousel_id">
-          <img style="height:460px;" :src="$target + item.imgPath" :alt="item.describes" />
+          <img style="height:100%;width:100%;" :src="'data:image/png;base64,' + item.image"
+            :alt="item.describes" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -26,7 +27,7 @@
           <div class="box-bd">
             <div class="promo-list">
               <router-link to>
-                <img :src="$target +'public/imgs/phone/phone.png'" />
+                <img :src="$target + 'public/imgs/phone/phone.png'" />
               </router-link>
             </div>
             <div class="list">
@@ -51,10 +52,10 @@
             <div class="promo-list">
               <ul>
                 <li>
-                  <img :src="$target +'public/imgs/appliance/appliance-promo1.png'" />
+                  <img :src="$target + 'public/imgs/appliance/appliance-promo1.png'" />
                 </li>
                 <li>
-                  <img :src="$target +'public/imgs/appliance/appliance-promo2.png'" />
+                  <img :src="$target + 'public/imgs/appliance/appliance-promo2.png'" />
                 </li>
               </ul>
             </div>
@@ -81,10 +82,10 @@
             <div class="promo-list">
               <ul>
                 <li>
-                  <img :src="$target +'public/imgs/accessory/accessory-promo1.png'" alt />
+                  <img :src="$target + 'public/imgs/accessory/accessory-promo1.png'" alt />
                 </li>
                 <li>
-                  <img :src="$target +'public/imgs/accessory/accessory-promo2.png'" alt />
+                  <img :src="$target + 'public/imgs/accessory/accessory-promo2.png'" alt />
                 </li>
               </ul>
             </div>
@@ -102,6 +103,7 @@
 export default {
   data() {
     return {
+      // windowWidth: document.body.clientWidth,
       carousel: "", // 轮播图数据
       phoneList: "", // 手机商品列表
       miTvList: "", // 小米电视商品列表
@@ -115,9 +117,21 @@ export default {
       accessoryActive: 1 // 配件当前选中的商品分类
     };
   },
+  // mounted() {
+  //   // 实时获取浏览器宽度高度
+  //   const that = this
+  //   window.onresize = () => {
+  //     return (() => {
+  //       //window.fullHeight = document.documentElement.clientHeight
+  //       window.fullWidth = document.documentElement.clientWidth
+  //       //that.windowHeight = window.fullHeight // 高
+  //       that.windowWidth = window.fullWidth // 宽
+  //     })()
+  //   }
+  // },
   watch: {
     // 家电当前选中的商品分类，响应不同的商品数据
-    applianceActive: function(val) {
+    applianceActive: function (val) {
       // 页面初始化的时候把applianceHotList(热门家电商品列表)直接赋值给applianceList(家电商品列表)
       // 所以在切换商品列表时判断applianceHotList是否为空,为空则是第一次切换,把applianceList赋值给applianceHotList
       if (this.applianceHotList == "") {
@@ -134,7 +148,7 @@ export default {
         return;
       }
     },
-    accessoryActive: function(val) {
+    accessoryActive: function (val) {
       // 页面初始化的时候把accessoryHotList(热门配件商品列表)直接赋值给accessoryList(配件商品列表)
       // 所以在切换商品列表时判断accessoryHotList是否为空,为空则是第一次切换,把accessoryList赋值给accessoryHotList
       if (this.accessoryHotList == "") {
@@ -160,13 +174,14 @@ export default {
   created() {
     // 获取轮播图数据
     this.$axios
-      .post("/api/resources/carousel", {})
+      .post("/mall/consumer/recommend/carousel", {})
       .then(res => {
-        this.carousel = res.data.carousel;
+        this.carousel = res.data.data;
       })
       .catch(err => {
         return Promise.reject(err);
       });
+
     // 获取各类商品数据
     this.getPromo("手机", "phoneList");
     this.getPromo("电视机", "miTvList");
@@ -175,12 +190,12 @@ export default {
     this.getPromo(
       ["电视机", "空调", "洗衣机"],
       "applianceList",
-      "/api/product/getHotProduct"
+      "/mall/commodity/getHotProduct"
     );
     this.getPromo(
       ["保护套", "保护膜", "充电器", "充电宝"],
       "accessoryList",
-      "/api/product/getHotProduct"
+      "/mall/commodity/getHotProduct"
     );
   },
   methods: {
@@ -194,13 +209,12 @@ export default {
     },
     // 获取各类商品数据方法封装
     getPromo(categoryName, val, api) {
-      api = api != undefined ? api : "/api/product/getPromoProduct";
+      api = api != undefined ? api : "/mall/commodity/showByCategoryName";
       this.$axios
-        .post(api, {
-          categoryName
+        .post(api,null,{params:{categoryName}
         })
         .then(res => {
-          this[val] = res.data.Product;
+          this[val] = res.data.data;
         })
         .catch(err => {
           return Promise.reject(err);

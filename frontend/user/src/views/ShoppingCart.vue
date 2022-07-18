@@ -38,19 +38,19 @@
         <!-- 购物车表头END -->
 
         <!-- 购物车列表 -->
-        <li class="product-list" v-for="(item,index) in getShoppingCart" :key="item.id">
+        <li class="product-list" v-for="(item,index) in getShoppingCart" :key="item.cartId">
           <div class="pro-check">
             <el-checkbox :value="item.check" @change="checkChange($event,index)"></el-checkbox>
           </div>
           <div class="pro-img">
-            <router-link :to="{ path: '/goods/details', query: {productID:item.productID} }">
-              <img :src="$target + item.productImg" />
+            <router-link :to="{ path: '/goods/details', query: {productID:item.cid} }">
+              <img :src="'data:image/png;base64,' + item.cpicture" />
             </router-link>
           </div>
           <div class="pro-name">
             <router-link
-              :to="{ path: '/goods/details', query: {productID:item.productID} }"
-            >{{item.productName}}</router-link>
+              :to="{ path: '/goods/details', query: {productID:item.cid} }"
+            >{{item.cname}}</router-link>
           </div>
           <div class="pro-price">{{item.price}}元</div>
           <div class="pro-num">
@@ -70,7 +70,7 @@
                 <el-button
                   type="primary"
                   size="mini"
-                  @click="deleteItem($event,item.id,item.productID)"
+                  @click="deleteItem($event,item.cartId)"
                 >确定</el-button>
               </div>
               <i class="el-icon-error" slot="reference" style="font-size: 18px;"></i>
@@ -123,24 +123,25 @@ import { mapGetters } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      commodityInfor:""
+    };
   },
   methods: {
     ...mapActions(["updateShoppingCart", "deleteShoppingCart", "checkAll"]),
     // 修改商品数量的时候调用该函数
-    handleChange(currentValue, key, productID) {
+    handleChange(currentValue, key, cartId) {
       // 当修改数量时，默认勾选
       this.updateShoppingCart({ key: key, prop: "check", val: true });
       // 向后端发起更新购物车的数据库信息请求
       this.$axios
-        .post("/api/user/shoppingCart/updateShoppingCart", {
-          user_id: this.$store.getters.getUser.user_id,
-          product_id: productID,
+        .post("/mall/consumer/setNum", {
+          cartId: cartId,
           num: currentValue
         })
         .then(res => {
           switch (res.data.code) {
-            case "001":
+            case 200:
               // “001”代表更新成功
               // 更新vuex状态
               this.updateShoppingCart({
@@ -165,18 +166,17 @@ export default {
       this.updateShoppingCart({ key: key, prop: "check", val: val });
     },
     // 向后端发起删除购物车的数据库信息请求
-    deleteItem(e, id, productID) {
+    deleteItem(e, cartId) {
       this.$axios
-        .post("/api/user/shoppingCart/deleteShoppingCart", {
-          user_id: this.$store.getters.getUser.user_id,
-          product_id: productID
+        .post("/mall/consumer/cart/deleteCommodity", {
+          cartId: cartId
         })
         .then(res => {
           switch (res.data.code) {
-            case "001":
+            case 200:
               // “001” 删除成功
               // 更新vuex状态
-              this.deleteShoppingCart(id);
+              this.deleteShoppingCart(cartId);
               // 提示删除成功信息
               this.notifySucceed(res.data.msg);
               break;

@@ -20,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>
@@ -50,17 +52,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         Cart c = this.getOne(queryWrapper);
         if(c==null){
             if(this.save(cart)){
-                CartVo cartVo = new CartVo();
-                Cart cv = this.getOne(queryWrapper);
-                cartVo.setCartId(cv.getCartId());
-                cartVo.setCsId(csId);
-                cartVo.setNum(cv.getCartNum());
-                CommoditySpecs commoditySpecs = commoditySpecsService.getById(csId);
-                Long cid = commoditySpecs.getCid();
-                cartVo.setCPicture(picUtils.encrypt(commoditySpecs.getCpicture()));
-                cartVo.setPrice(commoditySpecs.getCprice());
-                cartVo.setCname(commodityService.getById(cid).getCname());
-                return Result.success(cartVo);
+                return Result.success(copy(cart));
             }
         }else{
             LambdaUpdateWrapper<Cart> updateWrapper=new LambdaUpdateWrapper<>();
@@ -74,10 +66,33 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
     }
 
     @Override
-    public Result showCart(PageParam pageParam) {
-        Page<Cart> cartPage = new Page<>(pageParam.getPage(),pageParam.getPageSize());
+    public Result showCart(PageParam pageParam) throws IOException {
         LambdaQueryWrapper<Cart> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(Cart::getUid,pageParam.getUid());
-        return Result.success(this.page(cartPage,queryWrapper));
+        List<Cart> list =this.list(queryWrapper.eq(Cart::getUid,pageParam.getUid()));
+        List<CartVo> resultList = copyList(list);
+        return Result.success(resultList);
+    }
+
+    public List<CartVo> copyList(List<Cart> carts) throws IOException {
+        List<CartVo> resultList =new ArrayList<>();
+        Cart cart;
+        for (int i = 0; i < carts.size(); i++) {
+            resultList.add(copy(carts.get(i)));
+        }
+        return resultList;
+    }
+
+    public CartVo copy(Cart cart) throws IOException {
+        CartVo cartVo = new CartVo();
+        cartVo.setCartId(cart.getCartId());
+        cartVo.setCsId(cart.getCsId());
+        cartVo.setNum(cart.getCartNum());
+        CommoditySpecs commoditySpecs = commoditySpecsService.getById(cart.getCsId());
+        Long cid = commoditySpecs.getCid();
+        cartVo.setCid(cid);
+        cartVo.setCPicture(picUtils.encrypt(commoditySpecs.getCpicture()));
+        cartVo.setPrice(commoditySpecs.getCprice());
+        cartVo.setCname(commodityService.getById(cid).getCname());
+        return cartVo;
     }
 }

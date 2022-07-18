@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 18/07/2022 16:53:39
+ Date: 18/07/2022 18:02:08
 */
 
 SET NAMES utf8mb4;
@@ -74,7 +74,6 @@ CREATE TABLE `cart`  (
   `uid` bigint NOT NULL,
   `cs_id` bigint NOT NULL,
   `cart_num` int NULL DEFAULT 0 COMMENT '购买数量',
-  `check` tinyint NULL DEFAULT NULL,
   `commodity_state` int NULL DEFAULT 1 COMMENT '\"1\"表示“可以购买”，”0“表示“商品已失效”',
   PRIMARY KEY (`cart_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
@@ -82,8 +81,8 @@ CREATE TABLE `cart`  (
 -- ----------------------------
 -- Records of cart
 -- ----------------------------
-INSERT INTO `cart` VALUES (1548902149897883650, 1548882891587461122, 1, 12, NULL, 1);
-INSERT INTO `cart` VALUES (1548937386522611714, 1548882891587461122, 2, 2, NULL, 1);
+INSERT INTO `cart` VALUES (1548902149897883650, 1548882891587461122, 1, 18, 1);
+INSERT INTO `cart` VALUES (1548937386522611714, 1548882891587461122, 2, 2, 1);
 
 -- ----------------------------
 -- Table structure for category
@@ -132,6 +131,7 @@ CREATE TABLE `commodity`  (
   `cdetail` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '商品介绍',
   `category_id` bigint NOT NULL,
   `csales` int NULL DEFAULT 0,
+  `is_recommend` int NOT NULL COMMENT '是否推荐  1为推荐  0 为未推荐',
   PRIMARY KEY (`cid`) USING BTREE,
   INDEX `cid`(`cid`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1546337342148505603 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
@@ -139,10 +139,10 @@ CREATE TABLE `commodity`  (
 -- ----------------------------
 -- Records of commodity
 -- ----------------------------
-INSERT INTO `commodity` VALUES (1, '1', 1.00, 1, '1', 'D:\\pic\\2022-07\\8a2c5eb4-5ba7-4872-b60d-d723bcc626cd.jpg', '1', 1, 9);
-INSERT INTO `commodity` VALUES (2, '2', 2.00, 2, '2', 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '2', 1, 3);
-INSERT INTO `commodity` VALUES (3, '3', 3.00, 3, '3', 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '3', 1, 6);
-INSERT INTO `commodity` VALUES (4, '4', 4.00, 4, '4', 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '4', 1, 10);
+INSERT INTO `commodity` VALUES (1, '1', 1.00, 1, '1', 'D:\\pic\\2022-07\\8a2c5eb4-5ba7-4872-b60d-d723bcc626cd.jpg', '1', 1, 9, 0);
+INSERT INTO `commodity` VALUES (2, '2', 2.00, 2, '2', 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '2', 1, 3, 0);
+INSERT INTO `commodity` VALUES (3, '3', 3.00, 3, '3', 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '3', 1, 6, 0);
+INSERT INTO `commodity` VALUES (4, '4', 4.00, 4, '4', 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '4', 1, 10, 0);
 
 -- ----------------------------
 -- Table structure for commodity_specs
@@ -163,6 +163,7 @@ CREATE TABLE `commodity_specs`  (
 -- Records of commodity_specs
 -- ----------------------------
 INSERT INTO `commodity_specs` VALUES (1, 1, 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '1', 1, 1.00);
+INSERT INTO `commodity_specs` VALUES (2, 2, 'D:\\pic\\2022-07\\eef4cc65-c2dc-478a-89bf-b3478c364d0b.jpg', '2', 6, 2.00);
 
 -- ----------------------------
 -- Table structure for consumer

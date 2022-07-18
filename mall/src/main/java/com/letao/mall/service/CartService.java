@@ -31,5 +31,5 @@ public interface CartService extends IService<Cart> {
      * @param pageParam
      * @return
      */
-    Result showCart(PageParam pageParam);
+    Result showCart(PageParam pageParam) throws IOException;
 }

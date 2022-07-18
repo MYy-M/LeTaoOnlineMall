@@ -11,6 +11,9 @@ public class CartVo {
     private Long cartId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long cid;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long csId;
 
     private String cname;
