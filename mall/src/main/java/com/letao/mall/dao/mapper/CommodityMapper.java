@@ -1,5 +1,6 @@
 package com.letao.mall.dao.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Commodity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -32,5 +33,10 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
 
     @Select("select cpicture from commodity where cid=#{id}")
     String  getPicture(@Param("id") long id);
+
+    @Select("select * from commodity LEFT JOIN collection on commodity.cid=collection.cid where collection.uid=#{uid}")
+    Page<Commodity> getCollection(Page<Commodity> page, @Param("uid")long uid);
+
+
 
 }
