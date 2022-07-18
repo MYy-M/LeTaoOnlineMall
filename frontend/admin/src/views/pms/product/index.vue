@@ -97,7 +97,7 @@
         >
           <template slot-scope="scope"><img
               style="height: 80px"
-              :src="scope.row.pic"
+              :src="scope.row.cpicture"
             ></template>
         </el-table-column>
         <el-table-column
@@ -132,22 +132,12 @@
               </el-switch>
             </p> -->
             <!--  -->
-            <p>新品：
-              <el-switch
-                @change="handleNewStatusChange(scope.$index, scope.row)"
-                :active-value="1"
-                :inactive-value="0"
-                v-model="scope.row.newStatus"
-              >
-              </el-switch>
-            </p>
-            <!-- 增加推荐属性 -->
             <p>推荐：
               <el-switch
                 @change="handleRecommendStatusChange(scope.$index, scope.row)"
                 :active-value="1"
                 :inactive-value="0"
-                v-model="scope.row.recommandStatus"
+                v-model="scope.row.newStatus"
               >
               </el-switch>
             </p>
@@ -235,13 +225,49 @@
       >
       </el-pagination>
     </div>
+    <el-dialog
+      title="设为推荐"
+      :visible.sync="showUpdateNewDialog"
+      width="40%"
+    >
+      <el-upload
+        class="upload-demo"
+        action=""
+        :auto-upload=false
+        :on-preview="handlePreview"
+        :data="fileList"
+        :show-file-list=true
+        list-type="picture"
+        accept=".jpg,.jpeg,.png"
+        :limit=1
+        :on-change="upLoadFile"
+      >
+        <el-button
+          size="small"
+          type="primary"
+        >点击上传</el-button>
+        <div
+          slot="tip"
+          class="el-upload__tip"
+        >只能上传jpg/jpeg/png文件，且不超过500kb</div>
+      </el-upload>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="showUpdateRecommendDialog = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="updateRecommendStatus(1)"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import {
   fetchList,
   updateDeleteStatus,
-  updateNewStatus,
   updateRecommendStatus
 } from '@/api/product'
 import { fetchList as fetchSkuStockList, update as updateSkuStockList } from '@/api/skuStock'
@@ -294,6 +320,10 @@ export default {
       selectProductCateValue: null,
       multipleSelection: [],
       productCateOptions: [],
+      showUpdateNewDialog: false,
+      fileList: [],
+      file:null,
+      recommendId: null
     }
   },
   created() {
@@ -311,6 +341,9 @@ export default {
     }
   },
   methods: {
+    upLoadFile(file) {
+      this.file=file.raw;
+    },
     getProductSkuSp(row, index) {
       let spData = JSON.parse(row.spData);
       if (spData != null && index < spData.length) {
@@ -341,6 +374,9 @@ export default {
           this.productCateOptions.push({ label: list[i].name, value: list[i].id, children: children });
         }
       });
+    },
+    handlePreview(file) {
+      console.log(file)
     },
     handleSearchList() {
       this.listQuery.pageNum = 1;
@@ -412,15 +448,11 @@ export default {
       this.multipleSelection = val;
     },
 
-    handleNewStatusChange(index, row) {
-      let ids = [];
-      ids.push(row.id);
-      this.updateNewStatus(row.newStatus, ids);
-    },
     handleRecommendStatusChange(index, row) {
       let ids = [];
       ids.push(row.id);
-      this.updateRecommendStatus(row.recommandStatus, ids);
+      this.recommendId = row.cid
+      this.showUpdateNewDialog = true;
     },
     handleResetSearch() {
       this.selectProductCateValue = [];
@@ -440,29 +472,24 @@ export default {
     handleUpdateProduct(index, row) {
       this.$router.push({ path: '/pms/updateProduct', query: { id: row.id } });
     },
-    updateNewStatus(newStatus, ids) {
-      let params = new URLSearchParams();
-      params.append('ids', ids);
-      params.append('newStatus', newStatus);
-      updateNewStatus(params).then(response => {
-        this.$message({
-          message: '修改成功',
-          type: 'success',
-          duration: 1000
+    updateRecommendStatus(status) {
+      if (status == 1) {
+        const fd=new FormData();
+        console.log(this.file)
+        fd.append('file',this.file)
+        fd.append('cid',this.recommendId)
+        console.log(fd.get("file"))
+        updateRecommendStatus(fd).then(response => {
+          this.$message({
+            message: '修改成功',
+            type: 'success',
+            duration: 1000
+          });
         });
-      });
-    },
-    updateRecommendStatus(recommendStatus, ids) {
-      let params = new URLSearchParams();
-      params.append('ids', ids);
-      params.append('recommendStatus', recommendStatus);
-      updateRecommendStatus(params).then(response => {
-        this.$message({
-          message: '修改成功',
-          type: 'success',
-          duration: 1000
-        });
-      });
+      }
+      else {
+
+      }
     },
     updateDeleteStatus(deleteStatus, ids) {
       let params = new URLSearchParams();
@@ -477,7 +504,7 @@ export default {
         });
       });
       this.getList();
-    }
+    },
   }
 }
 </script>

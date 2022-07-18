@@ -30,19 +30,18 @@ export function updateDeleteStatus(id) {
   })
 }
 
-export function updateNewStatus(params) {
-  return request({
-    url:'/product/update/newStatus',
-    method:'post',
-    params:params
-  })
-}
+export function updateRecommendStatus(fd) {
 
-export function updateRecommendStatus(params) {
   return axios({
-    url:'/product/update/recommendStatus',
+    url:'http://localhost:8088/mall/admin/commodity/recommend',
     method:'post',
-    params:params
+    headers:{
+      'Content-Type':'multipart/form-data'
+    },
+    data:{
+      cid:fd.get("cid"),
+      file:fd.get("file")
+    }
   })
 }
 
