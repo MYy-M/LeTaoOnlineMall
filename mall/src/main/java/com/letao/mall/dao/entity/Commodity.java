@@ -35,6 +35,8 @@ public class Commodity implements Serializable {
 
     private BigDecimal cprice;
 
+    private String cpicture;
+
     private Integer cnum;
 
     //规格列表
