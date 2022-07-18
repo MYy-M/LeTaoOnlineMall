@@ -15,4 +15,6 @@ import com.letao.mall.vo.Result;
 public interface CommoditySpecsService extends IService<CommoditySpecs> {
 
     Result getSpecsByCid(Long cid);
+
+    Result getPic(Long cid);
 }

@@ -118,18 +118,5 @@ public class CommodityController {
         return Result.success(commodityService.getById(cid).getCdetail());
     }
 
-
-    /**
-     * 根据商品ID获取图片
-     * @param cid
-     * @return
-     */
-    @PostMapping()
-    public Result getCommodityPic(Long cid){
-        return null;
-    }
-
-
-
 }
 
