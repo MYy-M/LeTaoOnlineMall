@@ -57,6 +57,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
                 cartVo.setNum(cv.getCartNum());
                 CommoditySpecs commoditySpecs = commoditySpecsService.getById(csId);
                 Long cid = commoditySpecs.getCid();
+                cartVo.setCid(cid);
                 cartVo.setCPicture(picUtils.encrypt(commoditySpecs.getCpicture()));
                 cartVo.setPrice(commoditySpecs.getCprice());
                 cartVo.setCname(commodityService.getById(cid).getCname());
