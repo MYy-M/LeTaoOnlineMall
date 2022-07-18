@@ -106,14 +106,30 @@ public class CommodityController {
     }
 
 
-    //查看商品细节
+    /**
+     * 查看商品细节
+     * @param cid
+     * @return
+     */
     @GetMapping("/getDetail")
-    public Result getCommodityDetail(
-            Commodity commodity
-    ){
-        if(commodityService.getById(commodity).getCdetail() == null )
+    public Result getCommodityDetail(Long cid){
+        if(commodityService.getById(cid).getCdetail() == null )
             return Result.fail(ErrorCode.DETAIL_NOT_EXIST.getCode(), ErrorCode.DETAIL_NOT_EXIST.getMsg());
-        return Result.success(commodityService.getById(commodity).getCdetail());
+        return Result.success(commodityService.getById(cid).getCdetail());
     }
+
+
+    /**
+     * 根据商品ID获取图片
+     * @param cid
+     * @return
+     */
+    @PostMapping()
+    public Result getCommodityPic(Long cid){
+        return null;
+    }
+
+
+
 }
 
