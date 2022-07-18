@@ -58,7 +58,7 @@ public class CartController {
     }
 
     @PostMapping("/showCart")
-    public Result showCart(@RequestBody PageParam pageParam) {
+    public Result showCart(@RequestBody PageParam pageParam) throws IOException {
         return cartService.showCart(pageParam);
     }
 
