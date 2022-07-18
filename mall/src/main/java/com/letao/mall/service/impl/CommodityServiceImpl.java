@@ -2,14 +2,17 @@ package com.letao.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Category;
 import com.letao.mall.dao.entity.Commodity;
+import com.letao.mall.dao.entity.Store;
 import com.letao.mall.dao.mapper.CommodityMapper;
 import com.letao.mall.service.CategoryService;
 import com.letao.mall.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CommodityParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -140,5 +143,23 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
     }
 
+    @Override
+    public Page getCommodityByC(CommodityParam commodityParam){
+        Long categoryId=commodityParam.getCategoryId();
+        Long cid=commodityParam.getCid();
+        String cname=commodityParam.getCname();
+        Page<Commodity> commodityPage = new Page<>(commodityParam.getPageNum(), commodityParam.getPageSize());
+        LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
+        if(cname!=null){
+            queryWrapper.like(Commodity::getCname,cname);
+        }
+        if(cid!=null){
+            queryWrapper.like(Commodity::getCid,cid);
+        }
+        if(categoryId!=null) {
+            queryWrapper.eq(Commodity::getCategoryId, categoryId);
+        }
+        return commodityMapper.selectPage(commodityPage,queryWrapper);
+    }
 
 }

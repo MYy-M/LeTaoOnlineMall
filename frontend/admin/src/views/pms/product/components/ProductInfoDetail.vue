@@ -64,7 +64,6 @@
 
 <script>
   import {fetchListWithChildren} from '@/api/productCate'
-  import {fetchList as fetchBrandList} from '@/api/brand'
   import {getProduct} from '@/api/product';
 
   export default {

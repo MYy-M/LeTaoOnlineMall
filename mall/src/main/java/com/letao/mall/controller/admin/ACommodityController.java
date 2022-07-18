@@ -12,6 +12,7 @@ import com.letao.mall.util.UploadPic;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.AddCommodityParam;
+import com.letao.mall.vo.param.CommodityParam;
 import com.letao.mall.vo.param.CpictureParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -110,7 +111,7 @@ public class ACommodityController {
      * @return
      */
     @PostMapping("/delete")
-    public Result deleteCommodity(long id) {
+    public Result deleteCommodity(Long id) {
         if (cms.deleteCommodity(id) > 0) {
             return Result.success(new Boolean(true));
         }
@@ -138,6 +139,10 @@ public class ACommodityController {
     @PostMapping("/recommend")
     public Result recommendCommodity(@RequestBody Recommend recommend) {
         return Result.success(recommendService.save(recommend));
+    }
+    @PostMapping("/getCommodityByC")
+    public Result getCommodityByC(@RequestBody CommodityParam commodityParam){
+        return Result.success(cms.getCommodityByC(commodityParam));
     }
 }
 

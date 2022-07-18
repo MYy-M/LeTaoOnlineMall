@@ -1,9 +1,16 @@
 import request from '@/utils/request'
-export function fetchList(params) {
-  return request({
-    url:'/product/list',
-    method:'get',
-    params:params
+import axios from 'axios'
+export function fetchList(data) {
+  return axios({
+    url:'http://localhost:8088/mall/admin/commodity/getCommodityByC',
+    method:'post',
+    data:{
+      cname:data.keyword,
+      cid:data.productSn,
+      categoryId:data.productCategoryId,
+      pageNum:data.pageNum,
+      pageSize:data.pageSize
+    }
   })
 }
 
@@ -15,11 +22,11 @@ export function fetchSimpleList(params) {
   })
 }
 
-export function updateDeleteStatus(params) {
-  return request({
-    url:'/product/update/deleteStatus',
+export function updateDeleteStatus(id) {
+  return axios({
+    url:'http://localhost:8088/mall/admin/commodity/delete',
     method:'post',
-    params:params
+    params:{id}
   })
 }
 
@@ -32,7 +39,7 @@ export function updateNewStatus(params) {
 }
 
 export function updateRecommendStatus(params) {
-  return request({
+  return axios({
     url:'/product/update/recommendStatus',
     method:'post',
     params:params

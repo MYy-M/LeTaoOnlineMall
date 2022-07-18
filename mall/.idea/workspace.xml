@@ -5,13 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/../frontend/admin/src/api/brand.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/CategoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/CategoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/AttributeValueServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/AttributeValueServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/AttributeParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/AttributeParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/CategoryController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/AttributeValueServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/AttributeValueServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/param/AttributeParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/param/AttributeParam.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/ACommodityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/admin/ACommodityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/CommodityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/CommodityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CommodityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CommodityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/CommodityParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/CommodityParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/ACommodityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/admin/ACommodityController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/CommodityService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/CommodityService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/CommodityServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/CommodityServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/param/CommodityParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/param/CommodityParam.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
