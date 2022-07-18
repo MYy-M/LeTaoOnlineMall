@@ -143,9 +143,9 @@ public class ACommodityController {
         return recommendService.recommend(cid,file);
     }
     @PostMapping("/getCommodityByC")
-    public Result getCommodityByC(@RequestBody CommodityParam commodityParam){
+    public Result getCommodityByC(@RequestBody CommodityParam commodityParam) {
         return Result.success(cms.getCommodityByC(commodityParam));
-
+    }
     /**
      * 取消推荐商品
      * @param cid
