@@ -213,7 +213,7 @@ export default {
       this.getList();
     },
     handleUpdate(index, row) {
-      this.$router.push({ path: '/pms/updateProductAttr', query: { id: row.id } });
+      this.$router.push({ name: 'updateProductAttr',params: { value: row.value, name:row.attributeName,id:row.id} });
     },
     handleDeleteProductAttr(id) {
       this.$confirm('是否要删除该属性', '提示', {

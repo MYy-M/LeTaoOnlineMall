@@ -29,18 +29,27 @@ export function deleteProductAttr(id) {
 }
 
 export function createProductAttr(data) {
+  console.log(data)
   return axios({
-    url: 'http://localhost:8088/mall/admin/category/create',
+    url: 'http://localhost:8088/mall/admin/category/addAttributeKey',
     method: 'post',
-    data: data
+    data: {
+      id:data.categoryId,
+      attributeKey:data.name,
+      attributeValue:data.valueList
+    }
   })
 }
 
-export function updateProductAttr(id, data) {
+export function updateProductAttr(data) {
   return axios({
-    url: '/productAttribute/update/' + id,
+    url: 'http://localhost:8088/mall/admin/category/modifyAttribute',
     method: 'post',
-    data: data
+    data: {
+      id:data.categoryId,
+      attributeKey:data.name,
+      attributeValue:data.valueList
+    }
   })
 }
 export function getProductAttr(id) {

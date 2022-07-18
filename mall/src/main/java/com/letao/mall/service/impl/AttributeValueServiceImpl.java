@@ -32,7 +32,7 @@ public class AttributeValueServiceImpl extends ServiceImpl<AttributeValueMapper,
 
     public Boolean deleteAttributeValue(long id){
         QueryWrapper<AttributeValue> queryWrapper=new QueryWrapper<>();
-        queryWrapper.eq("id",id);
+        queryWrapper.eq("attribute_id",id);
         if(attributeValueMapper.delete(queryWrapper)>0){
             return true;
         }

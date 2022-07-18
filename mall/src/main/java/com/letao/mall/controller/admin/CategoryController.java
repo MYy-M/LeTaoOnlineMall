@@ -126,7 +126,7 @@ public class CategoryController {
      */
     @RequestMapping("/addAttributeKey")
     public Result addAttributeKey(@RequestBody AttributeParam param){
-        long categoryId= param.getId();
+        Long categoryId= param.getId();
         String key= param.getAttributeKey();
         String values= param.getAttributeValue().replaceAll(" ","");
 

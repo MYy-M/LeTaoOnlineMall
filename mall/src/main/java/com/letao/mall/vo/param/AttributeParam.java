@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class AttributeParam {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private long id;
+    private Long id;
 
     private String attributeKey;
 
