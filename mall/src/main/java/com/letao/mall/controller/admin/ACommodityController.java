@@ -141,5 +141,16 @@ public class ACommodityController {
     public Result recommendCommodity(long cid, MultipartFile file) throws IOException {
         return recommendService.recommend(cid,file);
     }
+
+    /**
+     * 取消推荐商品
+     * @param cid
+     * @return
+     * @throws IOException
+     */
+    @PostMapping("/recommend")
+    public Result cancelRecommendCommodity(long cid) throws IOException {
+        return recommendService.cancelRecommend(cid);
+    }
 }
 

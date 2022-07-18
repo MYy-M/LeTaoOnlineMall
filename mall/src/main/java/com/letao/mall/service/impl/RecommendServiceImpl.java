@@ -2,8 +2,10 @@ package com.letao.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.dao.entity.Recommend;
 import com.letao.mall.dao.mapper.RecommendMapper;
+import com.letao.mall.service.CommodityService;
 import com.letao.mall.service.RecommendService;
 import com.letao.mall.util.PicUtils;
 import com.letao.mall.util.UploadPic;
@@ -41,17 +43,36 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
     @Autowired
     private  PicUtils picUtils;
 
+    @Autowired
+    private CommodityService commodityService;
+
     @Override
     public Result recommend(long cid, MultipartFile file) throws IOException {
         Recommend recommend = this.getOne(new LambdaQueryWrapper<Recommend>().eq(Recommend::getCid, cid));
         if (recommend != null) {
             return Result.fail(ErrorCode.RECOMMEND_EXIST.getCode(), ErrorCode.RECOMMEND_EXIST.getMsg());
         } else {
+            Commodity commodity = commodityService.getById(cid);
+            commodity.setIsRecommend(1);
+            commodityService.update(commodity,new LambdaQueryWrapper<Commodity>().eq(Commodity::getCid,cid));
             String imageUrl = uploadPic.upPic(file);
             Recommend recommendA = new Recommend();
             recommendA.setCid(cid);
             recommendA.setCpicture(imageUrl);
             return Result.success(this.save(recommendA));
+        }
+    }
+
+    @Override
+    public Result cancelRecommend(long cid) {
+        Recommend recommend = this.getOne(new LambdaQueryWrapper<Recommend>().eq(Recommend::getCid, cid));
+        if (recommend == null) {
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        }else{
+            Commodity commodity = commodityService.getById(cid);
+            commodity.setIsRecommend(0);
+            commodityService.update(commodity,new LambdaQueryWrapper<Commodity>().eq(Commodity::getCid,cid));
+            return Result.success(this.removeById(recommend.getRid()));
         }
     }
 
@@ -77,6 +98,8 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
         //return Result.success(mapList);
         return Result.success(list);
     }
+
+
 
 
 }
