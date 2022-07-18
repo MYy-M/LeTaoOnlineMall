@@ -4,6 +4,8 @@ import com.letao.mall.dao.entity.CommoditySpecs;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.vo.Result;
 
+import java.io.IOException;
+
 /**
  * <p>
  *  服务类
@@ -16,5 +18,5 @@ public interface CommoditySpecsService extends IService<CommoditySpecs> {
 
     Result getSpecsByCid(Long cid);
 
-    Result getPic(Long cid);
+    Result getPic(Long cid) throws IOException;
 }

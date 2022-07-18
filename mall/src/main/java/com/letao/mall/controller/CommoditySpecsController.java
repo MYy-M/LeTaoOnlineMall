@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.QueryAnnotation;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 /**
  * <p>
  *  前端控制器
@@ -42,7 +44,7 @@ public class CommoditySpecsController {
      * @return
      */
     @PostMapping("/")
-    public Result getCommodityPic(Long cid){
+    public Result getCommodityPic(Long cid) throws IOException {
         return commoditySpecsService.getPic(cid);
     }
 
