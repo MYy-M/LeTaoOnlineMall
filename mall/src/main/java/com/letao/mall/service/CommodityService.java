@@ -7,6 +7,7 @@ import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.CommodityParam;
 import org.apache.ibatis.annotations.Param;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
@@ -31,9 +32,9 @@ public interface CommodityService extends IService<Commodity> {
 
     String  getPicture(@Param("id") long id);
 
-    Result showCommodityByCategory(Long categoryId);
+    Result showCommodityByCategory(Long categoryId) throws IOException;
 
-    Result showCommodityByCategory(String categoryName);
+    Result showCommodityByCategory(String categoryName) throws IOException;
 
     Result getHotProduct(String categoryName);
 

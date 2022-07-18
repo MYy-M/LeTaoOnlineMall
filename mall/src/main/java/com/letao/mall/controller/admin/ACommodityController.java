@@ -139,8 +139,8 @@ public class ACommodityController {
      * @throws IOException
      */
     @PostMapping("/recommend")
-    public Result recommendCommodity(Long cid, MultipartFile file) throws IOException {
-        return Result.success(recommendService.recommend(cid,file));
+    public Result recommendCommodity(long cid, MultipartFile file) throws IOException {
+        return recommendService.recommend(cid,file);
     }
     @PostMapping("/getCommodityByC")
     public Result getCommodityByC(@RequestBody CommodityParam commodityParam){

@@ -38,13 +38,13 @@ public class CartController {
         return Result.success(cartService.removeById(id));
     }
 
-    @GetMapping("/addNum")
+    @PostMapping("/addNum")
     public Result addNum(Long id) {
         Cart cart = cartService.getById(id);
         return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() + 1)));
     }
 
-    @GetMapping("/reduceNum")
+    @PostMapping("/reduceNum")
     public Result reduceNum(Long id) {
         Cart cart = cartService.getById(id);
         return Result.success(cartService.update(new LambdaUpdateWrapper<Cart>().eq(Cart::getCartId, id).set(Cart::getCartNum, cart.getCartNum() - 1)));

@@ -10,6 +10,7 @@ import com.letao.mall.dao.mapper.CommodityMapper;
 import com.letao.mall.service.CategoryService;
 import com.letao.mall.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.CommodityParam;
@@ -17,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,9 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private PicUtils picUtils;
 
 
     public int deleteCommodity(long id) {
@@ -78,11 +83,11 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
 
     @Override
-    public Result showCommodityByCategory(Long categoryId) {
+    public Result showCommodityByCategory(Long categoryId) throws IOException {
         return showCommodityByCategory(categoryId, false);
     }
 
-    public Result showCommodityByCategory(Long categoryId, boolean isSort) {
+    public Result showCommodityByCategory(Long categoryId, boolean isSort) throws IOException {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
         System.out.println(list);
         List<Commodity> commodityList = new ArrayList<>();
@@ -90,21 +95,20 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         queryWrapper.eq(Commodity::getCategoryId, categoryId);
         if (list == null || list.size() == 0) {
             if (isSort) {
-                System.out.println("9009090909090");
-                commodityList.addAll(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales)));
+                commodityList.addAll( encryptImage(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales))));
             } else {
-                commodityList.addAll(commodityMapper.selectList(queryWrapper));
+                commodityList.addAll(encryptImage(commodityMapper.selectList(queryWrapper)));
             }
         } else {
             if (isSort) {
                 for (int i = 0; i < list.size(); i++) {
                     Long secondId = list.get(i).getCategoryId();
-                    commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId).orderByDesc(Commodity::getCsales)));
+                    commodityList.addAll(encryptImage(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId).orderByDesc(Commodity::getCsales))));
                 }
             } else {
                 for (int i = 0; i < list.size(); i++) {
                     Long secondId = list.get(i).getCategoryId();
-                    commodityList.addAll(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId)));
+                    commodityList.addAll(encryptImage(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId))));
                 }
             }
 
@@ -117,8 +121,20 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     }
 
 
+    public List<Commodity> encryptImage(List<Commodity> list) throws IOException {
+        String imageUrl;
+        int index;
+        for (int i = 0; i < list.size(); i++) {
+            index = i;
+            imageUrl = list.get(index).getCpicture();
+            list.get(index).setCpicture(picUtils.encrypt(imageUrl));
+        }
+        return list;
+    }
+
+
     @Override
-    public Result showCommodityByCategory(String categoryName) {
+    public Result showCommodityByCategory(String categoryName) throws IOException {
         Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
         if (category == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
@@ -129,7 +145,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     }
 
     @Override
-    public Result getHotProduct(String categoryName) {
+    public Result getHotProduct(String categoryName) throws IOException {
         if(categoryName==null){
             return Result.success(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().orderByDesc(Commodity::getCsales).last("limit 0,10")));
         }else{

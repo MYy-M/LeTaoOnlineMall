@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.dao.entity.Recommend;
 import com.letao.mall.dao.mapper.RecommendMapper;
 import com.letao.mall.service.RecommendService;
+import com.letao.mall.util.PicUtils;
 import com.letao.mall.util.UploadPic;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.RecommendVo;
@@ -37,16 +38,19 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
     @Autowired
     private UploadPic uploadPic;
 
+    @Autowired
+    private  PicUtils picUtils;
+
     @Override
     public Result recommend(long cid, MultipartFile file) throws IOException {
         Recommend recommend = this.getOne(new LambdaQueryWrapper<Recommend>().eq(Recommend::getCid, cid));
-        if (recommend == null) {
+        if (recommend != null) {
             return Result.fail(ErrorCode.RECOMMEND_EXIST.getCode(), ErrorCode.RECOMMEND_EXIST.getMsg());
         } else {
             String imageUrl = uploadPic.upPic(file);
             Recommend recommendA = new Recommend();
-            recommend.setCid(cid);
-            recommend.setCpicture(imageUrl);
+            recommendA.setCid(cid);
+            recommendA.setCpicture(imageUrl);
             return Result.success(this.save(recommendA));
         }
     }
@@ -61,17 +65,7 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
         for (int i = 0; i < recommends.size(); i++) {
             recommend = recommends.get(i);
             String imageUrl = recommend.getCpicture();
-            FileInputStream fileInputStream = new FileInputStream(imageUrl);
-            byte[] b = new byte[1024];
-            int len = -1;
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            while ((len = fileInputStream.read(b)) != -1) {
-                bos.write(b, 0, len);
-            }
-            byte[] fileByte = bos.toByteArray();
-            //进行base64位加密
-            BASE64Encoder encoder = new BASE64Encoder();
-            String data = encoder.encode(fileByte);
+            String data = picUtils.encrypt(imageUrl);
             RecommendVo recommendVo = new RecommendVo();
             recommendVo.setRid(recommend.getRid());
             recommendVo.setCid(recommend.getCid());

@@ -6,11 +6,9 @@ import com.letao.mall.service.CommoditySpecsService;
 import com.letao.mall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.QueryAnnotation;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import java.io.IOException;
 
 /**
  * <p>
@@ -21,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-06-30
  */
 @RestController
-@RequestMapping("/mall/commodity-specs")
+@RequestMapping("/mall/commoditySpecs")
 @CrossOrigin
 public class CommoditySpecsController {
 
@@ -36,6 +34,19 @@ public class CommoditySpecsController {
     @GetMapping("/getSpecs")
     public Result showCommodityByName(Long cid){
         return commoditySpecsService.getSpecsByCid(cid);
+    }
+
+
+
+    /**
+     * 根据商品ID获取图片
+     * @param cid
+     * @return
+     */
+    @PostMapping("/getCommodityPic")
+    public Result getCommodityPic(Long cid) throws IOException {
+
+        return commoditySpecsService.getPic(cid);
     }
 
 }
