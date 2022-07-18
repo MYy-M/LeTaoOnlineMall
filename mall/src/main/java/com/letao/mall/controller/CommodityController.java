@@ -5,12 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.service.CommodityService;
+import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.CommoditySortParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +33,16 @@ public class CommodityController {
     private CommodityService commodityService;
 
 
+    @Autowired
+    private PicUtils picUtils;
+
     /**
      * 根据分类显示商品
      * @param categoryId
      * @return
      */
     @GetMapping("/showByCategoryId")
-    public Result showCommodityById(Long categoryId){
+    public Result showCommodityById(Long categoryId) throws IOException {
         return commodityService.showCommodityByCategory(categoryId);
     }
 
@@ -46,8 +51,8 @@ public class CommodityController {
      * @param categoryName
      * @return
      */
-    @GetMapping("/showByCategoryName")
-    public Result showCommodityByName(String categoryName){
+    @PostMapping("/showByCategoryName")
+    public Result showCommodityByName(String categoryName) throws IOException {
         return commodityService.showCommodityByCategory(categoryName);
     }
 
@@ -58,7 +63,7 @@ public class CommodityController {
      * @return
      */
     @PostMapping("/getHotProduct")
-    public Result getHotProduct(String categoryName){
+    public Result getHotProduct(String categoryName) throws IOException {
         return commodityService.getHotProduct(categoryName);
     }
 
@@ -111,12 +116,17 @@ public class CommodityController {
      * @param cid
      * @return
      */
-    @GetMapping("/getDetail")
-    public Result getCommodityDetail(Long cid){
+    @PostMapping("/getDetail")
+    public Result getCommodityDetail(Long cid) throws IOException {
         if(commodityService.getById(cid).getCdetail() == null )
             return Result.fail(ErrorCode.DETAIL_NOT_EXIST.getCode(), ErrorCode.DETAIL_NOT_EXIST.getMsg());
-        return Result.success(commodityService.getById(cid).getCdetail());
+        Commodity commodity = commodityService.getById(cid);
+        String imageUrl = commodity.getCpicture();
+        commodity.setCpicture(picUtils.encrypt(imageUrl));
+        return Result.success(commodity);
     }
+
+
 
 }
 
