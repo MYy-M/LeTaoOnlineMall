@@ -29,7 +29,9 @@ public class CommoditySpecsServiceImpl extends ServiceImpl<CommoditySpecsMapper,
         list = this.list(new LambdaQueryWrapper<CommoditySpecs>().eq(CommoditySpecs::getCid,cid));
         if(list!=null&&list.size()!=0){
             return Result.success(list);
-        }else return Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
+        }else{
+            return Result.fail(ErrorCode.SEARCH_ERROR.getCode(),ErrorCode.SEARCH_ERROR.getMsg());
+        }
     }
 
     @Override
