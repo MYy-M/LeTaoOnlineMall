@@ -22,7 +22,8 @@ public enum  ErrorCode {
     NO_PERMISSION(70001,"无访问权限"),
     SESSION_TIME_OUT(90001,"会话超时"),
     LOGIN_ING(90002,"已登录"),
-    NO_LOGIN(90003,"未登录"),;
+    NO_LOGIN(90003,"未登录"),
+    RECOMMEND_EXIST(90004, "已推荐");
 
     private int code;
     private String msg;
