@@ -26,9 +26,9 @@ public class CommoditySpecs implements Serializable {
 
     private static final long serialVersionUID=1L;
 
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
+    @TableId(value = "csId", type = IdType.ASSIGN_ID)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long id;
+    private Long csId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid;

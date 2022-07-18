@@ -8,7 +8,6 @@ import java.util.List;
 @Data
 public class CommodityVo {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long id;
-
-    List<String> pic;
+    private Long csId;
+    String pic;
 }
