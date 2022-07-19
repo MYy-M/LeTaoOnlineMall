@@ -1,6 +1,13 @@
 package com.letao.mall.vo.param;
 
-public class CommodityParam {
-    private Long cid;
 
+import lombok.Data;
+
+@Data
+public class CommodityParam {
+    private Long categoryID;
+
+    private Integer currentPage;
+
+    private Integer pageSize;
 }

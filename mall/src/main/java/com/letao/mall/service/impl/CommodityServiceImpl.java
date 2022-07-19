@@ -2,6 +2,7 @@ package com.letao.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Category;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.dao.mapper.CommodityMapper;
@@ -11,6 +12,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CommodityParam;
+import lombok.val;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -154,6 +157,33 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
                 return showCommodityByCategory(categoryId,true);
             }
         }
+    }
+
+    @Override
+    public Result showCommodityByCategoryId(CommodityParam commodityParam) {
+        return getCommodityList(commodityParam);
+    }
+
+    public Result getCommodityList(CommodityParam commodityParam){
+        Long categoryId = commodityParam.getCategoryID();
+        Integer currentPage = commodityParam.getCurrentPage();
+        Integer pageSize = commodityParam.getPageSize();
+        if(currentPage==null||pageSize==null){
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
+        }else{
+            Page<Commodity> page = new Page<>(currentPage,pageSize);
+            if(categoryId==null){
+                return Result.success(this.page(page,null));
+            }else{
+                //写一下一级分类获取所有二级分类的商品
+                return Result.success(this.page(page,new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId,categoryId)));
+            }
+        }
+    }
+
+    @Override
+    public Result showAllCommodityList(CommodityParam commodityParam) {
+        return getCommodityList(commodityParam);
     }
 
 
