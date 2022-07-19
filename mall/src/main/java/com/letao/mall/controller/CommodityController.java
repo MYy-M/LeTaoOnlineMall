@@ -45,7 +45,7 @@ public class CommodityController {
      * @return
      */
     @PostMapping("/showAllCommodity")
-    public Result showAllCommodityList(@RequestBody CommodityParam commodityParam){
+    public Result showAllCommodityList(@RequestBody CommodityParam commodityParam) throws IOException {
         return commodityService.showAllCommodityList(commodityParam);
     }
 

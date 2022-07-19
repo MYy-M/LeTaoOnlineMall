@@ -10,6 +10,7 @@ import com.letao.mall.service.CategoryService;
 import com.letao.mall.service.CommodityService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.util.PicUtils;
+import com.letao.mall.vo.CommodityVoByCategory;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.CommodityParam;
@@ -159,26 +160,69 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     }
 
     @Override
-    public Result showCommodityByCategoryId(CommodityParam commodityParam) {
+    public Result showCommodityByCategoryId(CommodityParam commodityParam) throws IOException {
         return getCommodityList(commodityParam);
     }
 
-    public Result getCommodityList(CommodityParam commodityParam) {
-        Long categoryId = commodityParam.getCategoryID();
+
+    public Result getCommodityList(CommodityParam commodityParam) throws IOException {
         Integer currentPage = commodityParam.getCurrentPage();
         Integer pageSize = commodityParam.getPageSize();
+        List<Commodity> queryList = new ArrayList<>();
         if (currentPage == null || pageSize == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
-        } else {
-            Page<Commodity> page = new Page<>(currentPage, pageSize);
-            if (categoryId == null) {
-                return Result.success(this.page(page, null));
-            } else {
-                //写一下一级分类获取所有二级分类的商品
-                return Result.success(this.page(page,getCondition(categoryId)));
+        }
+        if(commodityParam.getCategoryID().size()!=0){
+            Long categoryId = commodityParam.getCategoryID().get(0);
+            queryList = this.list(getCondition(categoryId));
+        }else{
+            queryList = this.list(null);
+        }
+        int total = queryList.size();
+        List<Commodity> resultList = listByCurrentNum(queryList,currentPage,pageSize);
+        for (int i = 0; i < resultList.size(); i++) {
+            String imgUrl = resultList.get(i).getCpicture();
+            resultList.get(i).setCpicture(picUtils.encrypt(imgUrl));
+        }
+        CommodityVoByCategory commodity = new CommodityVoByCategory();
+        commodity.setList(resultList);
+        commodity.setTotal(total);
+        return Result.success(commodity);
+    }
+
+
+    public List<Commodity> listByCurrentNum(List<Commodity> queryList,Integer currentPage,Integer pageSize){
+        List<Commodity> resultList = new ArrayList<>();
+        int pageNum = (int)Math.ceil(queryList.size()/pageSize);
+        if(currentPage==pageNum){
+            for (int i = (currentPage-1)*pageNum; i < queryList.size(); i++) {
+                resultList.add(queryList.get(i));
+            }
+        }else{
+            for (int i = (currentPage-1)*pageNum; i < (currentPage-1)*pageNum+15 ; i++) {
+                resultList.add(queryList.get(i));
             }
         }
+        System.out.println(resultList);
+        return resultList;
     }
+
+//    public Result getCommodityList(CommodityParam commodityParam) {
+//        Long categoryId = commodityParam.getCategoryID().get(0);
+//        Integer currentPage = commodityParam.getCurrentPage();
+//        Integer pageSize = commodityParam.getPageSize();
+//        if (currentPage == null || pageSize == null) {
+//            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+//        } else {
+//            Page<Commodity> page = new Page<>(currentPage, pageSize);
+//            if (categoryId == null) {
+//                return Result.success(this.page(page, null));
+//            } else {
+//                //写一下一级分类获取所有二级分类的商品
+//                return Result.success(this.page(page,getCondition(categoryId)));
+//            }
+//        }
+//    }
 
     public LambdaQueryWrapper<Commodity> getCondition(Long categoryId) {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
@@ -197,7 +241,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
     }
     @Override
-    public Result showAllCommodityList(CommodityParam commodityParam) {
+    public Result showAllCommodityList(CommodityParam commodityParam) throws IOException {
         return getCommodityList(commodityParam);
     }
 

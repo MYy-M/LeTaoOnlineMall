@@ -3,9 +3,11 @@ package com.letao.mall.vo.param;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CommodityParam {
-    private Long categoryID;
+    private List<Long> categoryID;
 
     private Integer currentPage;
 
