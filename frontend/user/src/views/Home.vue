@@ -11,8 +11,7 @@
     <div class="block">
       <el-carousel height="520px">
         <el-carousel-item v-for="item in carousel" :key="item.carousel_id">
-          <img referrerpolicy="no-referrer" style="height:100%;width:100%;" :src="$target + item.image"
-            :alt="item.describes" />
+          <img style="height:100%;width:100%;" :src="'data:image/png;base64,' + item.image" :alt="item.describes" />
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -27,7 +26,7 @@
           <div class="box-bd">
             <div class="promo-list">
               <router-link to>
-                <img :src="$target + 'public/imgs/phone/phone.png'" />
+                <img :src="'data:image/png;base64,' + 'public/imgs/phone/phone.png'" />
               </router-link>
             </div>
             <div class="list">
@@ -35,16 +34,53 @@
             </div>
           </div>
         </div>
-        <!-- 手机商品展示区域END -->
+        <!-- 手机商品展示区域END -->、
+
+        <!-- 电脑商品展示区域 -->
+        <div class="phone">
+          <div class="box-hd">
+            <div class="title">电脑</div>
+            <div class="more" id="more">
+            </div>
+          </div>
+          <div class="box-bd">
+            <div class="promo-list">
+              <router-link to>
+                <img :src="'data:image/png;base64,' + 'public/imgs/phone/phone.png'" />
+              </router-link>
+            </div>
+            <div class="list">
+              <MyList :list="computerList" :isMore="true"></MyList>
+            </div>
+          </div>
+        </div>
+        <!-- 电脑商品展示区域END -->
+
+        <!-- 平板商品展示区域 -->
+        <div class="phone">
+          <div class="box-hd">
+            <div class="title">平板</div>
+          </div>
+          <div class="box-bd">
+            <div class="promo-list">
+              <router-link to>
+                <img :src="'data:image/png;base64,' + 'public/imgs/phone/phone.png'" />
+              </router-link>
+            </div>
+            <div class="list">
+              <MyList :list="padList" :isMore="true"></MyList>
+            </div>
+          </div>
+        </div>
+        <!-- 平板商品展示区域END -->
 
         <!-- 家电商品展示区域 -->
         <div class="appliance" id="promo-menu">
           <div class="box-hd">
             <div class="title">家电</div>
             <div class="more" id="more">
-              <MyMenu :val="2" @fromChild="getChildMsg">
+              <MyMenu :val="1" @fromChild="getChildMsg">
                 <span slot="1">热门</span>
-                <span slot="2">电视影音</span>
               </MyMenu>
             </div>
           </div>
@@ -67,7 +103,7 @@
         <!-- 家电商品展示区域END -->
 
         <!-- 配件商品展示区域 -->
-        <div class="accessory" id="promo-menu">
+        <!-- <div class="accessory" id="promo-menu">
           <div class="box-hd">
             <div class="title">配件</div>
             <div class="more" id="more">
@@ -93,7 +129,7 @@
               <MyList :list="accessoryList" :isMore="true"></MyList>
             </div>
           </div>
-        </div>
+        </div> -->
         <!-- 配件商品展示区域END -->
       </div>
     </div>
@@ -106,15 +142,19 @@ export default {
       // windowWidth: document.body.clientWidth,
       carousel: "", // 轮播图数据
       phoneList: "", // 手机商品列表
-      miTvList: "", // 小米电视商品列表
+      // miTvList: "", // 小米电视商品列表
+      computerList: "",
+      computerHotList:"",
+      padList: "",
+      padHotList:"",
       applianceList: "", // 家电商品列表
       applianceHotList: "", //热门家电商品列表
-      accessoryList: "", //配件商品列表
-      accessoryHotList: "", //热门配件商品列表
-      protectingShellList: "", // 保护套商品列表
-      chargerList: "", //充电器商品列表
-      applianceActive: 1, // 家电当前选中的商品分类
-      accessoryActive: 1 // 配件当前选中的商品分类
+      // accessoryList: "", //配件商品列表
+      // accessoryHotList: "", //热门配件商品列表
+      // protectingShellList: "", // 保护套商品列表
+      // chargerList: "", //充电器商品列表
+      // applianceActive: 1, // 家电当前选中的商品分类
+      // accessoryActive: 1 // 配件当前选中的商品分类
     };
   },
   // mounted() {
@@ -142,11 +182,11 @@ export default {
         this.applianceList = this.applianceHotList;
         return;
       }
-      if (val == 2) {
-        // 2为电视商品
-        this.applianceList = this.miTvList;
-        return;
-      }
+      // if (val == 2) {
+      //   // 2为电视商品
+      //   this.applianceList = this.miTvList;
+      //   return;
+      // }
     },
     accessoryActive: function (val) {
       // 页面初始化的时候把accessoryHotList(热门配件商品列表)直接赋值给accessoryList(配件商品列表)
@@ -184,34 +224,26 @@ export default {
 
     // 获取各类商品数据
     this.getPromo("手机", "phoneList");
-    this.getPromo("电视机", "miTvList");
-    this.getPromo("保护套", "protectingShellList");
-    this.getPromo("充电器", "chargerList");
-    this.getPromo(
-      ["电视机", "空调", "洗衣机"],
-      "applianceList",
-      "/mall/commodity/getHotProduct"
-    );
-    this.getPromo(
-      ["保护套", "保护膜", "充电器", "充电宝"],
-      "accessoryList",
-      "/mall/commodity/getHotProduct"
-    );
+    this.getPromo("电脑", "computerList");
+    this.getPromo("平板", "padList");
+    this.getPromo("家电", "applianceList");
+    // this.getPromo(
+    //   ["家电"],
+    //   "applianceList",
+    //   "/mall/commodity/getHotProduct"
+    // );
   },
   methods: {
     // 获取家电模块子组件传过来的数据
     getChildMsg(val) {
       this.applianceActive = val;
     },
-    // 获取配件模块子组件传过来的数据
-    getChildMsg2(val) {
-      this.accessoryActive = val;
-    },
     // 获取各类商品数据方法封装
     getPromo(categoryName, val, api) {
       api = api != undefined ? api : "/mall/commodity/showByCategoryName";
       this.$axios
-        .post(api,null,{params:{categoryName}
+        .post(api, null, {
+          params: { categoryName }
         })
         .then(res => {
           this[val] = res.data.data;

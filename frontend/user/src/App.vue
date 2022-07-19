@@ -417,7 +417,7 @@ a:hover {
   display: inline-block;
   line-height: 40px;
   text-decoration: none;
-  background: url("./assets/imgs/us-icon.png") no-repeat left 0;
+  /**background: url("./assets/imgs/us-icon.png") no-repeat left 0;*/
 }
 
 .footer .github {
