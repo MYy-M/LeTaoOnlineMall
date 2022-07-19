@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.SelectCommodityVo;
 import com.letao.mall.vo.param.CommodityParam;
 import lombok.val;
 import org.apache.ibatis.annotations.Param;
@@ -97,7 +98,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
             if (isSort) {
                 commodityList.addAll(encryptImage(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales))));
             } else {
-                commodityList.addAll(encryptImage(commodityMapper.selectList(queryWrapper)));
+                commodityList.addAll(commodityMapper.selectList(queryWrapper));
             }
         } else {
             if (isSort) {
@@ -126,7 +127,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         for (int i = 0; i < list.size(); i++) {
             index = i;
             imageUrl = list.get(index).getCpicture();
-            list.get(index).setCpicture(picUtils.encrypt(imageUrl));
+            //list.get(index).setCpicture(picUtils.encrypt(imageUrl));
         }
         return list;
     }
@@ -163,23 +164,50 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         return getCommodityList(commodityParam);
     }
 
+    @Override
+    public Result showAllCommodityList(CommodityParam commodityParam) {
+        return getCommodityList(commodityParam);
+    }
+
     public Result getCommodityList(CommodityParam commodityParam) {
-        Long categoryId = commodityParam.getCategoryID();
         Integer currentPage = commodityParam.getCurrentPage();
         Integer pageSize = commodityParam.getPageSize();
+        List<Commodity> queryList;
         if (currentPage == null || pageSize == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         } else {
-            Page<Commodity> page = new Page<>(currentPage, pageSize);
-            if (categoryId == null) {
-                return Result.success(this.page(page, null));
-            } else {
-                //写一下一级分类获取所有二级分类的商品
-                return Result.success(this.page(page,getCondition(categoryId)));
+            SelectCommodityVo selectCommodityVo = new SelectCommodityVo();
+            if(commodityParam.getCategoryID().size()!=0){
+                Long categoryId = commodityParam.getCategoryID().get(0);
+                queryList = commodityMapper.selectList(getCondition(categoryId));
+            }else{
+                queryList = commodityMapper.selectList(null);
             }
+            int total = queryList.size();
+            List<Commodity> resultList = returnCommodityByPage(queryList,currentPage,pageSize);
+            selectCommodityVo.setCommodity(resultList);
+            selectCommodityVo.setTotal(total);
+            return Result.success(selectCommodityVo);
         }
     }
 
+    public List<Commodity> returnCommodityByPage(List<Commodity> queryList,Integer currentPage,Integer pageSize){
+        List<Commodity> resultList = new ArrayList<>();
+        int total = queryList.size();
+        int pageNum = total/pageSize+1;
+        System.out.println(pageNum);
+        if(currentPage==pageNum){
+            for (int i = currentPage*pageSize; i < queryList.size(); i++) {
+                resultList.add(queryList.get(i));
+            }
+        }else{
+            for (int i = currentPage*pageSize; i < currentPage+15; i++) {
+                resultList.add(queryList.get(i));
+            }
+        }
+        return resultList;
+
+    }
     public LambdaQueryWrapper<Commodity> getCondition(Long categoryId) {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
         LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
@@ -196,10 +224,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
             return queryWrapper1;
         }
     }
-    @Override
-    public Result showAllCommodityList(CommodityParam commodityParam) {
-        return getCommodityList(commodityParam);
-    }
+
 
 
 }
