@@ -152,7 +152,7 @@
           id="inputImgFile"
           style="display:none"
           accept="image/png, image/jpeg, image/jpg"
-          @change=""
+          @change="showPic"
         >
         <img
           id="show_img"
@@ -194,7 +194,6 @@
           @click="handleFinishCommit()"
         >完成，提交商品</el-button>
       </el-form-item>
-      <div>{{this.selectProductPics}}</div>
     </el-form>
   </div>
 </template>
@@ -228,7 +227,6 @@ export default {
       //可手动添加的商品属性
       addProductAttrValue: '',
       file: null,
-      selectProductPics: null
     }
   },
   computed: {
@@ -242,12 +240,6 @@ export default {
     //商品的编号
     productId() {
       return this.value.id;
-    },
-    fileList() {
-      return [{
-        name: this.imageName,
-        url: this.imageUrl
-      }]
     },
     //商品的主图和画册图片
     // selectProductPics: {
@@ -294,8 +286,7 @@ export default {
     showPic() {
       let inputImgFile = document.getElementById("inputImgFile");
       let show_img = document.getElementById("show_img");
-      console.log(1111111)
-      my_data = inputImgFile.files[0];
+      this.file = inputImgFile.files[0];
       // 获取上传图片信息
       var reader = new FileReader();
       // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
@@ -303,7 +294,8 @@ export default {
         show_img.src = reader.result;
       }, false);
       // 调用reader.readAsDataURL()方法，把图片转成base64
-      reader.readAsDataURL(my_data);
+      reader.readAsDataURL(this.file);
+      console.log(this.file)
     },
     //ac
     handleEditCreated() {
@@ -571,7 +563,7 @@ export default {
     },
     //合并商品属性图片
     mergeProductAttrPics() {
-      this.value.pic = this.selectProductPics;
+      this.value.pic = this.file;
       for (let i = 0; i < this.selectProductAttrPics.length; i++) {
         for (let j = 0; j < this.value.skuStockList.length; j++) {
           let spData = JSON.parse(this.value.skuStockList[j].spData);
