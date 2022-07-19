@@ -11,6 +11,7 @@ import com.letao.mall.service.OrderAddressService;
 import com.letao.mall.service.TokenService;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +26,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderAdressServiceImpl extends ServiceImpl<OrderAddressMapper,OrderAddress> implements OrderAddressService {
 
+    @Autowired
+    private OrderAddressMapper orderAddressMapper;
+    public  String getAddress(@Param("id") long addressId){
+        return orderAddressMapper.getAddress(addressId);
+    }
 }

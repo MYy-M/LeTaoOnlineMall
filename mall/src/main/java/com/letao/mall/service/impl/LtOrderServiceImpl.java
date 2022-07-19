@@ -4,20 +4,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.LtOrder;
-import com.letao.mall.dao.entity.Store;
+import com.letao.mall.dao.entity.Orderitem;
 import com.letao.mall.dao.mapper.LtOrderMapper;
 import com.letao.mall.service.LtOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.SearchOrderParam;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -79,5 +78,14 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
         return Result.success(orderMapper.selectPage(orderPage, queryWrapper));
 
     }
+
+    public List<Orderitem> getOrderList(@Param("uid") long uid){
+        return orderMapper.getOrderList(uid);
+    }
+
+    public Date getTime(long id){
+        return orderMapper.getTime(id);
+    }
+
 
 }
