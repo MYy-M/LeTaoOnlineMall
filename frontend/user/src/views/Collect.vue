@@ -39,12 +39,12 @@ export default {
   activated() {
     // 获取收藏数据
     this.$axios
-      .post("/api/user/collect/getCollect", {
-        uid: this.$store.getters.getUser.user_id
+      .post("/mall/collection/getCollection", {
+        uid: this.$store.getters.getUser.uid
       })
       .then(res => {
-        if (res.data.code === "001") {
-          this.collectList = res.data.collectList;
+        if (res.data.code === 200) {
+          this.collectList = res.data.data;
         }
       })
       .catch(err => {
@@ -53,6 +53,7 @@ export default {
   }
 };
 </script>
+
 <style>
 .collect {
   background-color: #f5f5f5;

@@ -26,9 +26,9 @@
         <el-tabs v-model="activeName" type="card">
           <el-tab-pane
             v-for="item in categoryList"
-            :key="item.category_id"
-            :label="item.category_name"
-            :name="''+item.category_id"
+            :key="item.categoryId"
+            :label="item.categoryName"
+            :name="''+item.categoryId"
           />
         </el-tabs>
       </div>
@@ -60,8 +60,7 @@
 export default {
   data() {
     return {
-      categoryFList: "", //一级分类列表
-      categorySList:"",//二级分类列表
+      categoryList: "", //分类列表
       categoryID: [], // 分类id
       product: "", // 商品列表
       productList: "",
@@ -167,13 +166,13 @@ export default {
     // 向后端请求分类列表数据
     getCategory() {
       this.$axios
-        .post("/api/product/getCategory", {})
+        .post("/mall/consumer/getCategoryFirst", {})
         .then(res => {
           const val = {
             category_id: 0,
             category_name: "全部"
           };
-          const cate = res.data.category;
+          const cate = res.data.data;
           cate.unshift(val);
           this.categoryList = cate;
         })

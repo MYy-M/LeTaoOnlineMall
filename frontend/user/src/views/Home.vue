@@ -11,7 +11,7 @@
     <div class="block">
       <el-carousel height="520px">
         <el-carousel-item v-for="item in carousel" :key="item.carousel_id">
-          <img style="height:100%;width:100%;" :src="'data:image/png;base64,' + item.image"
+          <img referrerpolicy="no-referrer" style="height:100%;width:100%;" :src="$target + item.image"
             :alt="item.describes" />
         </el-carousel-item>
       </el-carousel>
