@@ -32,6 +32,7 @@ public class OrderAddressController {
 
     @PostMapping("/showAddress")
     public Result showAddress(Long uid){
+        System.out.println(uid);
         if(uid==null){
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
         }else{
