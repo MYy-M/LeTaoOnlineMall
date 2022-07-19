@@ -8,7 +8,7 @@
 <template>
   <div class="goods" id="goods" name="goods">
     <!-- 面包屑 -->
-    <div class="breadcrumb">
+    <!-- <div class="breadcrumb">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
         <el-breadcrumb-item>全部商品</el-breadcrumb-item>
@@ -16,13 +16,12 @@
         <el-breadcrumb-item v-else>分类</el-breadcrumb-item>
         <el-breadcrumb-item v-if="search">{{search}}</el-breadcrumb-item>
       </el-breadcrumb>
-    </div>
+    </div> -->
     <!-- 面包屑END -->
 
     <!-- 分类标签 -->
     <div class="nav">
       <div class="product-nav">
-        <div class="title">分类</div>
         <el-tabs v-model="activeName" type="card">
           <el-tab-pane
             v-for="item in categoryList"
@@ -105,7 +104,7 @@ export default {
         this.categoryID = [];
       }
       if (val > 0) {
-        this.categoryID = [Number(val)];
+        this.categoryID = [val];
       }
       // 初始化商品总量和当前页码
       this.total = 0;
@@ -166,11 +165,11 @@ export default {
     // 向后端请求分类列表数据
     getCategory() {
       this.$axios
-        .post("/mall/consumer/getCategoryFirst", {})
+        .post("/mall/consumer/category/getCategoryFirst", {})
         .then(res => {
           const val = {
-            category_id: 0,
-            category_name: "全部"
+            categoryId: 0,
+            categoryName: "全部"
           };
           const cate = res.data.data;
           cate.unshift(val);
@@ -185,8 +184,8 @@ export default {
       // 如果分类列表为空则请求全部商品数据，否则请求分类商品数据
       const api =
         this.categoryID.length == 0
-          ? "/api/product/getAllProduct"
-          : "/api/product/getProductByCategory";
+          ? "/mall/commodity/showAllCommodity"
+          : "/mall/commodity/showByCategoryId";
       this.$axios
         .post(api, {
           categoryID: this.categoryID,
@@ -194,8 +193,8 @@ export default {
           pageSize: this.pageSize
         })
         .then(res => {
-          this.product = res.data.Product;
-          this.total = res.data.total;
+          this.product = res.data.data.list;
+          this.total = res.data.data.total;
         })
         .catch(err => {
           return Promise.reject(err);

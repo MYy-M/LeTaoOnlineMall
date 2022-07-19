@@ -88,9 +88,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         return showCommodityByCategory(categoryId, false);
     }
 
+
+
     public Result showCommodityByCategory(Long categoryId, boolean isSort) throws IOException {
         List<Category> list = categoryService.getAllSecondCategory(categoryId);
-        System.out.println(list);
         List<Commodity> commodityList = new ArrayList<>();
         LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Commodity::getCategoryId, categoryId);
@@ -136,11 +137,31 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Override
     public Result showCommodityByCategory(String categoryName) throws IOException {
         Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
+        List<Commodity> commodityList;
         if (category == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         } else {
             Long categoryId = category.getCategoryId();
-            return showCommodityByCategory(categoryId);
+            List<Category> list = categoryService.getAllSecondCategory(categoryId);
+            commodityList = new ArrayList<>();
+            LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Commodity::getCategoryId, categoryId);
+            if (list == null || list.size() == 0) {
+                commodityList.addAll(encryptImage(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales).last("limit 7"))));
+
+            } else {
+                for (int i = 0; i < list.size(); i++) {
+                    Long secondId = list.get(i).getCategoryId();
+                    commodityList.addAll(encryptImage(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId).orderByDesc(Commodity::getCsales).last("limit 7"))));
+                }
+
+            }
+
+        }
+        if (commodityList != null && commodityList.size() != 0) {
+            return Result.success(commodityList);
+        } else {
+            return Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
         }
     }
 
@@ -168,17 +189,19 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     public Result getCommodityList(CommodityParam commodityParam) throws IOException {
         Integer currentPage = commodityParam.getCurrentPage();
         Integer pageSize = commodityParam.getPageSize();
-        List<Commodity> queryList = new ArrayList<>();
+        List<Commodity> queryList;
         if (currentPage == null || pageSize == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }
         if(commodityParam.getCategoryID().size()!=0){
+            System.out.println("nuidninijdsnkcjsdpc---------"+commodityParam.getCategoryID().get(0));
             Long categoryId = commodityParam.getCategoryID().get(0);
             queryList = this.list(getCondition(categoryId));
         }else{
             queryList = this.list(null);
         }
         int total = queryList.size();
+        System.out.println(queryList);
         List<Commodity> resultList = listByCurrentNum(queryList,currentPage,pageSize);
         for (int i = 0; i < resultList.size(); i++) {
             String imgUrl = resultList.get(i).getCpicture();
@@ -193,16 +216,19 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     public List<Commodity> listByCurrentNum(List<Commodity> queryList,Integer currentPage,Integer pageSize){
         List<Commodity> resultList = new ArrayList<>();
-        int pageNum = (int)Math.ceil(queryList.size()/pageSize);
+        System.out.println(queryList.size());
+        int pageNum = (int)Math.ceil(queryList.size()*1.0/pageSize*1.0);
+        System.out.println(pageNum+"-------------------------------");
         if(currentPage==pageNum){
             for (int i = (currentPage-1)*pageNum; i < queryList.size(); i++) {
                 resultList.add(queryList.get(i));
             }
         }else{
-            for (int i = (currentPage-1)*pageNum; i < (currentPage-1)*pageNum+15 ; i++) {
+            for (int i = (currentPage-1)*pageNum; i < (currentPage-1)*pageNum + 15 ; i++) {
                 resultList.add(queryList.get(i));
             }
         }
+
         System.out.println(resultList);
         return resultList;
     }

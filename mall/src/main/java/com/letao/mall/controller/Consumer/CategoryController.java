@@ -40,7 +40,7 @@ public class CategoryController {
      */
     @PostMapping("/getCategoryFirst")
     public Result getCategoryFirst() {
-        return Result.success(cgs.list(new LambdaQueryWrapper<Category>().eq(Category::getParentId, 0)));
+        return Result.success(cgs.list(new LambdaQueryWrapper<Category>().eq(Category::getCategoryLevel,2)));
     }
 
     /**

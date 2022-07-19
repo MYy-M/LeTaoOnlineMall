@@ -267,9 +267,9 @@ export default {
         return;
       }
       this.$axios
-        .post("/api/user/collect/addCollect", {
-          user_id: this.$store.getters.getUser.user_id,
-          product_id: this.cid
+        .post("/mall/collection/addCollection", {
+          uid: this.$store.getters.getUser.uid,
+          cid: this.cid
         })
         .then(res => {
           if (res.data.code == 200) {
