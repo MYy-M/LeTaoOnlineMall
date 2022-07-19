@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 18/07/2022 18:02:08
+ Date: 19/07/2022 10:18:08
 */
 
 SET NAMES utf8mb4;
@@ -206,6 +206,23 @@ CREATE TABLE `lt_order`  (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for order_address
+-- ----------------------------
+DROP TABLE IF EXISTS `order_address`;
+CREATE TABLE `order_address`  (
+  `id` bigint NOT NULL,
+  `uid` bigint NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户地址',
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '电话号码',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of order_address
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for orderitem
 -- ----------------------------
 DROP TABLE IF EXISTS `orderitem`;
@@ -232,7 +249,7 @@ CREATE TABLE `recommend`  (
   `cpicture` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
   PRIMARY KEY (`rid`) USING BTREE,
   INDEX `rid`(`rid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1546337342148505603 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1548912019648933890 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of recommend
