@@ -3,6 +3,7 @@ package com.letao.mall.service;
 import com.letao.mall.dao.entity.Commodity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.param.CommodityParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.io.IOException;
@@ -36,4 +37,7 @@ public interface CommodityService extends IService<Commodity> {
 
     Result getHotProduct(String categoryName) throws IOException;
 
+    Result showCommodityByCategoryId(CommodityParam commodityParam);
+
+    Result showAllCommodityList(CommodityParam commodityParam);
 }
