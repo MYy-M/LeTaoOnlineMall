@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -35,7 +37,7 @@ public interface CommodityMapper extends BaseMapper<Commodity> {
     String  getPicture(@Param("id") long id);
 
     @Select("select * from commodity LEFT JOIN collection on commodity.cid=collection.cid where collection.uid=#{uid}")
-    Page<Commodity> getCollection(Page<Commodity> page, @Param("uid")long uid);
+    List<Commodity> getCollection(@Param("uid")long uid);
 
 
 
