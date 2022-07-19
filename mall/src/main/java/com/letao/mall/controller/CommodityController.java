@@ -1,7 +1,6 @@
 package com.letao.mall.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Commodity;
@@ -9,7 +8,6 @@ import com.letao.mall.service.CommodityService;
 import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
-import com.letao.mall.vo.param.CommodityParam;
 import com.letao.mall.vo.param.CommoditySortParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -38,26 +36,14 @@ public class CommodityController {
     @Autowired
     private PicUtils picUtils;
 
-
     /**
-     * 显示所有商品
-     * @param commodityParam
+     * 根据分类显示商品
+     * @param categoryId
      * @return
      */
-    @PostMapping("/showAllCommodity")
-    public Result showAllCommodityList(@RequestBody CommodityParam commodityParam){
-        return commodityService.showAllCommodityList(commodityParam);
-    }
-
-
-    /**
-     * 根据分类Id显示商品
-     * @param commodityParam
-     * @return
-     */
-    @PostMapping("/showByCategoryId")
-    public Result showCommodityById(@RequestBody CommodityParam commodityParam) throws IOException {
-        return commodityService.showCommodityByCategoryId(commodityParam);
+    @GetMapping("/showByCategoryId")
+    public Result showCommodityById(Long categoryId) throws IOException {
+        return commodityService.showCommodityByCategory(categoryId);
     }
 
     /**
@@ -72,7 +58,7 @@ public class CommodityController {
 
 
     /**
-     * 根据分类名称显示热门商品
+     * 根据分类名称显示商品
      * @param categoryName
      * @return
      */

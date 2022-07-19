@@ -2,7 +2,6 @@ package com.letao.mall.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Category;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.dao.mapper.CommodityMapper;
@@ -12,9 +11,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+<<<<<<< HEAD
 import com.letao.mall.vo.SelectCommodityVo;
 import com.letao.mall.vo.param.CommodityParam;
 import lombok.val;
+=======
+>>>>>>> parent of 4d7a0a8e (查询商品)
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -159,6 +161,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
     }
 
+<<<<<<< HEAD
     @Override
     public Result showCommodityByCategoryId(CommodityParam commodityParam) {
         return getCommodityList(commodityParam);
@@ -226,5 +229,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     }
 
 
+=======
+>>>>>>> parent of 4d7a0a8e (查询商品)
 
 }
