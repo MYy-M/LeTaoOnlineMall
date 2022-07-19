@@ -183,7 +183,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Override
     public Page getCommodityByC(CommodityParam commodityParam){
-        Long categoryId=commodityParam.getCategoryID();
+        Long categoryId=commodityParam.getCategoryID().get(0);
         Long cid=commodityParam.getCid();
         String cname=commodityParam.getCname();
         Page<Commodity> commodityPage = new Page<>(commodityParam.getCurrentPage(), commodityParam.getPageSize());

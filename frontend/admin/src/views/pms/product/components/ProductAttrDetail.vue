@@ -115,28 +115,24 @@
         >
           <div v-for="(item,index) in selectProductAttrPics">
             <span>{{item.name}}:</span>
-            <!-- <el-upload
-              class="upload-demo"
-              action=""
-              :auto-upload=false
-              :data="fileList"
-              :show-file-list=true
-              list-type="picture"
-              accept=".jpg,.jpeg,.png"
-              :limit=1
-              :on-change="upLoadFile"
-              v-model="item.pic"
-              style="width: 300px;display: inline-block;margin-left: 10px"
+            <el-button
+              id="select_img_button(index)"
+              type="primary"
+              @click="uploadPic"
+              style="margin-top: 20px"
+            >上传图片</el-button>
+            <input
+              type="file"
+              id="inputImgFile(index)"
+              style="display:none"
+              accept="image/png, image/jpeg, image/jpg"
+              @change="showPic(index)"
             >
-              <el-button
-                size="small"
-                type="primary"
-              >点击上传</el-button>
-              <div
-                slot="tip"
-                class="el-upload__tip"
-              >只能上传jpg/jpeg/png文件，且不超过500kb</div>
-            </el-upload> -->
+            <img
+              class="show_img(index)"
+              src=""
+              width="120"
+            />
           </div>
         </el-card>
       </el-form-item>
@@ -227,6 +223,7 @@ export default {
       //可手动添加的商品属性
       addProductAttrValue: '',
       file: null,
+      fileList
     }
   },
   computed: {
@@ -241,24 +238,6 @@ export default {
     productId() {
       return this.value.id;
     },
-    //商品的主图和画册图片
-    // selectProductPics: {
-    //   get: function () {
-    //     let pics = [];
-    //     if (this.value.pic === undefined || this.value.pic == null || this.value.pic === '') {
-    //       return pics;
-    //     }
-    //     pics.push(this.value.pic);
-    //     return pics;
-    //   },
-    //   set: function (newValue) {
-    //     if (newValue == null || newValue.length === 0) {
-    //       this.value.pic = null;
-    //     } else {
-    //       this.value.pic = newValue[0];
-    //     }
-    //   }
-    // }
   },
   created() {
     this.getProductAttrCateList();
@@ -272,30 +251,57 @@ export default {
     }
   },
   methods: {
-    uploadPic() {
-      var inputImgFile = document.getElementById("inputImgFile")
-      var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
-      if (ie) {
-        inputImgFile.click();
-      } else {
-        var a = document.createEvent("MouseEvents");
-        a.initEvent("click", true, true);
-        inputImgFile.dispatchEvent(a);
+    uploadPic(index) {
+      if (index == null) {
+        var inputImgFile = document.getElementById("inputImgFile")
+        var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+        if (ie) {
+          inputImgFile.click();
+        } else {
+          var a = document.createEvent("MouseEvents");
+          a.initEvent("click", true, true);
+          inputImgFile.dispatchEvent(a);
+        }
+      }
+      else{
+        var inputImgFile = document.getElementById("inputImgFile"+index)
+        var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+        if (ie) {
+          inputImgFile.click();
+        } else {
+          var a = document.createEvent("MouseEvents");
+          a.initEvent("click", true, true);
+          inputImgFile.dispatchEvent(a);
+        }
       }
     },
-    showPic() {
-      let inputImgFile = document.getElementById("inputImgFile");
-      let show_img = document.getElementById("show_img");
-      this.file = inputImgFile.files[0];
-      // 获取上传图片信息
-      var reader = new FileReader();
-      // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
-      reader.addEventListener("load", function () {
-        show_img.src = reader.result;
-      }, false);
-      // 调用reader.readAsDataURL()方法，把图片转成base64
-      reader.readAsDataURL(this.file);
-      console.log(this.file)
+    showPic(index) {
+      if (index == null) {
+        let inputImgFile = document.getElementById("inputImgFile");
+        let show_img = document.getElementById("show_img");
+        this.file = inputImgFile.files[0];
+        // 获取上传图片信息
+        var reader = new FileReader();
+        // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+        reader.addEventListener("load", function () {
+          show_img.src = reader.result;
+        }, false);
+        // 调用reader.readAsDataURL()方法，把图片转成base64
+        reader.readAsDataURL(this.file);
+      }
+      else{
+        let inputImgFile = document.getElementById("inputImgFile"+index);
+        let show_img = document.getElementById("show_img"+index);
+        this.file = inputImgFile.files[0];
+        // 获取上传图片信息
+        var reader = new FileReader();
+        // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+        reader.addEventListener("load", function () {
+          show_img.src = reader.result;
+        }, false);
+        // 调用reader.readAsDataURL()方法，把图片转成base64
+        reader.readAsDataURL(this.file);
+      }
     },
     //ac
     handleEditCreated() {
