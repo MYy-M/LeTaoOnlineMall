@@ -26,16 +26,12 @@
         <p class="title">收货地址</p>
         <div class="address-body">
           <ul>
-            <li
-              :class="item.id == confirmAddress ? 'in-section' : ''"
-              v-for="item in address"
-              :key="item.id"
-            >
-              <h2>{{item.name}}</h2>
-              <p class="phone">{{item.phone}}</p>
-              <p class="address">{{item.address}}</p>
+            <li :class="item.id == confirmAddress ? 'in-section' : ''" v-for="item in address" :key="item.id" @click = "setAddress(item.id)">
+              <h2>{{ item.name }}</h2>
+              <p class="phone">{{ item.phone }}</p>
+              <p class="address">{{ item.address }}</p>
             </li>
-            <li class="add-address">
+            <li class="add-address" @click="showAddressDialog">
               <i class="el-icon-circle-plus-outline"></i>
               <p>添加新地址</p>
             </li>
@@ -51,10 +47,10 @@
           <ul>
             <li v-for="item in getCheckGoods" :key="item.id">
               <img :src="$target + item.productImg" />
-              <span class="pro-name">{{item.productName}}</span>
-              <span class="pro-price">{{item.price}}元 x {{item.num}}</span>
+              <span class="pro-name">{{ item.productName }}</span>
+              <span class="pro-price">{{ item.price }}元 x {{ item.num }}</span>
               <span class="pro-status"></span>
-              <span class="pro-total">{{item.price * item.num}}元</span>
+              <span class="pro-total">{{ item.price * item.num }}元</span>
             </li>
           </ul>
         </div>
@@ -83,11 +79,11 @@
           <ul>
             <li>
               <span class="title">商品件数：</span>
-              <span class="value">{{getCheckNum}}件</span>
+              <span class="value">{{ getCheckNum }}件</span>
             </li>
             <li>
               <span class="title">商品总价：</span>
-              <span class="value">{{getTotalPrice}}元</span>
+              <span class="value">{{ getTotalPrice }}元</span>
             </li>
             <li>
               <span class="title">活动优惠：</span>
@@ -104,7 +100,7 @@
             <li class="total">
               <span class="title">应付总额：</span>
               <span class="value">
-                <span class="total-price">{{getTotalPrice}}</span>元
+                <span class="total-price">{{ getTotalPrice }}</span>元
               </span>
             </li>
           </ul>
@@ -122,35 +118,50 @@
       <!-- 结算导航END -->
     </div>
     <!-- 主要内容容器END -->
+    <el-dialog title="添加地址" :visible.sync="addDialog" width="40%">
+    <el-form>
+      <el-form-item label="您的姓名">
+        <el-input v-model="name" style="width:80%;"></el-input>
+      </el-form-item>
+      <el-form-item label="您的电话">
+        <el-input v-model="phone" style="width:80%;"></el-input>
+      </el-form-item>
+      <el-form-item label="省市区" prop="formAddress">
+        <el-cascader v-model="form.formAddress" placeholder="请选择" :options="addressOptions" filterable />
+      </el-form-item>
+      <el-form-item label="详细地址">
+        <el-input v-model="addressDetails" style="width:80%;"></el-input>
+      </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addDialog = false">取 消</el-button>
+        <el-button type="primary" @click="addAddress">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import { mapActions } from "vuex";
+import options from '@/api/country-level3-data'
 export default {
   name: "",
   data() {
     return {
+      form: { formAddress: '' },
+      addressOptions: options,
+      addressDetails: "",
+      name:"",
+      phone:"",
       // 虚拟数据
       confirmAddress: 1, // 选择的地址id
+      addDialog: false,//添加地址对话框
       // 地址列表
-      address: [
-        {
-          id: 1,
-          name: "陈同学",
-          phone: "100861001010000",
-          address: "广东 广州市 白云区 ***"
-        },
-        {
-          id: 2,
-          name: "陈同学",
-          phone: "100861001010000",
-          address: "广东 广州市 白云区 ***"
-        }
-      ]
+      address: []
     };
   },
   created() {
+    this.showAddress();
     // 如果没有勾选购物车商品直接进入确认订单页面,提示信息并返回购物车
     if (this.getCheckNum < 1) {
       this.notifyError("请勾选商品后再结算");
@@ -165,19 +176,21 @@ export default {
     ...mapActions(["deleteShoppingCart"]),
     addOrder() {
       this.$axios
-        .post("/api/user/order/addOrder", {
-          user_id: this.$store.getters.getUser.user_id,
-          products: this.getCheckGoods
+        .post("/mall/consumer/lt-order/submitOrder", {
+          uid: this.$store.getters.getUser.uid,
+          products: this.getCheckGoods,
+          addressId:this.confirmAddress,
+          totalPrice: this.getTotalPrice
         })
         .then(res => {
           let products = this.getCheckGoods;
           switch (res.data.code) {
             // “001”代表结算成功
-            case "001":
+            case 200:
               for (let i = 0; i < products.length; i++) {
                 const temp = products[i];
                 // 删除已经结算的购物车商品
-                this.deleteShoppingCart(temp.id);
+                this.deleteShoppingCart(temp.cartId);
               }
               // 提示结算结果
               this.notifySucceed(res.data.msg);
@@ -192,6 +205,53 @@ export default {
         .catch(err => {
           return Promise.reject(err);
         });
+    },
+    showAddressDialog() {
+      this.addDialog = true;
+    },
+    setAddress(id) {
+      this.confirmAddress = id;
+    },
+    showAddress() {
+      this.$axios
+        .post("/mall/consumer/address/showAddress",null,{params:{
+          uid: this.$store.getters.getUser.uid,
+        }})
+        .then(res => {
+          if (res.data.code == 200) {
+            this.address = res.data.data;
+          } else {
+            // 提示失败信息
+            this.notifyError(res.data.msg);
+          }
+        })
+        .catch(err => {
+          return Promise.reject(err);
+        });
+    },
+    addAddress() {
+      this.$axios
+        .post("/mall/consumer/address/addAddress", {
+          uid: this.$store.getters.getUser.uid,
+          name:this.name,
+          phone:this.phone,
+          address:this.form.formAddress+this.addressDetails
+        })
+        .then(res => {
+          this.addDialog=false;
+          if(res.data.code==200){
+            this.notifySucceed(res.data.msg);
+            console.log("wwwwwwwww");
+            this.showAddress();
+          }else{
+             // 提示失败信息
+              this.notifyError(res.data.msg);
+          }
+        })
+        .catch(err => {
+          return Promise.reject(err);
+        });
+
     }
   }
 };
@@ -201,17 +261,20 @@ export default {
   background-color: #f5f5f5;
   padding-bottom: 20px;
 }
+
 /* 头部CSS */
 .confirmOrder .confirmOrder-header {
   background-color: #fff;
   border-bottom: 2px solid #ff6700;
   margin-bottom: 20px;
 }
+
 .confirmOrder .confirmOrder-header .header-content {
   width: 1225px;
   margin: 0 auto;
   height: 80px;
 }
+
 .confirmOrder .confirmOrder-header .header-content p {
   float: left;
   font-size: 28px;
@@ -219,11 +282,13 @@ export default {
   color: #424242;
   margin-right: 20px;
 }
+
 .confirmOrder .confirmOrder-header .header-content p i {
   font-size: 45px;
   color: #ff6700;
   line-height: 80px;
 }
+
 /* 头部CSS END */
 
 /* 主要内容容器CSS */
@@ -239,12 +304,14 @@ export default {
   margin: 0 48px;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-address .title {
   color: #333;
   font-size: 18px;
   line-height: 20px;
   margin-bottom: 20px;
 }
+
 .confirmOrder .content .address-body li {
   float: left;
   color: #333;
@@ -255,19 +322,23 @@ export default {
   margin-right: 17px;
   margin-bottom: 24px;
 }
+
 .confirmOrder .content .address-body .in-section {
   border: 1px solid #ff6700;
 }
+
 .confirmOrder .content .address-body li h2 {
   font-size: 18px;
   font-weight: normal;
   line-height: 30px;
   margin-bottom: 10px;
 }
+
 .confirmOrder .content .address-body li p {
   font-size: 14px;
   color: #757575;
 }
+
 .confirmOrder .content .address-body li .address {
   padding: 10px 0;
   max-width: 180px;
@@ -275,53 +346,63 @@ export default {
   line-height: 22px;
   overflow: hidden;
 }
+
 .confirmOrder .content .address-body .add-address {
   text-align: center;
   line-height: 30px;
 }
+
 .confirmOrder .content .address-body .add-address i {
   font-size: 30px;
   padding-top: 50px;
   text-align: center;
 }
+
 /* 选择地址CSS END */
 
 /* 商品及优惠券CSS */
 .confirmOrder .content .section-goods {
   margin: 0 48px;
 }
+
 .confirmOrder .content .section-goods p.title {
   color: #333;
   font-size: 18px;
   line-height: 40px;
 }
+
 .confirmOrder .content .section-goods .goods-list {
   padding: 5px 0;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
 }
+
 .confirmOrder .content .section-goods .goods-list li {
   padding: 10px 0;
   color: #424242;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-goods .goods-list li img {
   float: left;
   width: 30px;
   height: 30px;
   margin-right: 10px;
 }
+
 .confirmOrder .content .section-goods .goods-list li .pro-name {
   float: left;
   width: 650px;
   line-height: 30px;
 }
+
 .confirmOrder .content .section-goods .goods-list li .pro-price {
   float: left;
   width: 150px;
   text-align: center;
   line-height: 30px;
 }
+
 .confirmOrder .content .section-goods .goods-list li .pro-status {
   float: left;
   width: 99px;
@@ -329,6 +410,7 @@ export default {
   text-align: center;
   line-height: 30px;
 }
+
 .confirmOrder .content .section-goods .goods-list li .pro-total {
   float: left;
   width: 190px;
@@ -336,6 +418,7 @@ export default {
   color: #ff6700;
   line-height: 30px;
 }
+
 /* 商品及优惠券CSS END */
 
 /* 配送方式CSS */
@@ -345,6 +428,7 @@ export default {
   border-bottom: 1px solid #e0e0e0;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-shipment .title {
   float: left;
   width: 150px;
@@ -352,12 +436,14 @@ export default {
   font-size: 18px;
   line-height: 38px;
 }
+
 .confirmOrder .content .section-shipment .shipment {
   float: left;
   line-height: 38px;
   font-size: 14px;
   color: #ff6700;
 }
+
 /* 配送方式CSS END */
 
 /* 发票CSS */
@@ -367,6 +453,7 @@ export default {
   border-bottom: 1px solid #e0e0e0;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-invoice .title {
   float: left;
   width: 150px;
@@ -374,6 +461,7 @@ export default {
   font-size: 18px;
   line-height: 38px;
 }
+
 .confirmOrder .content .section-invoice .invoice {
   float: left;
   line-height: 38px;
@@ -381,6 +469,7 @@ export default {
   margin-right: 20px;
   color: #ff6700;
 }
+
 /* 发票CSS END */
 
 /* 结算列表CSS */
@@ -389,10 +478,12 @@ export default {
   padding: 20px 0;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-count .money-box {
   float: right;
   text-align: right;
 }
+
 .confirmOrder .content .section-count .money-box .title {
   float: left;
   width: 126px;
@@ -401,6 +492,7 @@ export default {
   line-height: 30px;
   color: #757575;
 }
+
 .confirmOrder .content .section-count .money-box .value {
   float: left;
   min-width: 105px;
@@ -409,15 +501,19 @@ export default {
   line-height: 30px;
   color: #ff6700;
 }
+
 .confirmOrder .content .section-count .money-box .total .title {
   padding-top: 15px;
 }
+
 .confirmOrder .content .section-count .money-box .total .value {
   padding-top: 10px;
 }
+
 .confirmOrder .content .section-count .money-box .total-price {
   font-size: 30px;
 }
+
 /* 结算列表CSS END */
 
 /* 结算导航CSS */
@@ -426,9 +522,11 @@ export default {
   border-top: 2px solid #f5f5f5;
   overflow: hidden;
 }
+
 .confirmOrder .content .section-bar .btn {
   float: right;
 }
+
 .confirmOrder .content .section-bar .btn .btn-base {
   float: left;
   margin-left: 30px;
@@ -439,15 +537,18 @@ export default {
   line-height: 38px;
   text-align: center;
 }
+
 .confirmOrder .content .section-bar .btn .btn-return {
   color: rgba(0, 0, 0, 0.27);
   border-color: rgba(0, 0, 0, 0.27);
 }
+
 .confirmOrder .content .section-bar .btn .btn-primary {
   background: #ff6700;
   border-color: #ff6700;
   color: #fff;
 }
+
 /* 结算导航CSS */
 
 /* 主要内容容器CSS END */

@@ -39,4 +39,7 @@ public interface CommodityService extends IService<Commodity> {
     Result getHotProduct(String categoryName) throws IOException;
 
     Page getCommodityByC(CommodityParam commodityParam);
+    Result showCommodityByCategoryId(CommodityParam commodityParam);
+
+    Result showAllCommodityList(CommodityParam commodityParam);
 }

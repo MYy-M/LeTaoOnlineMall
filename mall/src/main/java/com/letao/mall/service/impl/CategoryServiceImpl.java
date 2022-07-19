@@ -6,6 +6,7 @@ import com.letao.mall.dao.entity.Category;
 import com.letao.mall.dao.mapper.CategoryMapper;
 import com.letao.mall.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.letao.mall.vo.Result;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

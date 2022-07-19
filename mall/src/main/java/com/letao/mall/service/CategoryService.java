@@ -3,6 +3,7 @@ package com.letao.mall.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.vo.Result;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -7,11 +7,15 @@ import com.letao.mall.dao.entity.Collection;
 import com.letao.mall.dao.entity.Commodity;
 import com.letao.mall.dao.mapper.CommodityMapper;
 import com.letao.mall.service.CollectionService;
+import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.PageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/mall/collection")
@@ -24,6 +28,8 @@ public class CollectionController {
     @Autowired
     private CommodityMapper commodityMapper;
 
+    @Autowired
+    private PicUtils picUtils;
     @PostMapping("/addCollection")
     public Result addCollecction(@RequestBody Collection collection){
         if(collectionService.save(collection)){
@@ -43,12 +49,13 @@ public class CollectionController {
     }
 
     @PostMapping("/getCollection")
-    public Result getCollection(@RequestBody PageParam param){
-        Page<Commodity> page=new Page<>(param.getPage(),param.getPageSize());
-        if(commodityMapper.getCollection(page,param.getUid())==null){
-            return Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
+    public Result getCollection(@RequestBody PageParam param) throws IOException {
+        List<Commodity> list=commodityMapper.getCollection(param.getUid());
+        for(Commodity c:list){
+            String imgUrl=c.getCpicture();
+            c.setCpicture(picUtils.encrypt(imgUrl));
         }
-        return Result.success(commodityMapper.getCollection(page,param.getUid()));
+        return Result.success(list);
     }
 
 }

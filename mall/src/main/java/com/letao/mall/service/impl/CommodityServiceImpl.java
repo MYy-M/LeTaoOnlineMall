@@ -14,6 +14,7 @@ import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.CommodityParam;
+import lombok.val;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,7 +96,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         queryWrapper.eq(Commodity::getCategoryId, categoryId);
         if (list == null || list.size() == 0) {
             if (isSort) {
-                commodityList.addAll( encryptImage(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales))));
+                commodityList.addAll(encryptImage(commodityMapper.selectList(queryWrapper.orderByDesc(Commodity::getCsales))));
             } else {
                 commodityList.addAll(encryptImage(commodityMapper.selectList(queryWrapper)));
             }
@@ -119,7 +120,6 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
             return Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
         }
     }
-
 
     public List<Commodity> encryptImage(List<Commodity> list) throws IOException {
         String imageUrl;
@@ -146,15 +146,15 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Override
     public Result getHotProduct(String categoryName) throws IOException {
-        if(categoryName==null){
+        if (categoryName == null) {
             return Result.success(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().orderByDesc(Commodity::getCsales).last("limit 0,10")));
-        }else{
+        } else {
             Category category = categoryService.getOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, categoryName));
             if (category == null) {
                 return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
             } else {
                 Long categoryId = category.getCategoryId();
-                return showCommodityByCategory(categoryId,true);
+                return showCommodityByCategory(categoryId, true);
             }
         }
     }
@@ -177,5 +177,47 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         }
         return commodityMapper.selectPage(commodityPage,queryWrapper);
     }
+    public Result showCommodityByCategoryId(CommodityParam commodityParam) {
+        return getCommodityList(commodityParam);
+    }
+
+    public Result getCommodityList(CommodityParam commodityParam) {
+        Long categoryId = commodityParam.getCategoryID();
+        Integer currentPage = commodityParam.getCurrentPage();
+        Integer pageSize = commodityParam.getPageSize();
+        if (currentPage == null || pageSize == null) {
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+        } else {
+            Page<Commodity> page = new Page<>(currentPage, pageSize);
+            if (categoryId == null) {
+                return Result.success(this.page(page, null));
+            } else {
+                //写一下一级分类获取所有二级分类的商品
+                return Result.success(this.page(page,getCondition(categoryId)));
+            }
+        }
+    }
+
+    public LambdaQueryWrapper<Commodity> getCondition(Long categoryId) {
+        List<Category> list = categoryService.getAllSecondCategory(categoryId);
+        LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<Commodity> queryWrapper1 = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Commodity::getCategoryId, categoryId);
+        if (list == null || list.size() == 0) {
+            return queryWrapper;
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                Long secondId = list.get(i).getCategoryId();
+                queryWrapper1.eq(Commodity::getCategoryId, secondId);
+                //commodityList.addAll(encryptImage(commodityMapper.selectList(new LambdaQueryWrapper<Commodity>().eq(Commodity::getCategoryId, secondId))));
+            }
+            return queryWrapper1;
+        }
+    }
+    @Override
+    public Result showAllCommodityList(CommodityParam commodityParam) {
+        return getCommodityList(commodityParam);
+    }
+
 
 }

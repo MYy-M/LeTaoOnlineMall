@@ -4,10 +4,9 @@ import lombok.Data;
 
 @Data
 public class CommodityParam {
-    private Long cid;
-    private Long categoryId;
+    private Long categoryID;
     private String cname;
-    private int pageNum;
-    private int pageSize;
-
+    private Integer currentPage;
+    private Long cid;
+    private Integer pageSize;
 }

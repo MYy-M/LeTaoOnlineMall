@@ -1,7 +1,6 @@
 package com.letao.mall.controller.admin;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.letao.mall.dao.entity.AttributeKey;
 import com.letao.mall.dao.entity.AttributeValue;
 import com.letao.mall.dao.entity.Category;
