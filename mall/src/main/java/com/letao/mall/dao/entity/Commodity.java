@@ -8,6 +8,8 @@ import java.sql.Blob;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -27,6 +29,7 @@ public class Commodity implements Serializable {
 
     private static final long serialVersionUID=1L;
 
+    @JsonSerialize(using= ToStringSerializer.class)
     @TableId(value = "cid", type = IdType.ASSIGN_ID)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid;

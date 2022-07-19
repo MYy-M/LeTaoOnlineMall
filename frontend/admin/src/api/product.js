@@ -54,22 +54,48 @@ export function cancelRecommendStatus(cid) {
     }
   })
 }
-export function updatePublishStatus(params) {
-  return request({
-    url:'/product/update/publishStatus',
-    method:'post',
-    params:params
-  })
-}
+
 
 export function createProduct(data) {
-  return request({
-    url:'/product/create',
+  return axios({
+    url:'http://localhost:8088/mall/admin/commodity/add',
     method:'post',
-    data:data
+    data:{
+      cname:data.name,
+      cprice:data.price,
+      cnum:data.stock,
+      attribute_list:data.productAttributeValueList.toString(),
+      cdetail:data.description,
+      categoryId:data.productCategoryId
+    }
   })
 }
-
+export function createSku(data){
+  return axios({
+    url:'http://localhost:8088/mall/admin/commodity/add',
+    method:'post',
+    headers:{
+      'Content-Type':'multipart/form-data'
+    },
+    data:{
+      
+    }
+  })
+}
+export function uploadCommodityPic(fd){
+  console.log(fd)
+  return axios({
+    url:'http://localhost:8088/mall/admin/commodity/modifyCpicture',
+    method:'post',
+    headers:{
+      'Content-Type':'multipart/form-data'
+    },
+    data:{
+      id:fd.get("id"),
+      file:fd.get("file")
+    }
+  })
+}
 export function updateProduct(id,data) {
   return request({
     url:'/product/update/'+id,

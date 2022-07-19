@@ -48,5 +48,6 @@ public class CommoditySpecsController {
         return commoditySpecsService.getPic(cid);
     }
 
+
 }
 

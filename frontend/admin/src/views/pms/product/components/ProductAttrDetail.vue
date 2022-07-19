@@ -116,20 +116,20 @@
           <div v-for="(item,index) in selectProductAttrPics">
             <span>{{item.name}}:</span>
             <el-button
-              id="select_img_button(index)"
+              :id="select_img_button(index)"
               type="primary"
-              @click="uploadPic"
+              @click="uploadPic(index)"
               style="margin-top: 20px"
             >上传图片</el-button>
             <input
               type="file"
-              id="inputImgFile(index)"
+              :id="inputImgFile(index)"
               style="display:none"
               accept="image/png, image/jpeg, image/jpg"
-              @change="showPic(index)"
+              @change="showPic(item,index)"
             >
             <img
-              class="show_img(index)"
+              :id="show_img(index)"
               src=""
               width="120"
             />
@@ -140,7 +140,7 @@
         <el-button
           id="select_img_button"
           type="primary"
-          @click="uploadPic"
+          @click="uploadCommodityPic"
           style="margin-top: 20px"
         >上传图片</el-button>
         <input
@@ -148,36 +148,14 @@
           id="inputImgFile"
           style="display:none"
           accept="image/png, image/jpeg, image/jpg"
-          @change="showPic"
+          @change="showCommodityPic"
         >
         <img
           id="show_img"
           src=""
           width="120"
         />
-        <!-- 预览图片E -->
 
-        <!-- <el-upload
-          class="upload-demo"
-          action=""
-          :auto-upload=false
-          :multiple="false"
-          :file-list="fileList"
-          :show-file-list=true
-          list-type="picture"
-          accept=".jpg,.jpeg,.png"
-          :limit=1
-          v-model="selectProductPics"
-        >
-          <el-button
-            size="small"
-            type="primary"
-          >点击上传</el-button>
-          <div
-            slot="tip"
-            class="el-upload__tip"
-          >只能上传jpg/jpeg/png文件，且不超过500kb</div>
-        </el-upload> -->
       </el-form-item>
       <el-form-item style="text-align: center">
         <el-button
@@ -223,7 +201,7 @@ export default {
       //可手动添加的商品属性
       addProductAttrValue: '',
       file: null,
-      fileList
+      fileList: []
     }
   },
   computed: {
@@ -252,56 +230,56 @@ export default {
   },
   methods: {
     uploadPic(index) {
-      if (index == null) {
-        var inputImgFile = document.getElementById("inputImgFile")
-        var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
-        if (ie) {
-          inputImgFile.click();
-        } else {
-          var a = document.createEvent("MouseEvents");
-          a.initEvent("click", true, true);
-          inputImgFile.dispatchEvent(a);
-        }
+      var inputImgFile = document.getElementById("inputImgFile" + index)
+      var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+      if (ie) {
+        inputImgFile.click();
+      } else {
+        var a = document.createEvent("MouseEvents");
+        a.initEvent("click", true, true);
+        inputImgFile.dispatchEvent(a);
       }
-      else{
-        var inputImgFile = document.getElementById("inputImgFile"+index)
-        var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
-        if (ie) {
-          inputImgFile.click();
-        } else {
-          var a = document.createEvent("MouseEvents");
-          a.initEvent("click", true, true);
-          inputImgFile.dispatchEvent(a);
-        }
+
+    },
+    uploadCommodityPic() {
+      var inputImgFile = document.getElementById("inputImgFile")
+      var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+      if (ie) {
+        inputImgFile.click();
+      } else {
+        var a = document.createEvent("MouseEvents");
+        a.initEvent("click", true, true);
+        inputImgFile.dispatchEvent(a);
       }
     },
-    showPic(index) {
-      if (index == null) {
-        let inputImgFile = document.getElementById("inputImgFile");
-        let show_img = document.getElementById("show_img");
-        this.file = inputImgFile.files[0];
-        // 获取上传图片信息
-        var reader = new FileReader();
-        // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
-        reader.addEventListener("load", function () {
-          show_img.src = reader.result;
-        }, false);
-        // 调用reader.readAsDataURL()方法，把图片转成base64
-        reader.readAsDataURL(this.file);
-      }
-      else{
-        let inputImgFile = document.getElementById("inputImgFile"+index);
-        let show_img = document.getElementById("show_img"+index);
-        this.file = inputImgFile.files[0];
-        // 获取上传图片信息
-        var reader = new FileReader();
-        // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
-        reader.addEventListener("load", function () {
-          show_img.src = reader.result;
-        }, false);
-        // 调用reader.readAsDataURL()方法，把图片转成base64
-        reader.readAsDataURL(this.file);
-      }
+    showPic(item, index) {
+      let inputImgFile = document.getElementById("inputImgFile" + index);
+      let show_img = document.getElementById("show_img" + index);
+      var obj = { name: item.name, pic: inputImgFile.files[0] }
+      this.fileList.push(obj);
+      // 获取上传图片信息
+      var reader = new FileReader();
+      // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+      reader.addEventListener("load", function () {
+        show_img.src = reader.result;
+      }, false);
+      console.log(this.fileList[index])
+      // 调用reader.readAsDataURL()方法，把图片转成base64
+      reader.readAsDataURL(this.fileList[index].pic);
+
+    },
+    showCommodityPic() {
+      let inputImgFile = document.getElementById("inputImgFile");
+      let show_img = document.getElementById("show_img");
+      this.file = inputImgFile.files[0];
+      // 获取上传图片信息
+      var reader = new FileReader();
+      // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+      reader.addEventListener("load", function () {
+        show_img.src = reader.result;
+      }, false);
+      // 调用reader.readAsDataURL()方法，把图片转成base64
+      reader.readAsDataURL(this.file);
     },
     //ac
     handleEditCreated() {
@@ -534,6 +512,7 @@ export default {
           this.selectProductAttrPics.push({ name: values[i], pic: pic })
         }
       }
+      this.fileList=[];
     },
     //获取商品相关属性的图片
     getProductSkuPic(name) {
@@ -561,20 +540,23 @@ export default {
       this.value.productAttributeValueList = [];
       for (let i = 0; i < this.selectProductAttr.length; i++) {
         let attr = this.selectProductAttr[i];
-        this.value.productAttributeValueList.push({
-          productAttributeId: attr.id,
-          value: attr.values
-        });
+        if (attr.values != null) {
+          this.value.productAttributeValueList.push({
+            productAttributeId: attr.id,
+            value: attr.values
+          });
+        }
       }
     },
     //合并商品属性图片
     mergeProductAttrPics() {
       this.value.pic = this.file;
-      for (let i = 0; i < this.selectProductAttrPics.length; i++) {
+      for (let i = 0; i < this.fileList.length; i++) {
         for (let j = 0; j < this.value.skuStockList.length; j++) {
           let spData = JSON.parse(this.value.skuStockList[j].spData);
-          if (spData[0].value === this.selectProductAttrPics[i].name) {
-            this.value.skuStockList[j].pic = this.selectProductAttrPics[i].pic;
+          console.log(spData)
+          if (spData[0].value === this.fileList[i].name) {
+            this.value.skuStockList[j].pic = this.fileList[i].pic;
           }
         }
       }
@@ -582,8 +564,16 @@ export default {
     handleFinishCommit() {
       this.mergeProductAttrValue();
       this.mergeProductAttrPics();
-      console.log(this.value)
       this.$emit('finishCommit', this.isEdit);
+    },
+    select_img_button(index) {
+      return "select_img_button" + index;
+    },
+    inputImgFile(index) {
+      return "inputImgFile" + index;
+    },
+    show_img(index) {
+      return "show_img" + index;
     }
   }
 }
