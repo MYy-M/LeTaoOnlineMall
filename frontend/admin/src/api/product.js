@@ -7,8 +7,8 @@ export function fetchList(data) {
     data:{
       cname:data.keyword,
       cid:data.productSn,
-      categoryId:data.productCategoryId,
-      pageNum:data.pageNum,
+      categoryID:data.productCategoryId,
+      currentPage:data.pageNum,
       pageSize:data.pageSize
     }
   })

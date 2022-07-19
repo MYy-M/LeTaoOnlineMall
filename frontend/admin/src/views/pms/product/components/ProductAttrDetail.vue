@@ -141,9 +141,26 @@
         </el-card>
       </el-form-item>
       <el-form-item label="商品相册：">
-        <el-button id="select_img_button" type="primary"
-          style="margin-top: 20px">上传图片</el-button>
-        <input type="file" id="inputImgFile" style="display:none" accept="image/png, image/jpeg, image/gif, image/jpg">
+        <el-button
+          id="select_img_button"
+          type="primary"
+          @click="uploadPic"
+          style="margin-top: 20px"
+        >上传图片</el-button>
+        <input
+          type="file"
+          id="inputImgFile"
+          style="display:none"
+          accept="image/png, image/jpeg, image/jpg"
+          @change=""
+        >
+        <img
+          id="show_img"
+          src=""
+          width="120"
+        />
+        <!-- 预览图片E -->
+
         <!-- <el-upload
           class="upload-demo"
           action=""
@@ -170,7 +187,7 @@
         <el-button
           size="medium"
           @click="handlePrev"
-        >上一步，填写商品促销</el-button>
+        >上一步，填写商品信息</el-button>
         <el-button
           type="primary"
           size="medium"
@@ -187,28 +204,6 @@ import { fetchList as fetchProductAttrCateList } from '@/api/productAttrCate'
 import { fetchList as fetchProductAttrList, fetchValueList } from '@/api/productAttr'
 import SingleUpload from '@/components/Upload/singleUpload'
 import MultiUpload from '@/components/Upload/multiUpload'
-
-select_img_button.onclick = function(){
-    var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
-      if (ie) {
-        inputImgFile.click();
-      } else {
-        var a = document.createEvent("MouseEvents");
-        a.initEvent("click", true, true);
-        inputImgFile.dispatchEvent(a);
-      }
-}
-inputImgFile.onchange = function(){
-    my_data = inputImgFile.files[0];
-    // 获取上传图片信息
-    var reader = new FileReader();
-    // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
-    reader.addEventListener("load", function () {
-        show_img.src = reader.result;
-        }, false);
-      // 调用reader.readAsDataURL()方法，把图片转成base64
-      reader.readAsDataURL(my_data);
-}
 
 export default {
   name: "ProductAttrDetail",
@@ -233,7 +228,7 @@ export default {
       //可手动添加的商品属性
       addProductAttrValue: '',
       file: null,
-      selectProductPics:null
+      selectProductPics: null
     }
   },
   computed: {
@@ -285,8 +280,30 @@ export default {
     }
   },
   methods: {
-    upLoadFile(file) {
-      this.file = file.raw;
+    uploadPic() {
+      var inputImgFile = document.getElementById("inputImgFile")
+      var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+      if (ie) {
+        inputImgFile.click();
+      } else {
+        var a = document.createEvent("MouseEvents");
+        a.initEvent("click", true, true);
+        inputImgFile.dispatchEvent(a);
+      }
+    },
+    showPic() {
+      let inputImgFile = document.getElementById("inputImgFile");
+      let show_img = document.getElementById("show_img");
+      console.log(1111111)
+      my_data = inputImgFile.files[0];
+      // 获取上传图片信息
+      var reader = new FileReader();
+      // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+      reader.addEventListener("load", function () {
+        show_img.src = reader.result;
+      }, false);
+      // 调用reader.readAsDataURL()方法，把图片转成base64
+      reader.readAsDataURL(my_data);
     },
     //ac
     handleEditCreated() {
@@ -554,7 +571,7 @@ export default {
     },
     //合并商品属性图片
     mergeProductAttrPics() {
-      this.value.pic=this.selectProductPics;
+      this.value.pic = this.selectProductPics;
       for (let i = 0; i < this.selectProductAttrPics.length; i++) {
         for (let j = 0; j < this.value.skuStockList.length; j++) {
           let spData = JSON.parse(this.value.skuStockList[j].spData);

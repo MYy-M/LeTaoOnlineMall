@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/mall/admin/category")
 @CrossOrigin
-public class CategoryController {
+public class ACategoryController {
 
     @Autowired
     private AttributeKeyService aks;

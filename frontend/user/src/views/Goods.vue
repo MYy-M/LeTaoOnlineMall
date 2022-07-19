@@ -166,7 +166,7 @@ export default {
     // 向后端请求分类列表数据
     getCategory() {
       this.$axios
-        .post("/mall/consumer/getCategoryFirst", {})
+        .post("/mall/consumer/category/getCategoryFirst", {})
         .then(res => {
           const val = {
             category_id: 0,

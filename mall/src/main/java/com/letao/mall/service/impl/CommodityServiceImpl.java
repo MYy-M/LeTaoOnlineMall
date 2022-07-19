@@ -161,10 +161,10 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Override
     public Page getCommodityByC(CommodityParam commodityParam){
-        Long categoryId=commodityParam.getCategoryId();
+        Long categoryId=commodityParam.getCategoryID();
         Long cid=commodityParam.getCid();
         String cname=commodityParam.getCname();
-        Page<Commodity> commodityPage = new Page<>(commodityParam.getPageNum(), commodityParam.getPageSize());
+        Page<Commodity> commodityPage = new Page<>(commodityParam.getCurrentPage(), commodityParam.getPageSize());
         LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
         if(cname!=null){
             queryWrapper.like(Commodity::getCname,cname);
