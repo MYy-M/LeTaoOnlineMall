@@ -220,7 +220,7 @@
   </div>
 </template>
 <script>
-import { fetchList, closeOrder } from '@/api/order'
+import { fetchList, closeOrder, deliverOrder } from '@/api/order'
 import { formatDate } from '@/utils/date';
 import LogisticsDialog from '@/views/oms/order/components/logisticsDialog';
 const defaultListQuery = {
@@ -350,8 +350,13 @@ export default {
       this.closeOrder.orderIds = [row.orderId];
     },
     handleDeliveryOrder(index, row) {
-      let listItem = this.covertOrder(row);
-      this.$router.push({ path: '/oms/deliverOrderList', query: { list: [listItem] } })
+      deliverOrder(row.orderId).then(res => {
+        this.$message({
+          message: '修改成功',
+          type: 'success',
+          duration: 1000
+        });
+      })
     },
     handleViewLogistics(index, row) {
       this.logisticsDialogVisible = true;
@@ -438,7 +443,7 @@ export default {
     getList() {
       this.listLoading = true;
       fetchList(this.listQuery).then(response => {
-        
+
         this.listLoading = false;
         this.list = response.data.data.records;
         this.total = response.data.data.records.length;

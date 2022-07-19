@@ -153,7 +153,7 @@ public class ACommodityController {
      * @throws IOException
      */
     @PostMapping("/cancelRecommend")
-    public Result cancelRecommendCommodity(long cid) throws IOException {
+    public Result cancelRecommendCommodity(Long cid) throws IOException {
         return recommendService.cancelRecommend(cid);
     }
 }

@@ -137,7 +137,7 @@
                 @change="handleRecommendStatusChange(scope.$index, scope.row)"
                 :active-value="1"
                 :inactive-value="0"
-                v-model="scope.row.newStatus"
+                v-model="scope.row.isRecommend"
               >
               </el-switch>
             </p>
@@ -258,7 +258,7 @@
         <el-button @click="showUpdateRecommendDialog = false">取 消</el-button>
         <el-button
           type="primary"
-          @click="updateRecommendStatus(1)"
+          @click="updateRecommendStatus"
         >确 定</el-button>
       </span>
     </el-dialog>
@@ -268,7 +268,8 @@
 import {
   fetchList,
   updateDeleteStatus,
-  updateRecommendStatus
+  updateRecommendStatus,
+  cancelRecommendStatus
 } from '@/api/product'
 import { fetchList as fetchSkuStockList, update as updateSkuStockList } from '@/api/skuStock'
 import { fetchList as fetchProductAttrList } from '@/api/productAttr'
@@ -322,7 +323,7 @@ export default {
       productCateOptions: [],
       showUpdateNewDialog: false,
       fileList: [],
-      file:null,
+      file: null,
       recommendId: null
     }
   },
@@ -342,7 +343,7 @@ export default {
   },
   methods: {
     upLoadFile(file) {
-      this.file=file.raw;
+      this.file = file.raw;
     },
     getProductSkuSp(row, index) {
       let spData = JSON.parse(row.spData);
@@ -449,10 +450,16 @@ export default {
     },
 
     handleRecommendStatusChange(index, row) {
+
       let ids = [];
       ids.push(row.id);
       this.recommendId = row.cid
-      this.showUpdateNewDialog = true;
+      console.log(this.recommendId)
+      if (row.isRecommend == 1) {
+        this.showUpdateNewDialog = true;
+      }
+      else if (row.isRecommend == 0)
+        this.cancelRecommendStatus();
     },
     handleResetSearch() {
       this.selectProductCateValue = [];
@@ -472,24 +479,28 @@ export default {
     handleUpdateProduct(index, row) {
       this.$router.push({ path: '/pms/updateProduct', query: { id: row.id } });
     },
-    updateRecommendStatus(status) {
-      if (status == 1) {
-        const fd=new FormData();
-        console.log(this.file)
-        fd.append('file',this.file)
-        fd.append('cid',this.recommendId)
-        console.log(fd.get("file"))
-        updateRecommendStatus(fd).then(response => {
-          this.$message({
-            message: '修改成功',
-            type: 'success',
-            duration: 1000
-          });
+    updateRecommendStatus() {
+      const fd = new FormData();
+      fd.append('file', this.file)
+      fd.append('cid', this.recommendId)
+      updateRecommendStatus(fd).then(response => {
+        this.$message({
+          message: '修改成功',
+          type: 'success',
+          duration: 1000
         });
-      }
-      else {
+      });
 
-      }
+    },
+    cancelRecommendStatus() {
+      console.log(this.recommendId)
+      cancelRecommendStatus(this.recommendId).then(response => {
+        this.$message({
+          message: '修改成功',
+          type: 'success',
+          duration: 1000
+        });
+      });
     },
     updateDeleteStatus(deleteStatus, ids) {
       let params = new URLSearchParams();

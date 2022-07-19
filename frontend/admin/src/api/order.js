@@ -59,4 +59,10 @@ export function updateReceiverInfo(data) {
   });
 }
 
-
+export function deliverOrder(id){
+  return axios({
+    url:'http://localhost:8088/mall/admin/lt-order/delivery',
+    method:'get',
+    params:{id}
+  });
+}

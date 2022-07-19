@@ -25,34 +25,17 @@
   import {createProduct,getProduct,updateProduct} from '@/api/product';
 
   const defaultProductParam = {
-    deleteStatus: 0,
     description: '',
-    detailDesc: '',
-    detailHtml: '',
-    detailMobileHtml: '',
-    detailTitle: '',
-    feightTemplateId: 0,
-    keywords: '',
     name: '',
-    note: '',
     pic: '',
-    previewStatus: 0,
     price: 0,
     productAttributeCategoryId: null,
     //商品属性相关{productAttributeId: 0, value: ''}
-    productAttributeValueList: [],
+    productAttributeValueList: [],  
     //商品sku库存信息{lowStock: 0, pic: '', price: 0, sale: 0, skuCode: '', spData: '', stock: 0}
     skuStockList: [],
     productCategoryId: null,
-    productCategoryName: '',
-    productSn: '',
-    publishStatus: 0,
-    recommandStatus: 0,
-    sale: 0,
-    serviceIds: '',
     stock: 0,
-    usePointLimit: 0,
-    verifyStatus: 0,
   };
   export default {
     name: 'ProductDetail',
@@ -103,25 +86,25 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          if(isEdit){
-            updateProduct(this.$route.query.id,this.productParam).then(response=>{
-              this.$message({
-                type: 'success',
-                message: '提交成功',
-                duration:1000
-              });
-              this.$router.back();
-            });
-          }else{
-            createProduct(this.productParam).then(response=>{
-              this.$message({
-                type: 'success',
-                message: '提交成功',
-                duration:1000
-              });
-              location.reload();
-            });
-          }
+          // if(isEdit){
+          //   updateProduct(this.$route.query.id,this.productParam).then(response=>{
+          //     this.$message({
+          //       type: 'success',
+          //       message: '提交成功',
+          //       duration:1000
+          //     });
+          //     this.$router.back();
+          //   });
+          // }else{
+          //   createProduct(this.productParam).then(response=>{
+          //     this.$message({
+          //       type: 'success',
+          //       message: '提交成功',
+          //       duration:1000
+          //     });
+          //     location.reload();
+          //   });
+          // }
         })
       }
     }

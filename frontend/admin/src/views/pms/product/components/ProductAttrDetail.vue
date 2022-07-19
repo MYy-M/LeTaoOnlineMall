@@ -28,17 +28,15 @@
           class="cardBg"
         >
           <div v-for="(productAttr,idx) in selectProductAttr">
-            {{productAttr.attributeName}}：
-            <el-checkbox-group
-              v-model="selectProductAttr[idx].values"
-            >
+            {{productAttr.name}}：
+            <el-checkbox-group v-model="selectProductAttr[idx].values">
               <el-checkbox
-                v-for="item in getInputListArr(productAttr.inputList)"
-                :label="item"
-                :key="item"
+                v-for="item in productAttr.inputList"
+                :label="item.attributeValue"
+                :key="item.id"
                 class="littleMarginLeft"
               ></el-checkbox>
-            </el-checkbox-group>    
+            </el-checkbox-group>
           </div>
         </el-card>
         <el-table
@@ -92,7 +90,19 @@
           type="primary"
           style="margin-top: 20px"
           @click="handleRefreshProductSkuList"
-        >刷新列表
+        >生成sku列表
+        </el-button>
+        <el-button
+          type="primary"
+          style="margin-top: 20px"
+          @click="handleSyncProductSkuPrice"
+        >同步sku价格
+        </el-button>
+        <el-button
+          type="primary"
+          style="margin-top: 20px"
+          @click="handleSyncProductSkuStock"
+        >同步sku库存
         </el-button>
       </el-form-item>
       <el-form-item
@@ -105,46 +115,56 @@
         >
           <div v-for="(item,index) in selectProductAttrPics">
             <span>{{item.name}}:</span>
-            <single-upload
+            <!-- <el-upload
+              class="upload-demo"
+              action=""
+              :auto-upload=false
+              :data="fileList"
+              :show-file-list=true
+              list-type="picture"
+              accept=".jpg,.jpeg,.png"
+              :limit=1
+              :on-change="upLoadFile"
               v-model="item.pic"
               style="width: 300px;display: inline-block;margin-left: 10px"
-            ></single-upload>
-          </div>
-        </el-card>
-      </el-form-item>
-      <el-form-item label="商品参数：">
-        <el-card
-          shadow="never"
-          class="cardBg"
-        >
-          <div
-            v-for="(item,index) in selectProductParam"
-            :class="{littleMarginTop:index!==0}"
-          >
-            <div class="paramInputLabel">{{item.name}}:</div>
-            <el-select
-              v-if="item.inputType===1"
-              class="paramInput"
-              v-model="selectProductParam[index].value"
             >
-              <el-option
-                v-for="item in getParamInputList(item.inputList)"
-                :key="item"
-                :label="item"
-                :value="item"
-              >
-              </el-option>
-            </el-select>
-            <el-input
-              v-else
-              class="paramInput"
-              v-model="selectProductParam[index].value"
-            ></el-input>
+              <el-button
+                size="small"
+                type="primary"
+              >点击上传</el-button>
+              <div
+                slot="tip"
+                class="el-upload__tip"
+              >只能上传jpg/jpeg/png文件，且不超过500kb</div>
+            </el-upload> -->
           </div>
         </el-card>
       </el-form-item>
       <el-form-item label="商品相册：">
-        <multi-upload v-model="selectProductPics"></multi-upload>
+        <el-button id="select_img_button" type="primary"
+          style="margin-top: 20px">上传图片</el-button>
+        <input type="file" id="inputImgFile" style="display:none" accept="image/png, image/jpeg, image/gif, image/jpg">
+        <!-- <el-upload
+          class="upload-demo"
+          action=""
+          :auto-upload=false
+          :multiple="false"
+          :file-list="fileList"
+          :show-file-list=true
+          list-type="picture"
+          accept=".jpg,.jpeg,.png"
+          :limit=1
+          v-model="selectProductPics"
+        >
+          <el-button
+            size="small"
+            type="primary"
+          >点击上传</el-button>
+          <div
+            slot="tip"
+            class="el-upload__tip"
+          >只能上传jpg/jpeg/png文件，且不超过500kb</div>
+        </el-upload> -->
       </el-form-item>
       <el-form-item style="text-align: center">
         <el-button
@@ -154,19 +174,41 @@
         <el-button
           type="primary"
           size="medium"
-          @click="handleFinishCommit"
+          @click="handleFinishCommit()"
         >完成，提交商品</el-button>
       </el-form-item>
+      <div>{{this.selectProductPics}}</div>
     </el-form>
   </div>
 </template>
 
 <script>
 import { fetchList as fetchProductAttrCateList } from '@/api/productAttrCate'
-import { fetchList as fetchProductAttrList ,fetchValueList} from '@/api/productAttr'
+import { fetchList as fetchProductAttrList, fetchValueList } from '@/api/productAttr'
 import SingleUpload from '@/components/Upload/singleUpload'
 import MultiUpload from '@/components/Upload/multiUpload'
-import { resolve } from '../../../../../build/webpack.base.conf'
+
+select_img_button.onclick = function(){
+    var ie = navigator.appName == "Microsoft Internet Explorer" ? true : false;
+      if (ie) {
+        inputImgFile.click();
+      } else {
+        var a = document.createEvent("MouseEvents");
+        a.initEvent("click", true, true);
+        inputImgFile.dispatchEvent(a);
+      }
+}
+inputImgFile.onchange = function(){
+    my_data = inputImgFile.files[0];
+    // 获取上传图片信息
+    var reader = new FileReader();
+    // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片
+    reader.addEventListener("load", function () {
+        show_img.src = reader.result;
+        }, false);
+      // 调用reader.readAsDataURL()方法，把图片转成base64
+      reader.readAsDataURL(my_data);
+}
 
 export default {
   name: "ProductAttrDetail",
@@ -186,13 +228,12 @@ export default {
       productAttributeCategoryOptions: [],
       //选中的商品属性
       selectProductAttr: [],
-      //选中的商品参数
-      selectProductParam: [],
       //选中的商品属性图片
       selectProductAttrPics: [],
       //可手动添加的商品属性
       addProductAttrValue: '',
-      //商品富文本详情激活类型
+      file: null,
+      selectProductPics:null
     }
   },
   computed: {
@@ -207,41 +248,30 @@ export default {
     productId() {
       return this.value.id;
     },
+    fileList() {
+      return [{
+        name: this.imageName,
+        url: this.imageUrl
+      }]
+    },
     //商品的主图和画册图片
-    selectProductPics: {
-      get: function () {
-        let pics = [];
-        if (this.value.pic === undefined || this.value.pic == null || this.value.pic === '') {
-          return pics;
-        }
-        pics.push(this.value.pic);
-        if (this.value.albumPics === undefined || this.value.albumPics == null || this.value.albumPics === '') {
-          return pics;
-        }
-        let albumPics = this.value.albumPics.split(',');
-        for (let i = 0; i < albumPics.length; i++) {
-          pics.push(albumPics[i]);
-        }
-        return pics;
-      },
-      set: function (newValue) {
-        if (newValue == null || newValue.length === 0) {
-          this.value.pic = null;
-          this.value.albumPics = null;
-        } else {
-          this.value.pic = newValue[0];
-          this.value.albumPics = '';
-          if (newValue.length > 1) {
-            for (let i = 1; i < newValue.length; i++) {
-              this.value.albumPics += newValue[i];
-              if (i !== newValue.length - 1) {
-                this.value.albumPics += ',';
-              }
-            }
-          }
-        }
-      }
-    }
+    // selectProductPics: {
+    //   get: function () {
+    //     let pics = [];
+    //     if (this.value.pic === undefined || this.value.pic == null || this.value.pic === '') {
+    //       return pics;
+    //     }
+    //     pics.push(this.value.pic);
+    //     return pics;
+    //   },
+    //   set: function (newValue) {
+    //     if (newValue == null || newValue.length === 0) {
+    //       this.value.pic = null;
+    //     } else {
+    //       this.value.pic = newValue[0];
+    //     }
+    //   }
+    // }
   },
   created() {
     this.getProductAttrCateList();
@@ -255,6 +285,10 @@ export default {
     }
   },
   methods: {
+    upLoadFile(file) {
+      this.file = file.raw;
+    },
+    //ac
     handleEditCreated() {
       //根据商品属性分类id获取属性和参数
       if (this.value.productAttributeCategoryId != null) {
@@ -262,6 +296,7 @@ export default {
       }
       this.hasEditCreated = true;
     },
+    //wl
     getProductAttrCateList() {
       let param = { pageNum: 1, pageSize: 100 };
       fetchProductAttrCateList(param).then(response => {
@@ -272,39 +307,42 @@ export default {
         }
       });
     },
+    //ac
     getProductAttrList(cid) {
       let param = { pageNum: 1, pageSize: 100 };
       fetchProductAttrList(cid, param).then(async response => {
         let list = response.data.data.records;
-        console.log(list)
         this.selectProductAttr = [];
         for (let i = 0; i < list.length; i++) {
-          let options = [];
+
           let values = [];
           if (this.isEdit) {
             //编辑状态下获取选中属性
             values = this.getEditAttrValues(i);
           }
-          var res=await this.getAttrbuteValue(list[i].id).data.data.records;
+          var res = await this.getAttrbuteValue(list[i].id);
           this.selectProductAttr.push({
             id: list[i].id,
             name: list[i].attributeName,
-            inputList: res,
             values: values,
-            options: options
+            inputList: []
           });
+          for (var j = 0; j < res.data.data.length; j++) {
+            this.selectProductAttr[i].inputList.push(res.data.data[j])
+          }
+          // this.selectProductAttr[i].inputList=this.selectProductAttr[i].inputList.toString();
         }
-        console.log(this.selectProductAttr)
         if (this.isEdit) {
           //编辑模式下刷新商品属性图片
           this.refreshProductAttrPics();
         }
       });
     },
-    async getAttrbuteValue(id){
+    //ac
+    async getAttrbuteValue(id) {
       return await fetchValueList(id)
     },
-    //获取选中的属性值
+    //获取选中的属性值 
     getEditAttrValues(index) {
       let values = new Set();
       if (index === 0) {
@@ -348,30 +386,6 @@ export default {
     getInputListArr(inputList) {
       return inputList.split(';');
     },
-    handleAddProductAttrValue(idx) {
-      let options = this.selectProductAttr[idx].options;
-      if (this.addProductAttrValue == null || this.addProductAttrValue == '') {
-        this.$message({
-          message: '属性值不能为空',
-          type: 'warning',
-          duration: 1000
-        });
-        return
-      }
-      if (options.indexOf(this.addProductAttrValue) !== -1) {
-        this.$message({
-          message: '属性值不能重复',
-          type: 'warning',
-          duration: 1000
-        });
-        return;
-      }
-      this.selectProductAttr[idx].options.push(this.addProductAttrValue);
-      this.addProductAttrValue = null;
-    },
-    handleRemoveProductAttrValue(idx, index) {
-      this.selectProductAttr[idx].options.splice(index, 1);
-    },
     getProductSkuSp(row, index) {
       let spData = JSON.parse(row.spData);
       if (spData != null && index < spData.length) {
@@ -390,44 +404,44 @@ export default {
         this.refreshProductSkuList();
       });
     },
-    // handleSyncProductSkuPrice() {
-    //   this.$confirm('将同步第一个sku的价格到所有sku,是否继续', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     if (this.value.skuStockList !== null && this.value.skuStockList.length > 0) {
-    //       let tempSkuList = [];
-    //       tempSkuList = tempSkuList.concat(tempSkuList, this.value.skuStockList);
-    //       let price = this.value.skuStockList[0].price;
-    //       for (let i = 0; i < tempSkuList.length; i++) {
-    //         tempSkuList[i].price = price;
-    //       }
-    //       this.value.skuStockList = [];
-    //       this.value.skuStockList = this.value.skuStockList.concat(this.value.skuStockList, tempSkuList);
-    //     }
-    //   });
-    // },
-    // handleSyncProductSkuStock() {
-    //   this.$confirm('将同步第一个sku的库存到所有sku,是否继续', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     if (this.value.skuStockList !== null && this.value.skuStockList.length > 0) {
-    //       let tempSkuList = [];
-    //       tempSkuList = tempSkuList.concat(tempSkuList, this.value.skuStockList);
-    //       let stock = this.value.skuStockList[0].stock;
-    //       let lowStock = this.value.skuStockList[0].lowStock;
-    //       for (let i = 0; i < tempSkuList.length; i++) {
-    //         tempSkuList[i].stock = stock;
-    //         tempSkuList[i].lowStock = lowStock;
-    //       }
-    //       this.value.skuStockList = [];
-    //       this.value.skuStockList = this.value.skuStockList.concat(this.value.skuStockList, tempSkuList);
-    //     }
-    //   });
-    // },
+    handleSyncProductSkuPrice() {
+      this.$confirm('将同步第一个sku的价格到所有sku,是否继续', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        if (this.value.skuStockList !== null && this.value.skuStockList.length > 0) {
+          let tempSkuList = [];
+          tempSkuList = tempSkuList.concat(tempSkuList, this.value.skuStockList);
+          let price = this.value.skuStockList[0].price;
+          for (let i = 0; i < tempSkuList.length; i++) {
+            tempSkuList[i].price = price;
+          }
+          this.value.skuStockList = [];
+          this.value.skuStockList = this.value.skuStockList.concat(this.value.skuStockList, tempSkuList);
+        }
+      });
+    },
+    handleSyncProductSkuStock() {
+      this.$confirm('将同步第一个sku的库存到所有sku,是否继续', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        if (this.value.skuStockList !== null && this.value.skuStockList.length > 0) {
+          let tempSkuList = [];
+          tempSkuList = tempSkuList.concat(tempSkuList, this.value.skuStockList);
+          let stock = this.value.skuStockList[0].stock;
+          let lowStock = this.value.skuStockList[0].lowStock;
+          for (let i = 0; i < tempSkuList.length; i++) {
+            tempSkuList[i].stock = stock;
+            tempSkuList[i].lowStock = lowStock;
+          }
+          this.value.skuStockList = [];
+          this.value.skuStockList = this.value.skuStockList.concat(this.value.skuStockList, tempSkuList);
+        }
+      });
+    },
     refreshProductSkuList() {
       this.value.skuStockList = [];
       let skuList = this.value.skuStockList;
@@ -516,28 +530,31 @@ export default {
       }
       return null;
     },
+    handleRemoveProductSku(index, row) {
+      let list = this.value.skuStockList;
+      if (list.length === 1) {
+        list.pop();
+      } else {
+        list.splice(index, 1);
+      }
+    },
+    handlePrev() {
+      this.$emit('prevStep')
+    },
     //合并商品属性
     mergeProductAttrValue() {
       this.value.productAttributeValueList = [];
       for (let i = 0; i < this.selectProductAttr.length; i++) {
         let attr = this.selectProductAttr[i];
-        if (attr.handAddStatus === 1 && attr.options != null && attr.options.length > 0) {
-          this.value.productAttributeValueList.push({
-            productAttributeId: attr.id,
-            value: this.getOptionStr(attr.options)
-          });
-        }
-      }
-      for (let i = 0; i < this.selectProductParam.length; i++) {
-        let param = this.selectProductParam[i];
         this.value.productAttributeValueList.push({
-          productAttributeId: param.id,
-          value: param.value
+          productAttributeId: attr.id,
+          value: attr.values
         });
       }
     },
     //合并商品属性图片
     mergeProductAttrPics() {
+      this.value.pic=this.selectProductPics;
       for (let i = 0; i < this.selectProductAttrPics.length; i++) {
         for (let j = 0; j < this.value.skuStockList.length; j++) {
           let spData = JSON.parse(this.value.skuStockList[j].spData);
@@ -547,34 +564,10 @@ export default {
         }
       }
     },
-    getOptionStr(arr) {
-      let str = '';
-      for (let i = 0; i < arr.length; i++) {
-        str += arr[i];
-        if (i != arr.length - 1) {
-          str += ',';
-        }
-      }
-      return str;
-    },
-    handleRemoveProductSku(index, row) {
-      let list = this.value.skuStockList;
-      if (list.length === 1) {
-        list.pop();
-      } else {
-        list.splice(index, 1);
-      }
-    },
-    getParamInputList(inputList) {
-      return inputList.split(',');
-    },
-    handlePrev() {
-      this.$emit('prevStep')
-    },
-
     handleFinishCommit() {
       this.mergeProductAttrValue();
       this.mergeProductAttrPics();
+      console.log(this.value)
       this.$emit('finishCommit', this.isEdit);
     }
   }

@@ -44,7 +44,16 @@ export function updateRecommendStatus(fd) {
     }
   })
 }
-
+export function cancelRecommendStatus(cid) {
+  console.log(cid)
+  return axios({
+    url:'http://localhost:8088/mall/admin/commodity/cancelRecommend',
+    method:'post',
+    params:{
+      cid
+    }
+  })
+}
 export function updatePublishStatus(params) {
   return request({
     url:'/product/update/publishStatus',

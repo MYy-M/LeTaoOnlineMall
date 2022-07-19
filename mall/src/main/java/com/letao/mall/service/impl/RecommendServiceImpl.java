@@ -64,7 +64,7 @@ public class RecommendServiceImpl extends ServiceImpl<RecommendMapper, Recommend
     }
 
     @Override
-    public Result cancelRecommend(long cid) {
+    public Result cancelRecommend(Long cid) {
         Recommend recommend = this.getOne(new LambdaQueryWrapper<Recommend>().eq(Recommend::getCid, cid));
         if (recommend == null) {
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
