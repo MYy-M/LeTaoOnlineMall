@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.letao.mall.dao.entity.Consumer;
 import com.letao.mall.dao.entity.OrderAddress;
 import com.letao.mall.vo.Result;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.core.annotation.Order;
 
 /**
@@ -15,4 +16,5 @@ import org.springframework.core.annotation.Order;
  * @since 2022-06-30
  */
 public interface OrderAddressService extends IService<OrderAddress> {
+    String getAddress(@Param("id") long addressId);
 }

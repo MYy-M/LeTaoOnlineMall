@@ -3,9 +3,14 @@ package com.letao.mall.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.letao.mall.dao.entity.LtOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.letao.mall.dao.entity.Orderitem;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.SearchOrderParam;
 import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -28,4 +33,15 @@ public interface LtOrderService extends IService<LtOrder> {
     Page getOrderList(int current,int pageSize);
 
     Result getStoreListByCondition( SearchOrderParam searchOrderParamm);
+
+    List<Orderitem> getOrderList(@Param("order_id") long order_id);
+
+    Date getTime(long id);
+
+    List<Long> getOrderId(@Param("uid") long uid);
+
+    BigDecimal getTotal(long orderId);
+
+
+
 }
