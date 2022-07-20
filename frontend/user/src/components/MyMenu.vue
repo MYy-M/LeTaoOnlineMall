@@ -51,12 +51,12 @@ export default {
 }
 
 #myMenu a:hover {
-  color: #ff6700;
-  border-bottom: 2px solid #ff6700;
+  color: #598479c8;
+  border-bottom: 2px solid #598479c8;
 }
 
 #myMenu .active a {
-  color: #ff6700;
-  border-bottom: 2px solid #ff6700;
+  color: #598479c8;
+  border-bottom: 2px solid #598479c8;
 }
 </style>

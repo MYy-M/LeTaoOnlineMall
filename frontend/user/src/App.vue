@@ -259,11 +259,11 @@ export default {
     },
     // 退出登录
     logout() {
-      this.$axios.post("/mall/consumer/logout", {
+      this.$axios.get("/mall/consumer/logout",{
         headers: { 'Authorization': localStorage.token }
       })
         .then(res => {
-          if (res.data.code === 200) {
+          if (res.data.code == 200) {
             this.visible = false;
             // 清空本地登录信息
             localStorage.setItem("user", "");
@@ -408,7 +408,7 @@ a:hover {
 
 .topbar .nav .shopCart-full {
   width: 120px;
-  background: #ff6700;
+  background: #598479c8;
 }
 
 .topbar .nav .shopCart-full a {

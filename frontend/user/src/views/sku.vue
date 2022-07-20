@@ -190,8 +190,8 @@ export default {
 }
 
 .active {
-    border-color: #ff6600;
-    color: #ff6600;
+    border-color: #598479c8;
+    color: #598479c8;
 }
 
 .disabled {

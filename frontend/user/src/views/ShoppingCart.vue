@@ -12,7 +12,7 @@
     <div class="cart-header">
       <div class="cart-header-content">
         <p>
-          <i class="el-icon-shopping-cart-full" style="color:#ff6700; font-weight: 600;"></i>
+          <i class="el-icon-shopping-cart-full" style="color:#598479c8; font-weight: 600;"></i>
           我的购物车
         </p>
         <span>温馨提示：产品是否购买成功，以最终下单为准哦，请尽快结算</span>
@@ -135,7 +135,7 @@ export default {
       this.updateShoppingCart({ key: key, prop: "check", val: true });
       // 向后端发起更新购物车的数据库信息请求
       this.$axios
-        .post("/mall/consumer/setNum", {
+        .post("/mall/consumer/cart/setNum", {
           cartId: cartId,
           num: currentValue
         })
@@ -168,8 +168,8 @@ export default {
     // 向后端发起删除购物车的数据库信息请求
     deleteItem(e, cartId) {
       this.$axios
-        .post("/mall/consumer/cart/deleteCommodity", {
-          cartId: cartId
+        .get("/mall/consumer/cart/deleteCommodity", {params:{cartId: cartId
+        } 
         })
         .then(res => {
           switch (res.data.code) {
@@ -216,7 +216,7 @@ export default {
 /* 购物车头部CSS */
 .shoppingCart .cart-header {
   height: 64px;
-  border-bottom: 2px solid #ff6700;
+  border-bottom: 2px solid #4f7f72;
   background-color: #fff;
   margin-bottom: 20px;
 }
@@ -291,7 +291,7 @@ export default {
   color: #424242;
 }
 .shoppingCart .content ul .pro-name a:hover {
-  color: #ff6700;
+  color: #598479c8;
 }
 .shoppingCart .content ul .pro-price {
   float: left;
@@ -311,7 +311,7 @@ export default {
   text-align: right;
 }
 .shoppingCart .content ul .pro-total-in {
-  color: #ff6700;
+  color: #598479c8;
 }
 .shoppingCart .content ul .pro-action {
   float: left;
@@ -319,7 +319,7 @@ export default {
   text-align: center;
 }
 .shoppingCart .content ul .pro-action i:hover {
-  color: #ff6700;
+  color: #598479c8;
 }
 /* 购物车表头及CSS END */
 
@@ -339,7 +339,7 @@ export default {
   color: #757575;
 }
 .shoppingCart .cart-bar .cart-bar-left a:hover {
-  color: #ff6700;
+  color: #598479c8;
 }
 .shoppingCart .cart-bar .cart-bar-left .sep {
   color: #eee;
@@ -349,17 +349,17 @@ export default {
   color: #757575;
 }
 .shoppingCart .cart-bar .cart-bar-left .cart-total-num {
-  color: #ff6700;
+  color: #598479c8;
 }
 .shoppingCart .cart-bar .cart-bar-right {
   float: right;
 }
 .shoppingCart .cart-bar .cart-bar-right .total-price-title {
-  color: #ff6700;
+  color: #598479c8;
   font-size: 14px;
 }
 .shoppingCart .cart-bar .cart-bar-right .total-price {
-  color: #ff6700;
+  color: #598479c8;
   font-size: 30px;
 }
 .shoppingCart .cart-bar .cart-bar-right .btn-primary {
@@ -368,7 +368,7 @@ export default {
   text-align: center;
   font-size: 18px;
   margin-left: 50px;
-  background: #ff6700;
+  background: #4f7f72;
   color: #fff;
 }
 .shoppingCart .cart-bar .cart-bar-right .btn-primary-disabled {
@@ -381,7 +381,7 @@ export default {
   color: #b0b0b0;
 }
 .shoppingCart .cart-bar .cart-bar-right .btn-primary:hover {
-  background-color: #f25807;
+  background-color: #598479c8;
 }
 /* 购物车底部导航条CSS END */
 /* 购物车主要内容区CSS END */

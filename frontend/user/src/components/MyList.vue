@@ -146,7 +146,7 @@ export default {
 .myList ul li p {
   margin: 10px 10px 10px;
   text-align: center;
-  color: #ff6700;
+  color: #598479c8;
 }
 .myList ul li p .del {
   margin-left: 0.5em;
@@ -162,7 +162,7 @@ export default {
   color: #333;
 }
 .myList #more a:hover {
-  color: #ff6700;
+  color: #598479c8;
 }
 .myList ul li .delete {
   position: absolute;
@@ -174,6 +174,6 @@ export default {
   display: block
 }
 .myList ul li .delete:hover {
-  color: #ff6700;
+  color: #598479c8;
 }
 </style>
