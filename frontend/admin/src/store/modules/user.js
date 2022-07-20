@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-
+import { Message, MessageBox } from 'element-ui'
 const user = {
   state: {
     token: getToken(),
@@ -28,16 +28,25 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const id = userInfo.id.trim()
-
       return new Promise((resolve, reject) => {
         login(id, userInfo.password).then(response => {
           const data = response.data
           console.log(data)
           // const tokenStr = data.tokenHead+data.token
           // console.log(tokenStr)
-          setToken(data.data)
-          commit('SET_TOKEN', data.data)
-          resolve()
+          if (data.data != null) {
+            setToken(data.data)
+            commit('SET_TOKEN', data.data)
+            resolve()
+          }
+          else{
+            Message({
+              message: data.msg,
+              type: 'warning',
+              duration: 1000
+            })
+            resolve()
+          }
         }).catch(error => {
           console.log(error)
           reject(error)
