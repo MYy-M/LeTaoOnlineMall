@@ -31,9 +31,10 @@
 <script>
 import ProductInfoDetail from './ProductInfoDetail';
 import ProductAttrDetail from './ProductAttrDetail';
-import { createProduct, getProduct, updateProduct, uploadCommodityPic } from '@/api/product';
+import { createProduct, fetchList as getProduct, updateProduct, uploadCommodityPic } from '@/api/product';
 
 const defaultProductParam = {
+  id:'',
   description: '',
   name: '',
   pic: '',
@@ -64,8 +65,22 @@ export default {
   },
   created() {
     if (this.isEdit) {
-      getProduct(this.$route.query.id).then(response => {
-        this.productParam = response.data;
+      var listQuery = {
+        productSn: this.$route.query.id,
+        pageNum: 1,
+        pageSize: 1
+      }
+      getProduct(listQuery).then(response => {
+        this.productParam.description = response.data.data.records[0].cdetail;
+        this.productParam.name = response.data.data.records[0].cname;
+        this.productParam.price = response.data.data.records[0].cprice;
+        this.productParam.productCategoryId = response.data.data.records[0].categoryId;
+        this.productParam.productAttributeCategoryId = response.data.data.records[0].categoryId;
+        this.productParam.stock = response.data.data.records[0].cnum;
+        this.productParam.pic=response.data.data.records[0].cpicture;
+        this.productParam.id=response.data.data.records[0].cid;
+        this.productParam.productAttributeValueList=JSON.parse(response.data.data.records[0].attributeList)
+        console.log(this.productParam.productAttributeValueList)
       });
     }
   },
@@ -107,19 +122,19 @@ export default {
           });
         } else {
           this.productParam.productAttributeValueList = JSON.stringify(this.productParam.productAttributeValueList);
+          console.log(this.productParam.skuStockList)
           createProduct(this.productParam).then(response => {
             var id = response.data.data
-            var fd =new FormData();
-            fd.append("id",id);
-            fd.append("file",this.productParam.pic);
+            var fd = new FormData();
+            fd.append("id", id);
+            fd.append("file", this.productParam.pic);
             uploadCommodityPic(fd).then(res => {
-              console.log(111111111111)
               this.$message({
                 type: 'success',
                 message: '提交成功',
                 duration: 1000
               });
-              location.reload();
+              // location.reload();
             })
           });
         }

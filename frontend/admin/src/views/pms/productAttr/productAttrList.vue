@@ -168,7 +168,7 @@ export default {
           }
         }
         this.list = arr
-        this.total = response.data.data.records.length;
+        this.total = response.data.data.total;
       });
     },
     async getValueList(id) {

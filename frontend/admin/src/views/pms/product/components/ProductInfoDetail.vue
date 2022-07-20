@@ -105,19 +105,15 @@ export default {
       // }
       if (newValue != null && newValue.length === 1) {
         this.value.productCategoryId = newValue[0];
-        this.value.productCategoryName = this.getCateNameById(this.value.productCategoryId);
       } else {
         this.value.productCategoryId = null;
-        this.value.productCategoryName = null;
       }
-
     }
   },
   methods: {
     //处理编辑逻辑
     handleEditCreated() {
       if (this.value.productCategoryId != null) {
-        this.selectProductCateValue.push(this.value.cateParentId);
         this.selectProductCateValue.push(this.value.productCategoryId);
       }
       this.hasEditCreated = true;

@@ -446,7 +446,7 @@ export default {
 
         this.listLoading = false;
         this.list = response.data.data.records;
-        this.total = response.data.data.records.length;
+        this.total = response.data.data.total;
       });
     },
     deleteOrder(ids) {

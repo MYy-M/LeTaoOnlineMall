@@ -45,12 +45,18 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="商品分类：">
-            <el-cascader
-              clearable
-              v-model="selectProductCateValue"
-              :options="productCateOptions"
+            <el-select
+              v-model="listQuery.productCategoryId"
+              placeholder="请选择"
             >
-            </el-cascader>
+              <el-option
+                v-for="item in productCateOptions"
+                :key="item.categoryId"
+                :label="item.categoryName"
+                :value="item.categoryId"
+              >
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </div>
@@ -273,7 +279,7 @@ import {
 } from '@/api/product'
 import { fetchList as fetchSkuStockList, update as updateSkuStockList } from '@/api/skuStock'
 import { fetchList as fetchProductAttrList } from '@/api/productAttr'
-import { fetchListWithChildren } from '@/api/productCate'
+import { fetchList as fetchProductCateList } from '@/api/productAttrCate'
 
 const defaultListQuery = {
   keyword: null,
@@ -356,24 +362,16 @@ export default {
     getList() {
       this.listLoading = true;
       fetchList(this.listQuery).then(response => {
+        console.log(response)
         this.listLoading = false;
         this.list = response.data.data.records;
-        this.total = response.data.data.records.length;
+        this.total = response.data.data.total;
       });
     },
     getProductCateList() {
-      fetchListWithChildren().then(response => {
-        let list = response.data;
-        this.productCateOptions = [];
-        for (let i = 0; i < list.length; i++) {
-          let children = [];
-          if (list[i].children != null && list[i].children.length > 0) {
-            for (let j = 0; j < list[i].children.length; j++) {
-              children.push({ label: list[i].children[j].name, value: list[i].children[j].id });
-            }
-          }
-          this.productCateOptions.push({ label: list[i].name, value: list[i].id, children: children });
-        }
+      fetchProductCateList(this.listQuery).then(response => {
+        let list = response.data.data.records;
+        this.productCateOptions = list;
       });
     },
     handlePreview(file) {
@@ -477,7 +475,7 @@ export default {
       });
     },
     handleUpdateProduct(index, row) {
-      this.$router.push({ path: '/pms/updateProduct', query: { id: row.id } });
+      this.$router.push({ path: '/pms/updateProduct', query: { id: row.cid } });
     },
     updateRecommendStatus() {
       const fd = new FormData();

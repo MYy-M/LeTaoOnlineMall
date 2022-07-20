@@ -63,12 +63,12 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         return commodityMapper.countCusTotal();
     }
 
-    public Boolean isExisted(String cname, String attribute_list, BigDecimal price) {
+    public Boolean isExisted(String cname, String attributeList, BigDecimal price) {
         QueryWrapper<Commodity> queryWrapper = new QueryWrapper<>();
         queryWrapper
                 .eq("cprice", price)
                 .eq("cname", cname)
-                .eq("attribute_list", attribute_list);
+                .eq("attribute_list", attributeList);
         if (commodityMapper.selectCount(queryWrapper) > 0) {
             return false;
         }
@@ -183,7 +183,7 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
 
     @Override
     public Page getCommodityByC(CommodityParam commodityParam){
-        Long categoryId=commodityParam.getCategoryID().get(0);
+        Long categoryId=commodityParam.getCaId();
         Long cid=commodityParam.getCid();
         String cname=commodityParam.getCname();
         Page<Commodity> commodityPage = new Page<>(commodityParam.getCurrentPage(), commodityParam.getPageSize());

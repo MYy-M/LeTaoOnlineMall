@@ -12,4 +12,5 @@ public class CommodityParam {
     private Integer currentPage;
     private Long cid;
     private Integer pageSize;
+    private Long caId;
 }

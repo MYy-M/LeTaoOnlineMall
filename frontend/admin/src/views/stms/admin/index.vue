@@ -224,7 +224,7 @@ export default {
         this.listQuery.storeAddress, this.listQuery.storeName, this.listQuery.storePhone).then(response => {
           this.listLoading = false;
           this.list = response.data.data.records;
-          this.total = response.data.data.length;
+          this.total = response.data.data.total;
         });
     },
     handleSearchList() {

@@ -72,7 +72,7 @@ public class ACommodityController {
      */
     @PostMapping("/add")
     public Result addCommodity(@RequestBody Commodity cm) {
-        if (cms.isExisted(cm.getCname(), cm.getAttribute_list(), cm.getCprice())) {
+        if (cms.isExisted(cm.getCname(), cm.getAttributeList(), cm.getCprice())) {
             return cms.save(cm) ? Result.success(cm.getCid().toString()) : Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
         }
         return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());

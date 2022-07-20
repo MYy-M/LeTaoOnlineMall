@@ -339,11 +339,10 @@ export default {
     getEditAttrValues(index) {
       let values = new Set();
       if (index === 0) {
-        for (let i = 0; i < this.value.skuStockList.length; i++) {
-          let sku = this.value.skuStockList[i];
-          let spData = JSON.parse(sku.spData);
-          if (spData != null && spData.length >= 1) {
-            values.add(spData[0].value);
+        for (let i = 0; i < this.value.productAttributeValueList.length; i++) {
+          let sku = this.value.productAttributeValueList[i];
+          if (sku != null && sku.length >= 1) {
+            values.add(sku[0].value);
           }
         }
       } else if (index === 1) {
@@ -367,6 +366,7 @@ export default {
     },
     //获取属性的值
     getEditParamValue(id) {
+      
       for (let i = 0; i < this.value.productAttributeValueList.length; i++) {
         if (id === this.value.productAttributeValueList[i].productAttributeId) {
           return this.value.productAttributeValueList[i].value;

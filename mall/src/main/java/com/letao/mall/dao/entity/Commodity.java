@@ -2,6 +2,7 @@ package com.letao.mall.dao.entity;
 
 import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.sql.Blob;
@@ -43,7 +44,8 @@ public class Commodity implements Serializable {
     private Integer cnum;
 
     //规格列表
-    private String attribute_list;
+
+    private String attributeList;
 
     //商品介绍
     private String cdetail;

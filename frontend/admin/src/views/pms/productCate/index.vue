@@ -175,14 +175,14 @@ export default {
         fetchFirstCateList(this.listQuery).then(response => {
           this.listLoading = false;
           this.list = response.data.data.records;
-          this.total = response.data.data.records.length;
+          this.total = response.data.data.total;
         });
       }
       else {
         fetchSecondCateList(this.parentId, this.listQuery).then(response => {
           this.listLoading = false;
           this.list = response.data.data.records;
-          this.total = response.data.data.records.length;
+          this.total = response.data.data.total;
         })
       }
     },

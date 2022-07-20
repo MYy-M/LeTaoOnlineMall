@@ -79,7 +79,7 @@
         fetchList(this.listQuery).then(response => {
           this.listLoading = false;
           this.list = response.data.data.records;
-          this.total = response.data.data.records.length;
+          this.total = response.data.data.total;
         });
       },
       handleSizeChange(val) {

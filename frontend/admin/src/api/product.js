@@ -7,7 +7,7 @@ export function fetchList(data) {
     data:{
       cname:data.keyword,
       cid:data.productSn,
-      categoryID:data.productCategoryId,
+      caId:data.productCategoryId,
       currentPage:data.pageNum,
       pageSize:data.pageSize
     }
@@ -64,7 +64,7 @@ export function createProduct(data) {
       cname:data.name,
       cprice:data.price,
       cnum:data.stock,
-      attribute_list:data.productAttributeValueList.toString(),
+      attributeList:data.productAttributeValueList.toString(),
       cdetail:data.description,
       categoryId:data.productCategoryId
     }
