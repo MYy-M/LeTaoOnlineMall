@@ -5,30 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/ProductParam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/OrderVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/Consumer/CLtOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/Consumer/CLtOrderController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/LtOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/LtOrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/entity/Orderitem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/entity/Orderitem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/LtOrderMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/LtOrderMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/OrderAddressMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/dao/mapper/OrderAddressMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/LtOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/LtOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/OrderAddressService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/OrderAddressService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/LtOrderServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/LtOrderServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/OrderAdressServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/OrderAdressServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/ErrorCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/ErrorCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/OrderParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/OrderParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/ProductParam.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CLtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CLtOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/LtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/LtOrderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/entity/Orderitem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/entity/Orderitem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/LtOrderMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/LtOrderMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/OrderAddressMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/OrderAddressMapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/LtOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/LtOrderService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/OrderAddressService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/OrderAddressService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/OrderAdressServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/OrderAdressServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/ErrorCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/ErrorCode.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,15 +36,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "spring.configuration.checksum": "2ee385d4e42e07f2c539b597559e70ee"
-  }
-}]]></component>
-  <component name="RunManager">
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+  </component>
+  <component name="RunManager" selected="Application.MallApplication">
     <configuration name="MallApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.letao.mall.MallApplication" />
       <module name="mall" />
@@ -71,6 +51,13 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MallApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="mall" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.letao.mall.MallApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -90,11 +77,23 @@
       <option name="presentableId" value="Default" />
       <updated>1657350051836</updated>
       <workItem from="1658237017314" duration="8757000" />
+      <workItem from="1658278881852" duration="2787000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

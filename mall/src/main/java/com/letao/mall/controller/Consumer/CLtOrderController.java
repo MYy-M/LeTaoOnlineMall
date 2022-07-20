@@ -1,19 +1,16 @@
 package com.letao.mall.controller.Consumer;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.letao.mall.dao.entity.LtOrder;
 import com.letao.mall.dao.entity.Orderitem;
 import com.letao.mall.service.LtOrderService;
 import com.letao.mall.service.OrderAddressService;
 import com.letao.mall.service.OrderitemService;
 import com.letao.mall.util.DelayMessageProducer;
+import com.letao.mall.vo.CartVo;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
-import com.letao.mall.vo.param.ProductParam;
+import com.letao.mall.vo.param.OrderParam;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
@@ -27,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static com.letao.mall.config.RabbitMqConfig.DELAY_QUEUE_NAME;
 
@@ -88,54 +86,52 @@ public class CLtOrderController {
     }
 
     @RequestMapping("/submitOrder")
-    public Result submitOrder(String orderParam){
-        JSONObject jsonObject= JSON.parseObject(orderParam);
-
-        LtOrder ltOrder=new LtOrder();
-        ltOrder.setUid(Long.parseLong(jsonObject.getString("uid")));
-        long addressId=Long.valueOf(jsonObject.getString("addressId"));
-        ltOrder.setAddress(orderAddressService.getAddress(addressId));
-        ltOrder.setPrice(jsonObject.getBigDecimal("totalPrice"));
-
-        //直接是已付款状态
-        ltOrder.setOrderState(1);
-        ltOrder.setTime(new Date());
-
-        long oid=0;
-
-        if(orderService.save(ltOrder)){
-            oid=ltOrder.getOrderId();
+    public Result submitOrder(OrderParam orderParam){
+        if(orderParam==null){
+            return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }else{
-            return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
-        }
+            Long uid = orderParam.getUid();
+            Long addressId = orderParam.getAddressId();
+            BigDecimal totalPrice = orderParam.getTotalPrice();
+            List<CartVo> cartVolist = orderParam.getList();
+            if(uid!=null&&addressId!=null&&totalPrice!=null&&cartVolist!=null&&cartVolist.size()!=0){
+                LtOrder ltOrder=new LtOrder();
+                ltOrder.setUid(uid);
+                ltOrder.setAddress(orderAddressService.getById(addressId).getAddress());
+                ltOrder.setPrice(totalPrice);
+                //直接是已付款状态
+                ltOrder.setOrderState(1);
+                ltOrder.setTime(new Date());
+                Long orderId;
+                if(orderService.save(ltOrder)){
+                    orderId =ltOrder.getOrderId();
+                }else{
+                    return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
+                }
+                List<Orderitem> list = new ArrayList<>();
+                for (int i = 0; i < cartVolist.size(); i++) {
+                    CartVo cartVo = cartVolist.get(i);
+                    Orderitem orderItem = new Orderitem();
+                    orderItem.setCname(cartVo.getCname());
+                    orderItem.setCid(cartVo.getCid());
+                    orderItem.setCnum(cartVo.getNum());
+                    orderItem.setCpicture(cartVo.getCPicture());
+                    orderItem.setCprice(cartVo.getPrice());
+                    orderItem.setCsId(cartVo.getCsId());
+                    orderItem.setOrderId(orderId);
 
-        JSONArray jsonArray=jsonObject.getJSONArray("products");
-        ArrayList<Orderitem> orderItemList=new ArrayList<>();
+                    list.add(orderItem);
+                }
 
-        for(int i=0;i<jsonArray.size();i++){
-            ProductParam product=jsonArray.getObject(i,ProductParam.class);
-            if(product.getCid()==null){
-                return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
+                if(itemService.saveBatch(list)){
+                    //将订单id传给消费者
+                    //延迟付款时间30s
+                    producer.send(Long.toString(orderId),30*1000);
+                }else{
+                    orderService.deleteOrder(orderId);
+                    return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
+                }
             }
-            Orderitem orderItem=new Orderitem();
-            orderItem.setCname(product.getCname());
-            orderItem.setCid(product.getCid());
-            orderItem.setCnum(product.getNum());
-            orderItem.setCpicture(product.getCpicture());
-            orderItem.setCprice(product.getPrice());
-            orderItem.setCsId(product.getCsId());
-            orderItem.setOrderId(oid);
-
-            orderItemList.add(orderItem);
-        }
-
-        if(itemService.saveBatch(orderItemList)){
-            //将订单id传给消费者
-            //延迟付款时间30s
-            producer.send(Long.toString(oid),30*1000);
-        }else{
-            orderService.deleteOrder(oid);
-            return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
         }
         return Result.success(true);
     }
