@@ -3,6 +3,7 @@ package com.letao.mall.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.letao.mall.dao.entity.CommoditySpecs;
 import com.letao.mall.service.CommodityService;
 import com.letao.mall.service.CommoditySpecsService;
@@ -14,6 +15,7 @@ import com.letao.mall.vo.param.SpecsData;
 import com.letao.mall.vo.param.SpecsParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.QueryAnnotation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -33,6 +35,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/mall/commoditySpecs")
 @CrossOrigin
+@Transactional
 public class CommoditySpecsController {
 
 
@@ -70,13 +73,14 @@ public class CommoditySpecsController {
      */
     @PostMapping("/addSpecs")
     public Result addSpecs(@RequestBody CommoditySpecsParam param){
+        long cid= param.getCid();
         List<SpecsParam> list=param.getSpecsList();
         //规格列表
         List<CommoditySpecs> commoditySpecsList=new ArrayList<>();
 
         for(SpecsParam specs:list){
             CommoditySpecs commoditySpecs=new CommoditySpecs();
-            commoditySpecs.setCid(specs.getCid());
+            commoditySpecs.setCid(cid);
             commoditySpecs.setCprice(specs.getPrice());
             commoditySpecs.setCStock(specs.getStock());
 
@@ -106,6 +110,58 @@ public class CommoditySpecsController {
         }
         return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
     }
+
+    /**
+     * 修改规格
+     * @param param
+     * @return
+     */
+    @PostMapping("/modifySpecs")
+    public Result modifySpecs(@RequestBody CommoditySpecsParam param){
+
+        long cid= param.getCid();
+        //修改时先删了以前的
+        QueryWrapper<CommoditySpecs> wrapper=new QueryWrapper<>();
+        wrapper.eq("cid",cid);
+        commoditySpecsService.remove(wrapper);
+
+        List<SpecsParam> list=param.getSpecsList();
+        //规格列表
+        List<CommoditySpecs> commoditySpecsList=new ArrayList<>();
+
+        for(SpecsParam specs:list){
+            CommoditySpecs commoditySpecs=new CommoditySpecs();
+            commoditySpecs.setCid(cid);
+            commoditySpecs.setCprice(specs.getPrice());
+            commoditySpecs.setCStock(specs.getStock());
+
+            String imgUrl="";
+            try {
+                imgUrl=uploadPic.upPic(specs.getPic());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            commoditySpecs.setCSpecs(imgUrl);
+
+            //循环拿到每个key和value
+            JSONArray jsonArray= JSON.parseArray(specs.getSpData());
+            Map<String,String> map=new HashMap<>();
+            for(int i=0;i<jsonArray.size();i++){
+                SpecsData specsData=jsonArray.getObject(i,SpecsData.class);
+                map.put(specsData.getKey(), specsData.getValue());
+            }
+            String s=JSON.toJSONString(map);
+            commoditySpecs.setCSpecs(s);
+
+            commoditySpecsList.add(commoditySpecs);
+
+        }
+        if(commoditySpecsService.saveBatch(commoditySpecsList)){
+            return Result.success(true);
+        }
+        return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
+    }
+
 
 }
 

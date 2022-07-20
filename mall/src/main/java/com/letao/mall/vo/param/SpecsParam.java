@@ -15,6 +15,5 @@ public class SpecsParam {
     private String spData;
 
     private Integer stock;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long cid;
+
 }
