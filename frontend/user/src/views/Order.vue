@@ -13,7 +13,7 @@
         <p>
           <i
             class="el-icon-s-order"
-            style="font-size: 30px;color: #ff6700;"
+            style="font-size: 30px;color: #598479c8;"
           ></i>
           我的订单
         </p>
@@ -160,7 +160,7 @@ export default {
 /* 我的订单头部CSS */
 .order .order-header {
   height: 64px;
-  border-bottom: 2px solid #ff6700;
+  border-bottom: 2px solid #598479c8;
   background-color: #fff;
   margin-bottom: 20px;
 }
@@ -194,11 +194,11 @@ export default {
   line-height: 60px;
   padding: 0 26px;
   color: #424242;
-  border-bottom: 1px solid #ff6700;
+  border-bottom: 1px solid #598479c8;
 }
 .order .content ul .order-info .order-id {
   float: left;
-  color: #ff6700;
+  color: #598479c8;
 }
 .order .content ul .order-info .order-time {
   float: right;
@@ -235,7 +235,7 @@ export default {
   color: #424242;
 }
 .order .content ul .pro-name a:hover {
-  color: #ff6700;
+  color: #598479c8;
 }
 .order .content ul .pro-price {
   float: left;
@@ -255,13 +255,13 @@ export default {
   text-align: right;
 }
 .order .content ul .pro-total-in {
-  color: #ff6700;
+  color: #598479c8;
 }
 
 .order .order-bar {
   width: 1185px;
   padding: 0 20px;
-  border-top: 1px solid #ff6700;
+  border-top: 1px solid #598479c8;
   height: 50px;
   line-height: 50px;
   background-color: #fff;
@@ -273,17 +273,17 @@ export default {
   color: #757575;
 }
 .order .order-bar .order-bar-left .order-total-num {
-  color: #ff6700;
+  color: #598479c8;
 }
 .order .order-bar .order-bar-right {
   float: right;
 }
 .order .order-bar .order-bar-right .total-price-title {
-  color: #ff6700;
+  color: #598479c8;
   font-size: 14px;
 }
 .order .order-bar .order-bar-right .total-price {
-  color: #ff6700;
+  color: #598479c8;
   font-size: 30px;
 }
 /* 订单列表CSS END */

@@ -32,27 +32,14 @@
     <div class="main">
       <!-- 左侧商品轮播图 -->
       <div class="block">
-        <el-carousel
-          height="560px"
-          v-if="productPicture.length > 1"
-        >
-          <el-carousel-item
-            v-for="item in productPicture"
-            :key="item.csId"
-          >
-            <img
-              style="height:560px;width: 100%;;"
-              :src="'data:image/png;base64,' + item.pic"
-              :alt="item.cprice"
-            />
+        <el-carousel height="560px" v-if="productPicture.length > 1">
+          <el-carousel-item v-for="item in productPicture" :key="item.csId">
+            <img style="height:560px;width: 100%;;" :src="'data:image/png;base64,' + item.pic" :alt="item.cprice" />
           </el-carousel-item>
         </el-carousel>
         <div v-if="productPicture.length == 1">
-          <img
-            style="height:560px;width: 100%; "
-            :src="'data:image/png;base64,' + productPicture[0].pic"
-            :alt="productPicture[0].cprice"
-          />
+          <img style="height:560px;width: 100%; " :src="'data:image/png;base64,' + productPicture[0].pic"
+            :alt="productPicture[0].cprice" />
         </div>
       </div>
       <!-- 左侧商品轮播图END -->
@@ -61,41 +48,29 @@
       <div class="content">
         <h1 class="name">{{ productDetails.cname }}</h1>
         <p class="intro">{{ productDetails.cdetail }}</p>
-        <p class="store">小米自营</p>
+        <p class="store">乐淘自营</p>
         <div class="price">
           <span>{{ productDetails.cprice }}元</span>
-          <span
-            v-show="productDetails.product_price != productDetails.product_selling_price"
-            class="del"
-          >{{
+          <span v-show="productDetails.product_price != productDetails.product_selling_price" class="del">{{
               productDetails.product_price
           }}元</span>
         </div>
         <div class="pro-list">
           <span class="pro-name">{{ productDetails.cname }}</span>
           <span class="pro-price">
-            <span>{{ productDetails.cprice}}元</span>
-            <span
-              v-show="productDetails.product_price != productDetails.product_selling_price"
-              class="pro-del"
-            >{{
+            <span>{{ productDetails.cprice }}元</span>
+            <span v-show="productDetails.product_price != productDetails.product_selling_price" class="pro-del">{{
                 productDetails.product_price
             }}元</span>
           </span>
           <p class="price-sum">总计 : {{ productDetails.cprice }}元</p>
         </div>
-        <div
-          class="sku"
-          v-if="this.propertyId"
-        >
+        <div class="sku" v-if="this.propertyId">
           <h3>规格</h3>
           <el-form>
-            <el-form-item
-              v-for="(property, propertyIndex) in property"
-              :key="propertyIndex"
-              :label="property.attributeName"
-            >
-              <div v-for="(item,index) in ">
+            <el-form-item v-for="(property, propertyIndex) in property" :key="propertyIndex"
+              :label="property.attributeName">
+              <!-- <div v-for="(item,index) in ">
                 <el-radio
                   v-model="radio2"
                   label="1"
@@ -108,7 +83,7 @@
                   border
                   size="medium"
                 >备选项2</el-radio>
-              </div>
+              </div> -->
               <!-- <div class="sku-box-area">
               <div v-for="(attribute, attributeIndex) in property.attributes">
                 <div :key="attributeIndex" :class="[
@@ -126,15 +101,8 @@
         </div>
         <!-- 内容区底部按钮 -->
         <div class="button">
-          <el-button
-            class="shop-cart"
-            :disabled="dis"
-            @click="addShoppingCart"
-          >加入购物车</el-button>
-          <el-button
-            class="like"
-            @click="addCollect"
-          >喜欢</el-button>
+          <el-button class="shop-cart" :disabled="dis" @click="addShoppingCart">加入购物车</el-button>
+          <el-button class="like" @click="addCollect">喜欢</el-button>
         </div>
         <!-- 内容区底部按钮END -->
         <div class="pro-policy">
@@ -167,7 +135,6 @@ export default {
   computed: {},
   data() {
     return {
-
       dis: false, // 控制“加入购物车按钮是否可用”
       cid: "", // 商品id
       cprice: "",//商品价格
@@ -247,18 +214,19 @@ export default {
           params: { cid: val }
         })
         .then(res => {
-          for (var key of res.data.data) {
-            var obj = {
-              cspecs: JSON.parse(key.cspecs),
-              cstock: key.cstock,
-              cprice: key.cprice,
-              cpicture: key.cpicture,
-              cid: key.cid,
-              csid: key.csId
-            };
-            this.productSku.push(obj);
+          if (res.data.code == 200) {
+            for (var key of res.data.data) {
+              var obj = {
+                cspecs: JSON.parse(key.cspecs),
+                cstock: key.cstock,
+                cprice: key.cprice,
+                cpicture: key.cpicture,
+                cid: key.cid,
+                csid: key.csId
+              };
+              this.productSku.push(obj);
+            }
           }
-          console.log(this.productSku)
         })
         .catch(err => {
           return Promise.reject(err);
@@ -271,10 +239,11 @@ export default {
         this.$store.dispatch("setShowLogin", true);
         return;
       }
+
       this.$axios
         .post("/mall/consumer/cart/addCommodity", {
           uid: this.$store.getters.getUser.uid,
-          csId: this.cid
+          csId: this.productSku[0].csid,
         })
         .then(res => {
           switch (res.data.code) {
@@ -367,12 +336,12 @@ export default {
 
 #details .page-header .title .list li a {
   font-size: 14px;
-  color: #616161;
+  color: #744e4e;
 }
 
 #details .page-header .title .list li a:hover {
   font-size: 14px;
-  color: #ff6700;
+  color: #5b3c27;
 }
 
 /* 头部CSS END */
@@ -405,8 +374,8 @@ export default {
 }
 
 .active {
-  border-color: #ff6600;
-  color: #ff6600;
+  border-color: #598479c8;
+  color: #598479c8;
 }
 
 .disabled {
@@ -453,14 +422,14 @@ export default {
 }
 
 #details .main .content .store {
-  color: #ff6700;
+  color: #61543e;
   padding-top: 10px;
 }
 
 #details .main .content .price {
   display: block;
   font-size: 18px;
-  color: #ff6700;
+  color: #61543e;
   border-bottom: 1px solid #e0e0e0;
   padding: 25px 0 25px;
 }
@@ -493,7 +462,7 @@ export default {
 }
 
 #details .main .content .pro-list .price-sum {
-  color: #ff6700;
+  color: #598479c8;
   font-size: 24px;
   padding-top: 20px;
 }
@@ -514,11 +483,11 @@ export default {
 
 #details .main .content .button .shop-cart {
   width: 340px;
-  background-color: #ff6700;
+  background-color: #598479c8;
 }
 
 #details .main .content .button .shop-cart:hover {
-  background-color: #f25807;
+  background-color: #598479c8;
 }
 
 #details .main .content .button .like {

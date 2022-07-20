@@ -25,9 +25,7 @@
           </div>
           <div class="box-bd">
             <div class="promo-list">
-              <router-link to>
-                <img :src="'data:image/png;base64,' + 'public/imgs/phone/phone.png'" />
-              </router-link>
+                <img src="../assets/imgs/phone.png" />
             </div>
             <div class="list">
               <MyList :list="phoneList" :isMore="true"></MyList>
@@ -45,9 +43,7 @@
           </div>
           <div class="box-bd">
             <div class="promo-list">
-              <router-link to>
-                <img :src="'data:image/png;base64,' + 'public/imgs/phone/phone.png'" />
-              </router-link>
+              <img src="../assets/imgs/computer.webp" />
             </div>
             <div class="list">
               <MyList :list="computerList" :isMore="true"></MyList>
@@ -63,9 +59,7 @@
           </div>
           <div class="box-bd">
             <div class="promo-list">
-              <router-link to>
-                <img :src="'data:image/png;base64,' + 'public/imgs/phone/phone.png'" />
-              </router-link>
+              <img src="../assets/imgs/pad.webp" />
             </div>
             <div class="list">
               <MyList :list="padList" :isMore="true"></MyList>
@@ -88,10 +82,10 @@
             <div class="promo-list">
               <ul>
                 <li>
-                  <img :src="$target + 'public/imgs/appliance/appliance-promo1.png'" />
+                  <img src="../assets/imgs/appliance-promo1.png" />
                 </li>
                 <li>
-                  <img :src="$target + 'public/imgs/appliance/appliance-promo2.png'" />
+                  <img src="../assets/imgs/appliance-promo1.png" />
                 </li>
               </ul>
             </div>
