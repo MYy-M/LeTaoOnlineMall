@@ -5,7 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/OrderVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/OrderVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/Consumer/CLtOrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/Consumer/CLtOrderController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/OrderParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/param/OrderParam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CLtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/Consumer/CLtOrderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/LtOrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/controller/LtOrderController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/LtOrderMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/dao/mapper/LtOrderMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/LtOrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/LtOrderService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/service/impl/LtOrderServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/param/OrderParam.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/letao/mall/vo/param/OrderParam.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +38,6 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "spring.configuration.checksum": "2ee385d4e42e07f2c539b597559e70ee"
-  }
-}]]></component>
   <component name="RunManager" selected="Application.MallApplication">
     <configuration name="MallApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.letao.mall.MallApplication" />

@@ -1,11 +1,14 @@
 package com.letao.mall.controller.Consumer;
 
 
+import com.letao.mall.dao.entity.CommoditySpecs;
 import com.letao.mall.dao.entity.LtOrder;
 import com.letao.mall.dao.entity.Orderitem;
+import com.letao.mall.service.CommoditySpecsService;
 import com.letao.mall.service.LtOrderService;
 import com.letao.mall.service.OrderAddressService;
 import com.letao.mall.service.OrderitemService;
+import com.letao.mall.service.impl.CommoditySpecsServiceImpl;
 import com.letao.mall.util.DelayMessageProducer;
 import com.letao.mall.vo.CartVo;
 import com.letao.mall.vo.ErrorCode;
@@ -16,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -40,6 +44,7 @@ import static com.letao.mall.config.RabbitMqConfig.DELAY_QUEUE_NAME;
 @RestController
 @RequestMapping("/mall/consumer/lt-order")
 @CrossOrigin
+@Transactional
 public class CLtOrderController {
 
     @Autowired
@@ -50,6 +55,9 @@ public class CLtOrderController {
     private DelayMessageProducer producer;
     @Autowired
     private OrderAddressService orderAddressService;
+
+    @Autowired
+    private CommoditySpecsService commoditySpecsService;
 
     @GetMapping("/payOrder")
     public Result payOrder(long id){
@@ -86,14 +94,14 @@ public class CLtOrderController {
     }
 
     @RequestMapping("/submitOrder")
-    public Result submitOrder(OrderParam orderParam){
+    public Result submitOrder(@RequestBody OrderParam orderParam){
         if(orderParam==null){
             return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
         }else{
             Long uid = orderParam.getUid();
             Long addressId = orderParam.getAddressId();
             BigDecimal totalPrice = orderParam.getTotalPrice();
-            List<CartVo> cartVolist = orderParam.getList();
+            List<CartVo> cartVolist = orderParam.getProducts();
             if(uid!=null&&addressId!=null&&totalPrice!=null&&cartVolist!=null&&cartVolist.size()!=0){
                 LtOrder ltOrder=new LtOrder();
                 ltOrder.setUid(uid);
@@ -111,13 +119,14 @@ public class CLtOrderController {
                 List<Orderitem> list = new ArrayList<>();
                 for (int i = 0; i < cartVolist.size(); i++) {
                     CartVo cartVo = cartVolist.get(i);
+                    Long csId = cartVo.getCsId();
                     Orderitem orderItem = new Orderitem();
                     orderItem.setCname(cartVo.getCname());
                     orderItem.setCid(cartVo.getCid());
                     orderItem.setCnum(cartVo.getNum());
-                    orderItem.setCpicture(cartVo.getCPicture());
+                    orderItem.setCpicture(commoditySpecsService.getById(csId).getCpicture());
                     orderItem.setCprice(cartVo.getPrice());
-                    orderItem.setCsId(cartVo.getCsId());
+                    orderItem.setCsId(csId);
                     orderItem.setOrderId(orderId);
 
                     list.add(orderItem);
@@ -131,6 +140,9 @@ public class CLtOrderController {
                     orderService.deleteOrder(orderId);
                     return Result.fail(ErrorCode.ADD_ERROR.getCode(), ErrorCode.ADD_ERROR.getMsg());
                 }
+            }
+            else{
+                return Result.fail(ErrorCode.PARAMS_ERROR.getCode(), ErrorCode.PARAMS_ERROR.getMsg());
             }
         }
         return Result.success(true);

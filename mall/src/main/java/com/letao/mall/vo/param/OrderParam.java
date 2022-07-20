@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class OrderParam {
-    List<CartVo> list;
+    List<CartVo> products;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long uid;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
