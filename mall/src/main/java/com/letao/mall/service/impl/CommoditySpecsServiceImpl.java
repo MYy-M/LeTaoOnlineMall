@@ -40,7 +40,7 @@ public class CommoditySpecsServiceImpl extends ServiceImpl<CommoditySpecsMapper,
 
     @Override
     public Result getSpecsByCid(Long cid) {
-        List<CommoditySpecs> list = new ArrayList<>();
+        List<CommoditySpecs> list;
         list = this.list(new LambdaQueryWrapper<CommoditySpecs>().eq(CommoditySpecs::getCid,cid));
         if(list!=null&&list.size()!=0){
             return Result.success(list);

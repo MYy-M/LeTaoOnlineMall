@@ -14,6 +14,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -89,6 +90,11 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
 
     public List<Long> getOrderId(@Param("uid") long uid){
         return orderMapper.getOrderId(uid);
+    }
+
+    @Override
+    public BigDecimal getTotal(long orderId) {
+        return orderMapper.getTotal(orderId);
     }
 
 

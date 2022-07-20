@@ -8,6 +8,7 @@ import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.SearchOrderParam;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -38,4 +39,9 @@ public interface LtOrderService extends IService<LtOrder> {
     Date getTime(long id);
 
     List<Long> getOrderId(@Param("uid") long uid);
+
+    BigDecimal getTotal(long orderId);
+
+
+
 }

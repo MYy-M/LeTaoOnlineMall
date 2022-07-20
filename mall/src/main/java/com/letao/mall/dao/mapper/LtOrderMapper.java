@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.letao.mall.dao.entity.Orderitem;
 import org.apache.ibatis.annotations.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -44,5 +45,8 @@ public interface LtOrderMapper extends BaseMapper<LtOrder> {
 
     @Select("select order_id from lt_order where uid=#{uid}")
     List<Long> getOrderId(@Param("uid") long uid);
+
+    @Select("select price from lt_order where order_id=#{orderId}")
+    BigDecimal getTotal(long orderId);
 
 }
