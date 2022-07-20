@@ -33,7 +33,9 @@ public interface LtOrderService extends IService<LtOrder> {
 
     Result getStoreListByCondition( SearchOrderParam searchOrderParamm);
 
-    List<Orderitem> getOrderList(@Param("uid") long uid);
+    List<Orderitem> getOrderList(@Param("order_id") long order_id);
 
     Date getTime(long id);
+
+    List<Long> getOrderId(@Param("uid") long uid);
 }

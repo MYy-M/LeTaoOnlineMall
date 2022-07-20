@@ -1,12 +1,18 @@
 package com.letao.mall.controller;
 
 
+import com.letao.mall.dao.entity.Orderitem;
 import com.letao.mall.service.LtOrderService;
 import com.letao.mall.vo.ErrorCode;
+import com.letao.mall.vo.OrderVo;
 import com.letao.mall.vo.Result;
 import com.letao.mall.vo.param.CategoryPageParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -45,25 +51,32 @@ public class LtOrderController {
      * @param uid
      * @return
      */
-//    @PostMapping("/getlist")
-//    public Result getOrderList(long uid){
-//        List<Orderitem> list=orderService.getOrderList(uid);
-//        List<OrderParam> params=new ArrayList<>();
-//        for(Orderitem o:list){
-//            OrderParam param=new OrderParam();
-//            param.setOrder_id(o.getOrderId());
-//            param.setOrder_time(orderService.getTime(o.getOrderId()));
-//            param.setProduct_id(o.getCsId());
-//            param.setProduct_num(o.getCnum());
-//            param.setProduct_picture(o.getCpicture());
-//            param.setId(o.getId());
-//            param.setProduct_name(o.getCname());
-//            param.setUser_id(uid);
-//
-//            params.add(param);
-//        }
-//        return Result.success(params);
-//    }
+    @PostMapping("/getlist")
+    public Result getOrderList(long uid){
+        List<Long> list=orderService.getOrderId(uid);
+        List<OrderVo> orderVos=new ArrayList<>();
+        for(long oid:list){
+            OrderVo vo=new OrderVo();
+            Date time=orderService.getTime(oid);
+            List<Orderitem> itemList=orderService.getOrderList(oid);
+            for(Orderitem o:itemList){
+                String imgUrl=o.getCpicture();
+                o.setCpicture(imgUrl);
+            }
+            vo.setOrder_time(time);
+            vo.setItemList(itemList);
+/*            param.setOrder_id(o.getOrderId());
+            param.setOrder_time(orderService.getTime(o.getOrderId()));
+            param.setProduct_id(o.getCsId());
+            param.setProduct_num(o.getCnum());
+            param.setProduct_picture(o.getCpicture());
+            param.setId(o.getId());
+            param.setProduct_name(o.getCname());
+            param.setUser_id(uid);*/
+            orderVos.add(vo);
+        }
+        return Result.success(orderVos);
+    }
 
 
 }

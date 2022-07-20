@@ -33,10 +33,16 @@ public interface LtOrderMapper extends BaseMapper<LtOrder> {
             "o.cprice as product_price" +
             " from lt_order as l LEFT JOIN orderitem as o on l.order_id=o.order_id where l.uid=#{uid} ")*/
 
-    @Select("select * from lt_order as l LEFT JOIN orderitem as o on l.order_id=o.order_id where l.uid=#{uid}")
-    List<Orderitem> getOrderList(@Param("uid") long uid);
+
 
     @Select("select time from lt_order where order_id=#{id}")
     Date getTime(long id);
+
+    @Select("select * from orderitem where order_id=#{order_id}")
+    List<Orderitem> getOrderList(@Param("order_id") long order_id);
+
+
+    @Select("select order_id from lt_order where uid=#{uid}")
+    List<Long> getOrderId(@Param("uid") long uid);
 
 }

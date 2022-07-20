@@ -79,12 +79,16 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
 
     }
 
-    public List<Orderitem> getOrderList(@Param("uid") long uid){
-        return orderMapper.getOrderList(uid);
+    public List<Orderitem> getOrderList(@Param("order_id") long order_id){
+        return orderMapper.getOrderList(order_id);
     }
 
     public Date getTime(long id){
         return orderMapper.getTime(id);
+    }
+
+    public List<Long> getOrderId(@Param("uid") long uid){
+        return orderMapper.getOrderId(uid);
     }
 
 
