@@ -24,18 +24,18 @@
     <!-- 我的订单主要内容 -->
     <div
       class="order-content"
-      v-if="orders.length>0"
+      v-if="this.orders.length>0"
     >
       <div
         class="content"
-        v-for="(item,index) in orders"
+        v-for="(item,index) in this.orders"
         :key="index"
       >
         <ul>
           <!-- 我的订单表头 -->
           <li class="order-info">
             <div class="order-id">订单编号: {{item.orderId}}</div>
-            <div class="order-time">订单时间: {{item.time| dateFormat}}</div>
+            <div class="order-time">订单时间: {{item.orderTime| dateFormat}}</div>
           </li>
           <li class="header">
             <div class="pro-img"></div>
@@ -49,12 +49,12 @@
           <!-- 订单列表 -->
           <li
             class="product-list"
-            v-for="(product,i) in item.orderItems"
+            v-for="(product,i) in item.itemList"
             :key="i"
           >
             <div class="pro-img">
               <router-link :to="{ path: '/goods/details', query: {productID:product.cid} }">
-                <img :src="$target + product.product_picture" />
+                <img :src="'data:image/png;base64,' + product.cpicture" />
               </router-link>
             </div>
             <!-- <div class="pro-name">
@@ -70,13 +70,13 @@
           <div class="order-bar-left">
             <span class="order-total">
               共
-              <span class="order-total-num">{{item.orderItems.length}}</span> 件商品
+              <span class="order-total-num">{{item.itemList.length}}</span> 件商品
             </span>
           </div>
           <div class="order-bar-right">
             <span>
               <span class="total-price-title">合计：</span>
-              <span class="total-price">{{item.price}}元</span>
+              <span class="total-price">{{item.total}}元</span>
             </span>
           </div>
           <!-- 订单列表END -->
@@ -104,38 +104,44 @@ export default {
   data() {
     return {
       orders: [], // 订单列表
+      itemList:[]
     };
   },
   activated() {
     // 获取订单数据
     this.$axios
-      .post("/mall/lt-order/get", {
-        id: this.$store.getters.getUser.uid,
+      .post("/mall/lt-order/getlist", {
+        uid: this.$store.getters.getUser.uid,
         current: 1,
         pageSize: 100000
       })
       .then(res => {
         if (res.data.code === 200) {
-          this.orders = res.data.data.records;
-          for (var key of this.orders) {
-            this.$axios
-              .post("/mall/orderitem/get", {
-                id: key.orderId,
-                current: 1
-              })
-              .then(res => {
-                key.orderItems = []
-                if (res.data.code === 200) {
-                  key.orderItems = res.data.data.records;
-                } else {
-                  this.notifyError(res.data.msg);
-                }
-                console.log(key)
-              })
-              .catch(err => {
-                return Promise.reject(err);
-              });
+          this.orders = res.data.data;
+          for (var key of this.orders){
+            this.itemList = key.itemList   
+            console.log(key.itemList)  
+            console.log(this.itemList)    
           }
+          // for (var key of this.orders) {
+          //   this.$axios
+          //     .post("/mall//getlist", {
+          //       id: key.orderId,
+          //       current: 1
+          //     })
+          //     .then(res => {
+          //       key.orderItems = []
+          //       if (res.data.code === 200) {
+          //         key.orderItems = res.data.data.records;
+          //       } else {
+          //         this.notifyError(res.data.msg);
+          //       }
+          //       console.log(key)
+          //     })
+          //     .catch(err => {
+          //       return Promise.reject(err);
+          //     });
+          // }
         } else {
           this.notifyError(res.data.msg);
         }
