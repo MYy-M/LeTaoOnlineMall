@@ -14,6 +14,7 @@ import com.letao.mall.util.PicUtils;
 import com.letao.mall.vo.CommodityVoByCategory;
 import com.letao.mall.vo.ErrorCode;
 import com.letao.mall.vo.Result;
+import com.letao.mall.vo.SearchVo;
 import com.letao.mall.vo.param.CommodityParam;
 import lombok.val;
 import org.apache.ibatis.annotations.Param;
@@ -288,6 +289,41 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
     @Override
     public Result showAllCommodityList(CommodityParam commodityParam) throws IOException {
         return getCommodityList(commodityParam);
+    }
+
+    @Override
+    public Result getCommodityBySearch(CommodityParam commodityParam) throws IOException {
+        Long categoryId=commodityParam.getCaId();
+        Long cid=commodityParam.getCid();
+        String cname=commodityParam.getCname();
+        Integer currentPage = commodityParam.getCurrentPage();
+        Integer pageSize = commodityParam.getPageSize();
+        LambdaQueryWrapper<Commodity> queryWrapper = new LambdaQueryWrapper<>();
+        if(cname!=null){
+            queryWrapper.like(Commodity::getCname,cname);
+        }
+        if(cid!=null){
+            queryWrapper.like(Commodity::getCid,cid);
+        }
+        if(categoryId!=null) {
+            queryWrapper.eq(Commodity::getCategoryId, categoryId);
+        }
+        ArrayList<Commodity> commodities = (ArrayList<Commodity>) this.list(queryWrapper);
+        ArrayList<Commodity> resultList= new ArrayList<>();
+        int pageNum = (int) Math.ceil(commodities.size()*1.0/pageSize*1.0);
+        if(currentPage==pageNum){
+            for (int i = (currentPage-1)*pageNum; i < commodities.size(); i++) {
+                resultList.add(commodities.get(i));
+            }
+        }else{
+            for (int i = (currentPage-1)*pageNum; i < (currentPage-1)*pageNum+pageNum; i++) {
+                resultList.add(commodities.get(i));
+            }
+        }
+        SearchVo searchVo = new SearchVo();
+        searchVo.setList(encryptImage(resultList));
+        searchVo.setTotal(commodities.size());
+        return Result.success(searchVo);
     }
 
 

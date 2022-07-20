@@ -43,4 +43,6 @@ public interface CommodityService extends IService<Commodity> {
     Result showCommodityByCategoryId(CommodityParam commodityParam) throws IOException;
 
     Result showAllCommodityList(CommodityParam commodityParam) throws IOException;
+
+    Result getCommodityBySearch(CommodityParam commodityParam) throws IOException;
 }

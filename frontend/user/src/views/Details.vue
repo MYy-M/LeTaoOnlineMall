@@ -65,31 +65,37 @@
           </span>
           <p class="price-sum">总计 : {{ productDetails.cprice }}元</p>
         </div>
-        <div
-          class="sku"
-          v-if="this.propertyId!=null"
-        >
+        <div class="sku" v-if="this.propertyId">
           <h3>规格</h3>
           <el-form>
-            <el-form-item
-              v-for="(item, index) in property"
-              :key="index"
-              :label="item.attributeName"
-            >
-              <div
-                v-for="(key, id) in propertyList"
-                :key="id"
-              >
-                <div v-if="key.productAttributeId==item.id">
-                  <el-radio-button
-                    v-for="(value,i) in key.value"
-                    label="i"
-                    border
-                    size="medium"
-                    :key="i"
-                  >{{value}}</el-radio-button>
+            <el-form-item v-for="(property, propertyIndex) in property" :key="propertyIndex"
+              :label="property.attributeName">
+              <!-- <div v-for="(item,index) in ">
+                <el-radio
+                  v-model="radio2"
+                  label="1"
+                  border
+                  size="medium"
+                >备选项1</el-radio>
+                <el-radio
+                  v-model="radio2"
+                  label="2"
+                  border
+                  size="medium"
+                >备选项2</el-radio>
+              </div> -->
+              <!-- <div class="sku-box-area">
+              <div v-for="(attribute, attributeIndex) in property.attributes">
+                <div :key="attributeIndex" :class="[
+                  'sku-box',
+                  'sku-text',
+                  attribute.isActive ? 'active' : '',
+                  attribute.isDisabled ? 'disabled' : '',
+                ]" @click="handleClickAttribute(propertyIndex, attributeIndex)">
+                  {{ attribute.value }}
                 </div>
               </div>
+            </div> -->
             </el-form-item>
           </el-form>
         </div>
@@ -176,13 +182,11 @@ export default {
                 })
                 .then(res => {
                   this.property.push(res.data.data)
-
+                  console.log(this.property)
                 })
             }
-            console.log(this.property)
           }
           this.propertyList = JSON.parse(this.productDetails.attributeList);
-          console.log(this.propertyList)
         })
         .catch(err => {
           return Promise.reject(err);

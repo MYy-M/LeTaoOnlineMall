@@ -69,7 +69,10 @@ const routes = [
       requireAuth: true // 需要验证登录状态
     }
   }
+
 ]
+
+
 
 const router = new Router({
   // base: '/dist',
@@ -88,3 +91,7 @@ Router.prototype.push = function push (location, onResolve, onReject) {
 }
 
 export default router
+
+router.afterEach(() => {
+  window.scrollTo(0,0);
+})
