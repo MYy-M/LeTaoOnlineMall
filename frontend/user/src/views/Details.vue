@@ -32,14 +32,27 @@
     <div class="main">
       <!-- 左侧商品轮播图 -->
       <div class="block">
-        <el-carousel height="560px" v-if="productPicture.length > 1">
-          <el-carousel-item v-for="item in productPicture" :key="item.csId">
-            <img style="height:560px;width: 100%;;" :src="'data:image/png;base64,' + item.pic" :alt="item.cprice" />
+        <el-carousel
+          height="560px"
+          v-if="productPicture.length > 1"
+        >
+          <el-carousel-item
+            v-for="item in productPicture"
+            :key="item.csId"
+          >
+            <img
+              style="height:560px;width: 100%;;"
+              :src="'data:image/png;base64,' + item.pic"
+              :alt="item.cprice"
+            />
           </el-carousel-item>
         </el-carousel>
         <div v-if="productPicture.length == 1">
-          <img style="height:560px;width: 100%; " :src="'data:image/png;base64,' + productPicture[0].pic"
-            :alt="productPicture[0].cprice" />
+          <img
+            style="height:560px;width: 100%; "
+            :src="'data:image/png;base64,' + productPicture[0].pic"
+            :alt="productPicture[0].cprice"
+          />
         </div>
       </div>
       <!-- 左侧商品轮播图END -->
@@ -51,7 +64,10 @@
         <p class="store">小米自营</p>
         <div class="price">
           <span>{{ productDetails.cprice }}元</span>
-          <span v-show="productDetails.product_price != productDetails.product_selling_price" class="del">{{
+          <span
+            v-show="productDetails.product_price != productDetails.product_selling_price"
+            class="del"
+          >{{
               productDetails.product_price
           }}元</span>
         </div>
@@ -59,17 +75,41 @@
           <span class="pro-name">{{ productDetails.cname }}</span>
           <span class="pro-price">
             <span>{{ productDetails.cprice}}元</span>
-            <span v-show="productDetails.product_price != productDetails.product_selling_price" class="pro-del">{{
+            <span
+              v-show="productDetails.product_price != productDetails.product_selling_price"
+              class="pro-del"
+            >{{
                 productDetails.product_price
             }}元</span>
           </span>
           <p class="price-sum">总计 : {{ productDetails.cprice }}元</p>
         </div>
-        <div class="sku">
-          <!-- <p>商品多规格选择示例</p>
-          <div v-for="(property, propertyIndex) in properties" :key="propertyIndex">
-            <p>{{ property.name }}</p>
-            <div class="sku-box-area">
+        <div
+          class="sku"
+          v-if="this.propertyId"
+        >
+          <h3>规格</h3>
+          <el-form>
+            <el-form-item
+              v-for="(property, propertyIndex) in property"
+              :key="propertyIndex"
+              :label="property.attributeName"
+            >
+              <div v-for="(item,index) in ">
+                <el-radio
+                  v-model="radio2"
+                  label="1"
+                  border
+                  size="medium"
+                >备选项1</el-radio>
+                <el-radio
+                  v-model="radio2"
+                  label="2"
+                  border
+                  size="medium"
+                >备选项2</el-radio>
+              </div>
+              <!-- <div class="sku-box-area">
               <div v-for="(attribute, attributeIndex) in property.attributes">
                 <div :key="attributeIndex" :class="[
                   'sku-box',
@@ -80,13 +120,21 @@
                   {{ attribute.value }}
                 </div>
               </div>
-            </div>
-          </div> -->
+            </div> -->
+            </el-form-item>
+          </el-form>
         </div>
         <!-- 内容区底部按钮 -->
         <div class="button">
-          <el-button class="shop-cart" :disabled="dis" @click="addShoppingCart">加入购物车</el-button>
-          <el-button class="like" @click="addCollect">喜欢</el-button>
+          <el-button
+            class="shop-cart"
+            :disabled="dis"
+            @click="addShoppingCart"
+          >加入购物车</el-button>
+          <el-button
+            class="like"
+            @click="addCollect"
+          >喜欢</el-button>
         </div>
         <!-- 内容区底部按钮END -->
         <div class="pro-policy">
@@ -125,70 +173,53 @@ export default {
       cprice: "",//商品价格
       productDetails: "", // 商品详细信息
       productPicture: "",// 商品图片
-      productSku: "",//商品规格
-
-      properties: [], // property 列表
-      skuList: [], // sku 列表
-      matrix: [], // 邻接矩阵存储无向图
-      vertexList: [], // 顶点数组
-      selected: [], // 当前已选的 attribute 列表
+      productSku: [],//商品规格
+      property: [],
+      propertyId: [], // property 列表
+      propertyList: []
     };
   },
-   // 通过路由获取商品id
+  // 通过路由获取商品id
   activated() {
-    if (this.$route.query.productID!= undefined) {
+    if (this.$route.query.productID != undefined) {
       this.cid = this.$route.query.productID;
     }
   },
   watch: {
     // 监听商品id的变化，请求后端获取商品数据
     cid: function (val) {
-      console.log(this.cid);
       this.getDetails(val);
       this.getCommoditySku(val);
       this.getDetailsPicture(val);
     }
   },
-  mounted() {
-    this.properties = [
-      {
-        id: "1",
-        name: "容量",
-        attributes: [
-          { value: "1L", isActive: false, isDisabled: false },
-          { value: "4L", isActive: false, isDisabled: false },
-        ],
-      },
-      {
-        id: "2",
-        name: "颜色",
-        attributes: [
-          { value: "红色", isActive: false, isDisabled: false },
-          { value: "黑色", isActive: false, isDisabled: false },
-        ],
-      },
-    ];
-    this.skuList = [
-      { id: "10", attributes: ["1L", "红色"] },
-      { id: "20", attributes: ["1L", "黑色"] },
-      { id: "30", attributes: ["4L", "红色"] },
-      // { id: "40", attributes: ["4L", "黑色"] },
-    ];
 
-    this.initEmptyAdjMatrix();
-    this.setAdjMatrixValue();
-  },
   methods: {
     ...mapActions(["unshiftShoppingCart", "addShoppingCartNum"]),
     // 获取商品详细信息
     getDetails(val) {
-      console.log(this.cid)
       this.$axios
-        .post("/mall/commodity/getDetail",null, {
+        .post("/mall/commodity/getDetail", null, {
           params: { cid: val }
         })
         .then(res => {
           this.productDetails = res.data.data;
+          if (this.productDetails.attributeList != "") {
+            for (var key of JSON.parse(this.productDetails.attributeList)) {
+              this.propertyId.push(key.productAttributeId)
+            }
+            for (var i = 0; i < this.propertyId.length; i++) {
+              this.$axios
+                .post("/mall/admin/category/getKey", null, {
+                  params: { id: this.propertyId[i] }
+                })
+                .then(res => {
+                  this.property.push(res.data.data)
+                  console.log(this.property)
+                })
+            }
+          }
+          this.propertyList = JSON.parse(this.productDetails.attributeList);
         })
         .catch(err => {
           return Promise.reject(err);
@@ -198,24 +229,36 @@ export default {
     getDetailsPicture(val) {
 
       this.$axios
-        .post("/mall/commoditySpecs/getCommodityPic",null, {
+        .post("/mall/commoditySpecs/getCommodityPic", null, {
           params: { cid: val }
         })
         .then(res => {
           this.productPicture = res.data.data;
+
         })
         .catch(err => {
           return Promise.reject(err);
         });
     },
-     //获取商品规格
+    //获取商品规格
     getCommoditySku(val) {
       this.$axios
-        .post("/mall/commoditySpecs/getSpecs",null, {
+        .post("/mall/commoditySpecs/getSpecs", null, {
           params: { cid: val }
         })
         .then(res => {
-          this.productSku = res.data.data;
+          for (var key of res.data.data) {
+            var obj = {
+              cspecs: JSON.parse(key.cspecs),
+              cstock: key.cstock,
+              cprice: key.cprice,
+              cpicture: key.cpicture,
+              cid: key.cid,
+              csid: key.csId
+            };
+            this.productSku.push(obj);
+          }
+          console.log(this.productSku)
         })
         .catch(err => {
           return Promise.reject(err);
@@ -223,7 +266,6 @@ export default {
     },
     // 加入购物车
     addShoppingCart() {
-      console.log(this.cid)
       // 判断是否登录,没有登录则显示登录组件
       if (!this.$store.getters.getUser) {
         this.$store.dispatch("setShowLogin", true);
@@ -235,8 +277,7 @@ export default {
           csId: this.cid
         })
         .then(res => {
-          console.log(this.cid)
-          switch (res.data.code) { 
+          switch (res.data.code) {
             case 100:
               // 新加入购物车成功
               this.unshiftShoppingCart(res.data.data);
@@ -285,99 +326,6 @@ export default {
         });
     },
 
-    // 当点击某个 attribute 时，如：黑色
-    handleClickAttribute(propertyIndex, attributeIndex) {
-      const attr = this.properties[propertyIndex].attributes[attributeIndex];
-      // 若选项置灰，直接返回，表现为点击无响应
-      if (attr.isDisabled) {
-        return;
-      }
-
-      // 重置每个 attribute 的 isActive 状态
-      const isActive = !attr.isActive;
-      this.properties[propertyIndex].attributes[attributeIndex].isActive =
-        isActive;
-      if (isActive) {
-        this.properties[propertyIndex].attributes.forEach((attr, index) => {
-          if (index !== attributeIndex) {
-            attr.isActive = false;
-          }
-        });
-      }
-
-      // 维护当前已选的 attribute 列表
-      this.selected = [];
-      this.properties.forEach((prop) => {
-        prop.attributes.forEach((attr) => {
-          if (attr.isActive) {
-            this.selected.push(attr.value);
-          }
-        });
-      });
-
-      // 重置每个 attribute 的 isDisabled 状态
-      this.properties.forEach((prop) => {
-        prop.attributes.forEach((attr) => {
-          attr.isDisabled = !this.canAttributeSelect(attr);
-        });
-      });
-    },
-
-    // 构造初始空邻接矩阵存储无向图
-    initEmptyAdjMatrix() {
-      this.properties.forEach((prop) => {
-        prop.attributes.forEach((attr) => {
-          this.vertexList.push(attr.value);
-        });
-      });
-      for (let i = 0; i < this.vertexList.length; i++) {
-        this.matrix[i] = new Array(this.vertexList.length).fill(0);
-      }
-    },
-
-    // 根据 skuList 和 properties 设置邻接矩阵的值
-    setAdjMatrixValue() {
-      this.skuList.forEach((sku) => {
-        this.associateAttributes(sku.attributes);
-      });
-      this.properties.forEach((prop) => {
-        this.associateAttributes(prop.attributes);
-      });
-    },
-
-    // 将 attributes 属性组中的属性在无向图中联系起来
-    associateAttributes(attributes) {
-      attributes.forEach((attr1) => {
-        attributes.forEach((attr2) => {
-          // 因 properties 与 skuList 数据结构不一致，需作处理
-          if (attr1 !== attr2 || attr1.value !== attr2.value) {
-            if (attr1.value && attr2.value) {
-              attr1 = attr1.value;
-              attr2 = attr2.value;
-            }
-            const index1 = this.vertexList.indexOf(attr1);
-            const index2 = this.vertexList.indexOf(attr2);
-            if (index1 > -1 && index2 > -1) {
-              this.matrix[index1][index2] = 1;
-            }
-          }
-        });
-      });
-    },
-
-    // 判断当前 attribute 是否可选，返回 true 表示可选，返回 false 表示不可选，选项置灰
-    canAttributeSelect(attribute) {
-      if (!this.selected || !this.selected.length || attribute.isActive) {
-        return true;
-      }
-      let res = [];
-      this.selected.forEach((value) => {
-        const index1 = this.vertexList.indexOf(value);
-        const index2 = this.vertexList.indexOf(attribute.value);
-        res.push(this.matrix[index1][index2]);
-      });
-      return res.every((item) => item === 1);
-    },
   }
 };
 </script>

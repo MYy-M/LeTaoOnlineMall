@@ -191,143 +191,143 @@ export const asyncRouterMap = [
       }
     ]
   },
-  {
-    path:'/sms',
-    component: Layout,
-    redirect: '/sms/coupon',
-    name: 'sms',
-    meta: {title: '营销', icon: 'sms'},
-    children: [
-      // {
-      //   path: 'flash',
-      //   name: 'flash',
-      //   component: () => import('@/views/sms/flash/index'),
-      //   meta: {title: '秒杀活动列表', icon: 'sms-flash'}
-      // },
-      // {
-      //   path: 'flashSession',
-      //   name: 'flashSession',
-      //   component: () => import('@/views/sms/flash/sessionList'),
-      //   meta: {title: '秒杀时间段列表'},
-      //   hidden:true
-      // },
-      // {
-      //   path: 'selectSession',
-      //   name: 'selectSession',
-      //   component: () => import('@/views/sms/flash/selectSessionList'),
-      //   meta: {title: '秒杀时间段选择'},
-      //   hidden:true
-      // },
-      // {
-      //   path: 'flashProductRelation',
-      //   name: 'flashProductRelation',
-      //   component: () => import('@/views/sms/flash/productRelationList'),
-      //   meta: {title: '秒杀商品列表'},
-      //   hidden:true
-      // },
-      // {
-      //   path: 'brand',
-      //   name: 'homeBrand',
-      //   component: () => import('@/views/sms/brand/index'),
-      //   meta: {title: '品牌推荐', icon: 'product-brand'}
-      // },
-      {
-        path: 'new',
-        name: 'homeNew',
-        component: () => import('@/views/sms/new/index'),
-        meta: {title: '新品推荐', icon: 'sms-new'}
-      },
-      {
-        path: 'hot',
-        name: 'homeHot',
-        component: () => import('@/views/sms/hot/index'),
-        meta: {title: '人气推荐', icon: 'sms-hot'}
-      },
-      {
-        path: 'subject',
-        name: 'homeSubject',
-        component: () => import('@/views/sms/subject/index'),
-        meta: {title: '专题推荐', icon: 'sms-subject'}
-      },
-    ]
-  },
-  {
-    path: '/statistics',
-    component: Layout,
+  // {
+  //   path:'/sms',
+  //   component: Layout,
+  //   redirect: '/sms/coupon',
+  //   name: 'sms',
+  //   meta: {title: '营销', icon: 'sms'},
+  //   children: [
+  //     // {
+  //     //   path: 'flash',
+  //     //   name: 'flash',
+  //     //   component: () => import('@/views/sms/flash/index'),
+  //     //   meta: {title: '秒杀活动列表', icon: 'sms-flash'}
+  //     // },
+  //     // {
+  //     //   path: 'flashSession',
+  //     //   name: 'flashSession',
+  //     //   component: () => import('@/views/sms/flash/sessionList'),
+  //     //   meta: {title: '秒杀时间段列表'},
+  //     //   hidden:true
+  //     // },
+  //     // {
+  //     //   path: 'selectSession',
+  //     //   name: 'selectSession',
+  //     //   component: () => import('@/views/sms/flash/selectSessionList'),
+  //     //   meta: {title: '秒杀时间段选择'},
+  //     //   hidden:true
+  //     // },
+  //     // {
+  //     //   path: 'flashProductRelation',
+  //     //   name: 'flashProductRelation',
+  //     //   component: () => import('@/views/sms/flash/productRelationList'),
+  //     //   meta: {title: '秒杀商品列表'},
+  //     //   hidden:true
+  //     // },
+  //     // {
+  //     //   path: 'brand',
+  //     //   name: 'homeBrand',
+  //     //   component: () => import('@/views/sms/brand/index'),
+  //     //   meta: {title: '品牌推荐', icon: 'product-brand'}
+  //     // },
+  //     {
+  //       path: 'new',
+  //       name: 'homeNew',
+  //       component: () => import('@/views/sms/new/index'),
+  //       meta: {title: '新品推荐', icon: 'sms-new'}
+  //     },
+  //     {
+  //       path: 'hot',
+  //       name: 'homeHot',
+  //       component: () => import('@/views/sms/hot/index'),
+  //       meta: {title: '人气推荐', icon: 'sms-hot'}
+  //     },
+  //     {
+  //       path: 'subject',
+  //       name: 'homeSubject',
+  //       component: () => import('@/views/sms/subject/index'),
+  //       meta: {title: '专题推荐', icon: 'sms-subject'}
+  //     },
+  //   ]
+  // },
+  // {
+  //   path: '/statistics',
+  //   component: Layout,
 
-    path: '/statistics/count',
-    name: 'statistics',
-    meta: { title: '统计', icon: 'ums' },
-    children: [
-      {
-        path: 'comStat',
+  //   path: '/statistics/count',
+  //   name: 'statistics',
+  //   meta: { title: '统计', icon: 'ums' },
+  //   children: [
+  //     {
+  //       path: 'comStat',
 
-        name: 'comStat',
-        component: () => import('@/views/statistics/count/comStat'),
-        meta: { title: '商品统计', icon: 'ums-admin' }
-      },
-      {
-        path: 'orderStat',
-        name: 'orderStat',
-        component: () => import('@/views/statistics/count/orderStat'),
-        meta: { title: '订单统计', icon: 'ums-resource' }
-      },
-      {
-        path: 'saleStat',
-        name: 'saleStat',
-        component: () => import('@/views/statistics/count/saleStat'),
-        meta: { title: '销售统计', icon: 'ums-resource' }
-      }
-    ]
-  },
-  {
-    path:'/ums',
-    component: Layout,
-    redirect: '/ums/admin',
-    name: 'ums',
-    meta: {title: '权限', icon: 'ums'},
-    children: [
-      {
-        path: 'admin',
-        name: 'admin',
-        component: () => import('@/views/ums/admin/index'),
-        meta: {title: '用户列表', icon: 'ums-admin'}
-      },
-      // {
-      //   path: 'role',
-      //   name: 'role',
-      //   component: () => import('@/views/ums/role/index'),
-      //   meta: {title: '角色列表', icon: 'ums-role'}
-      // },
-      // {
-      //   path: 'allocMenu',
-      //   name: 'allocMenu',
-      //   component: () => import('@/views/ums/role/allocMenu'),
-      //   meta: {title: '分配菜单'},
-      //   hidden: true
-      // },
-      // {
-      //   path: 'allocResource',
-      //   name: 'allocResource',
-      //   component: () => import('@/views/ums/role/allocResource'),
-      //   meta: {title: '分配资源'},
-      //   hidden: true
-      // },
-      {
-        path: 'resource',
-        name: 'resource',
-        component: () => import('@/views/ums/resource/index'),
-        meta: {title: '资源列表', icon: 'ums-resource'}
-      },
-      {
-        path: 'resourceCategory',
-        name: 'resourceCategory',
-        component: () => import('@/views/ums/resource/categoryList'),
-        meta: {title: '资源分类'},
-        hidden: true
-      }
-    ]
-  },
+  //       name: 'comStat',
+  //       component: () => import('@/views/statistics/count/comStat'),
+  //       meta: { title: '商品统计', icon: 'ums-admin' }
+  //     },
+  //     {
+  //       path: 'orderStat',
+  //       name: 'orderStat',
+  //       component: () => import('@/views/statistics/count/orderStat'),
+  //       meta: { title: '订单统计', icon: 'ums-resource' }
+  //     },
+  //     {
+  //       path: 'saleStat',
+  //       name: 'saleStat',
+  //       component: () => import('@/views/statistics/count/saleStat'),
+  //       meta: { title: '销售统计', icon: 'ums-resource' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path:'/ums',
+  //   component: Layout,
+  //   redirect: '/ums/admin',
+  //   name: 'ums',
+  //   meta: {title: '权限', icon: 'ums'},
+  //   children: [
+  //     {
+  //       path: 'admin',
+  //       name: 'admin',
+  //       component: () => import('@/views/ums/admin/index'),
+  //       meta: {title: '用户列表', icon: 'ums-admin'}
+  //     },
+  //     // {
+  //     //   path: 'role',
+  //     //   name: 'role',
+  //     //   component: () => import('@/views/ums/role/index'),
+  //     //   meta: {title: '角色列表', icon: 'ums-role'}
+  //     // },
+  //     // {
+  //     //   path: 'allocMenu',
+  //     //   name: 'allocMenu',
+  //     //   component: () => import('@/views/ums/role/allocMenu'),
+  //     //   meta: {title: '分配菜单'},
+  //     //   hidden: true
+  //     // },
+  //     // {
+  //     //   path: 'allocResource',
+  //     //   name: 'allocResource',
+  //     //   component: () => import('@/views/ums/role/allocResource'),
+  //     //   meta: {title: '分配资源'},
+  //     //   hidden: true
+  //     // },
+  //     {
+  //       path: 'resource',
+  //       name: 'resource',
+  //       component: () => import('@/views/ums/resource/index'),
+  //       meta: {title: '资源列表', icon: 'ums-resource'}
+  //     },
+  //     {
+  //       path: 'resourceCategory',
+  //       name: 'resourceCategory',
+  //       component: () => import('@/views/ums/resource/categoryList'),
+  //       meta: {title: '资源分类'},
+  //       hidden: true
+  //     }
+    // ]
+  // },
   {path: '*', redirect: '/404', hidden: true}
 ]
 

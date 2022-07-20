@@ -5,6 +5,8 @@ import com.letao.mall.dao.entity.AttributeKey;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -20,4 +22,6 @@ public interface AttributeKeyService extends IService<AttributeKey> {
     Boolean deleteAttributeKey(long id);
 
     String getSameKey(@Param("id") long id, @Param("name") String name);
+
+    AttributeKey getAttributeKey(long id);
 }

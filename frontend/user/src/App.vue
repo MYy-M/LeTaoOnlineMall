@@ -6,7 +6,10 @@
  * @LastEditTime: 2020-04-05 13:14:48
  -->
 <template>
-  <div id="app" name="app">
+  <div
+    id="app"
+    name="app"
+  >
     <el-container>
       <!-- 顶部导航栏 -->
       <div class="topbar">
@@ -37,26 +40,60 @@
             </li>
             <li>
               <div class="so">
-                <el-input placeholder="请输入搜索内容" v-model="search">
-                  <el-button slot="append" icon="el-icon-search" @click="searchClick"></el-button>
+                <el-input
+                  placeholder="请输入搜索内容"
+                  v-model="search"
+                >
+                  <el-button
+                    slot="append"
+                    icon="el-icon-search"
+                    @click="searchClick"
+                  ></el-button>
                 </el-input>
               </div>
             </li>
-            <li v-if="!this.$store.getters.getUser" style="float=right;">
-              <el-button type="text" @click="login">登录</el-button>
+            <li
+              v-if="!this.$store.getters.getUser"
+              style="float=right;"
+            >
+              <el-button
+                type="text"
+                @click="login"
+              >登录</el-button>
               <span class="sep">|</span>
-              <el-button type="text" @click="register = true">注册</el-button>
+              <el-button
+                type="text"
+                @click="register = true"
+              >注册</el-button>
             </li>
             <li v-else>
-              <el-button type="text" @click="logout">欢迎</el-button>
-              <el-popover placement="top" width="180" v-model="visible">
+              <el-button
+                type="text"
+                @click="logout"
+              >欢迎</el-button>
+              <el-popover
+                placement="top"
+                width="180"
+                v-model="visible"
+              >
                 <p>确定退出登录吗？</p>
                 <div style="text-align: right; margin: 20px 0 0">
-                  <el-button size="mini" type="text" @click="visible = false">取消</el-button>
-                  <el-button type="primary" size="mini" @click="logout">确定</el-button>
+                  <el-button
+                    size="mini"
+                    type="text"
+                    @click="visible = false"
+                  >取消</el-button>
+                  <el-button
+                    type="primary"
+                    size="mini"
+                    @click="logout"
+                  >确定</el-button>
                 </div>
-                <el-button type="text" slot="reference">{{ this.$store.getters.getUser.userName }}</el-button>
-                 
+                <el-button
+                  type="text"
+                  slot="reference"
+                >{{ this.$store.getters.getUser.userName }}</el-button>
+
               </el-popover>
             </li>
           </ul>
@@ -89,7 +126,10 @@
       <!-- 登录模块 -->
       <MyLogin></MyLogin>
       <!-- 注册模块 -->
-      <MyRegister :register="register" @fromChild="isRegister"></MyRegister>
+      <MyRegister
+        :register="register"
+        @fromChild="isRegister"
+      ></MyRegister>
 
       <!-- 主要区域容器 -->
       <el-main>
@@ -105,14 +145,27 @@
           <div class="ng-promise-box">
             <div class="ng-promise">
               <p class="text">
-                <a class="icon1" href="javascript:;">7天无理由退换货</a>
-                <a class="icon2" href="javascript:;">满99元全场免邮</a>
-                <a class="icon3" style="margin-right: 0" href="javascript:;">100%品质保证</a>
+                <a
+                  class="icon1"
+                  href="javascript:;"
+                >7天无理由退换货</a>
+                <a
+                  class="icon2"
+                  href="javascript:;"
+                >满99元全场免邮</a>
+                <a
+                  class="icon3"
+                  style="margin-right: 0"
+                  href="javascript:;"
+                >100%品质保证</a>
               </p>
             </div>
           </div>
           <div class="github">
-            <a href="https://github.com/hai-27/vue-store" target="_blank">
+            <a
+              href="https://github.com/hai-27/vue-store"
+              target="_blank"
+            >
               <div class="github-but"></div>
             </a>
           </div>
@@ -206,12 +259,23 @@ export default {
     },
     // 退出登录
     logout() {
-      this.visible = false;
-      // 清空本地登录信息
-      localStorage.setItem("user", "");
-      // 清空vuex登录信息
-      this.setUser("");
-      this.notifySucceed("成功退出登录");
+      this.$axios.post("/mall/consumer/logout", {
+        headers: { 'Authorization': localStorage.token }
+      })
+        .then(res => {
+          if (res.data.code === 200) {
+            this.visible = false;
+            // 清空本地登录信息
+            localStorage.setItem("user", "");
+            // 清空vuex登录信息
+            this.setUser("");
+            this.notifySucceed("成功退出登录");
+          }
+          else {
+            this.notifyError(res.data.msg);
+          }
+        }
+        )
     },
     // 接收注册子组件传过来的数据
     isRegister(val) {
@@ -351,7 +415,6 @@ a:hover {
   color: white;
 }
 
-
 .topbar .nav .logo {
   height: 60px;
   width: 189px;
@@ -359,12 +422,10 @@ a:hover {
   margin-right: 100px;
 }
 
-
 .topbar .nav .so {
   width: 230px;
   float: right;
 }
-
 
 /* 顶部导航栏CSS END */
 

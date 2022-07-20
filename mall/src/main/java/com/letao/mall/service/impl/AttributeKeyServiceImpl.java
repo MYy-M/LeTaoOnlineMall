@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务实现类
@@ -42,5 +44,10 @@ public class AttributeKeyServiceImpl extends ServiceImpl<AttributeKeyMapper, Att
 
     public String getSameKey(@Param("id") long id, @Param("name") String name){
         return attributeKeyMapper.getSameKey(id,name);
+    }
+
+    @Override
+    public AttributeKey getAttributeKey(long id) {
+        return attributeKeyMapper.selectById(id);
     }
 }

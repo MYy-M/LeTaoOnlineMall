@@ -203,14 +203,14 @@ export default {
     // 通过搜索条件向后端请求商品数据
     getProductBySearch() {
       this.$axios
-        .post("/api/product/getProductBySearch", {
-          search: this.search,
+        .post("/mall/admin/commodity/getCommodityByC", {
+          cname: this.search,
           currentPage: this.currentPage,
           pageSize: this.pageSize
         })
         .then(res => {
-          this.product = res.data.Product;
-          this.total = res.data.total;
+          this.product = res.data.data.records;
+          this.total = res.data.data.total;
         })
         .catch(err => {
           return Promise.reject(err);

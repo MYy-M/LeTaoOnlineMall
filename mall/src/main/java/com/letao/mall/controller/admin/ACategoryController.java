@@ -230,6 +230,11 @@ public class ACategoryController {
     public Result deleteAttributeValue(Long id){
         return avs.deleteAttributeValue(id)?Result.success(new Boolean(true)):Result.fail(ErrorCode.DELETE_ERROR.getCode(), ErrorCode.DELETE_ERROR.getMsg());
     }
+    @PostMapping("/getKey")
+    public Result getAttributeKey(Long id){
+        return (aks.getAttributeKey(id)!=null)?Result.success(aks.getAttributeKey(id)):Result.fail(ErrorCode.SEARCH_ERROR.getCode(), ErrorCode.SEARCH_ERROR.getMsg());
+
+    }
 
 
 }
