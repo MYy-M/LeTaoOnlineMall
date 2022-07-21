@@ -74,7 +74,7 @@ public class LtOrderServiceImpl extends ServiceImpl<LtOrderMapper, LtOrder> impl
         if(date!=null) {
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
             String time=sdf.format(date);
-            queryWrapper.eq(LtOrder::getTime,time);
+            queryWrapper.like(LtOrder::getTime,time);
         }
         return Result.success(orderMapper.selectPage(orderPage, queryWrapper));
 
