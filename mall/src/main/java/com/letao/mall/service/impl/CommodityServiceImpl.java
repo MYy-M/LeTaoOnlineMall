@@ -312,11 +312,11 @@ public class CommodityServiceImpl extends ServiceImpl<CommodityMapper, Commodity
         ArrayList<Commodity> resultList= new ArrayList<>();
         int pageNum = (int) Math.ceil(commodities.size()*1.0/pageSize*1.0);
         if(currentPage==pageNum){
-            for (int i = (currentPage-1)*pageNum; i < commodities.size(); i++) {
+            for (int i = (currentPage-1)*pageSize; i < commodities.size(); i++) {
                 resultList.add(commodities.get(i));
             }
         }else{
-            for (int i = (currentPage-1)*pageNum; i < (currentPage-1)*pageNum+pageNum; i++) {
+            for (int i = (currentPage-1)*pageSize; i < (currentPage-1)*pageSize+pageSize; i++) {
                 resultList.add(commodities.get(i));
             }
         }

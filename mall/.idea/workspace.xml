@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/vo/SearchVo.java" afterDir="false" />
+    <list default="true" id="37b67425-0ed2-4ce9-b7e9-b6577b188d89" name="变更" comment="变更">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/Consumer/CCommodityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/controller/Consumer/CCommodityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/CommodityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/CommodityService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CommodityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/letao/mall/service/impl/CommodityServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -86,7 +82,7 @@
       <workItem from="1658282124849" duration="308000" />
       <workItem from="1658299389106" duration="389000" />
       <workItem from="1658301045217" duration="1183000" />
-      <workItem from="1658322769457" duration="3470000" />
+      <workItem from="1658322769457" duration="7288000" />
     </task>
     <servers />
   </component>
